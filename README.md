@@ -188,17 +188,18 @@ git pull
 
 graph TD
     A[進行任一操作或實作]
-    B(`git add .`)
-    C(`git commit`)
+    B(git add .)
+    C(git commit)
     F[繼續做其他部分]
     D[告一個段落，將結果推上雲端]
-    E(`git pull`)
+    E(git pull)
 
     A --> B
     B --> C
     C --> F
     C --> D
     D --> E
+    F --> A
 
 ```
 
