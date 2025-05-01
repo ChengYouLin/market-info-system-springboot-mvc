@@ -13,6 +13,7 @@
 **目錄**
 
 [起始步驟](#起始步驟)
+
 [Git 簡易教學](#Git簡易教學)
 
 ---
@@ -181,7 +182,41 @@ git pull
 
 ## 大致流程
 
+這裡快速地描述幾個比較可能會發生的情境做說明（假設大家已經在本地端架好repo並且跟遠端連線過）
+
+```mermaid
+
+A[進行任一操作或實作]
+B(`git add .`)
+C(`git commit`)
+F[繼續做其他部分]
+D[告一個段落，將結果推上雲端]
+E(`git pull`)
+
+A --> B
+B --> C
+C --> F
+C --> D
+D --> E
+
+```
+
+### 開啟一個全新的分支開始實作
+
+1. 進入本地端的這個資料夾中，並且進入main的分支`git switch main`
+2. 更新目前main的資訊，從遠端拉下來（看看大家有沒有更新什麼新東西並且合併到遠端的main）`git pull`
+3. 創建新的分支，並且切換過去`git branch"新分支的名字"`，`git switch“新分支的名字“`
+4. 在新的分支中開始進行你的實作，並在過程中進行`git add.`, `git commit`
+5. 最後在你實作的尾聲（不一定是完成，可能只是休息一下），可以把現有的結果先推上雲端`git push -u origin "遠端分支的名字"`（因為假設是第一次所以打得比較詳細，爾後可以只打`git push` ~）
+
 ### 間隔一陣子才回到該分支繼續實作：
+
+1. 進入本地端的這個資料夾中，並且進入main的分支`git switch main`
+2. 更新目前main的資訊，從遠端拉下來）`git pull`
+3. 看一些遠端的main更新了什麼，跟自己有沒有什麼關係（可以從命名和備注去找）`git status --oneline`
+4. 切換到自己原本本地實作的分支`git switch "分支名字" `
+5. 如果跟實作的內容有相互影響的功能，建議可以合併進來現在實作的分支`git merge main`（也可以多開一個分支先合併看看有沒有什麼衝突）
+6. 繼續進行實作，並且一樣在尾聲推上遠端！`git push`
 
 ```
 main <── 更新 ── git pull
@@ -200,6 +235,8 @@ main <── 更新 ── git pull
 ```
 
 ### 實作到一半，突然想換分支或要處理bug ，但現階段的東西不適合紀錄或拋棄
+
+這部分就是怎麼把東西丟到自己本地端的倉庫，然後過一陣自想翻出來的方式
 
 ```
 [工作中未完成]
@@ -222,12 +259,78 @@ git stash pop      ← 取回改動，繼續工作
 
 # 專案結構
 
+## MVC結構（融入Spring boot 常用的 Controller-Service-DAO）
+
+```
+[ View (前端畫面) ]
+   ↓
+[ Controller (收請求) ]
+   ↓
+[ Service (處理邏輯) ]
+   ↓
+[ DAO (存取資料庫) ]
+   ↓
+[ Model (資料結構本體) ]
+
+```
+
+## Tree
+
+```
+專案根目錄 (project-root)
+├── pom.xml               (Maven 的設定檔)
+├── src
+│   └─── main
+│       ├── java
+│       │   └── com
+│       │       └── yourcompany
+│       │           └── yourproject
+│       │               ├── Application.java      (啟動類，含 @SpringBootApplication)
+│       │               ├── controller             (Controller 層)
+│       │               │   └── XxxController.java
+│       │               ├── service                (Service 層)
+│       │               │   ├── XxxService.java
+│       │               │   └── impl
+│       │               │       └── XxxServiceImpl.java
+│       │               ├── repository             (DAO 層，連資料庫)
+│       │               │   └── XxxRepository.java
+│       │               └─── model                  (Entity 或 DTO/VO)
+│       │                   ├── entity
+│       │                   │   └── XxxEntity.java
+│       │                   ├── dto
+│       │                   │   └── XxxDto.java
+│       │                   └── vo
+│       └── resources
+│           ├── application.yml                    (或 application.properties)
+│           ├── static                              (靜態檔案： CSS, JS)
+│           └─── templates                           (模板檔案，像是 Thymeleaf)
+│
+└── README.md             (說明文件)
+
+```
+
 ---
 
 # 資料庫DB架構
+
+::: danger
+Danger 內文
+:::
 
 ---
 
 # Java Doc
 
 ## (三層)
+
+---
+
+# 各個畫面的簡介和URL
+
+---
+
+# PULL Request (PR)
+
+---
+
+# Git Branch 命名方式
