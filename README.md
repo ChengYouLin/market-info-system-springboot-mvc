@@ -1,6 +1,6 @@
 # 1132DBMS_Group2
 
-> Update : 0430 21:00
+> Update : 0501 14:30
 
 - 111304019 統計三 林承佑
 - 111304012 統計三 尹沛綸
@@ -10,11 +10,30 @@
 
 ---
 
-**目錄**
+## **目錄**
 
-[起始步驟](#起始步驟)
-
-[Git 簡易教學](#Git簡易教學)
+- [起始步驟](#起始步驟)
+- [Git 簡易說明](#git-簡易說明)
+  - [小結](#小結)
+  - [指令整理](#指令整理)
+  - [大致流程](#大致流程)
+- [專案結構](#專案結構)
+  - [MVC結構（融入Spring boot 常用的 Controller-Service-DAO）](#mvc結構融入spring-boot-常用的-controller-service-dao)
+  - [Tree](#tree)
+- [資料庫DB架構](#資料庫db架構)
+  - [各個表格的MetaData](#各個表格的metadata)
+  - [各表格的舉例（暫放）](#各表格的舉例暫放)
+  - [預備SQL(暫放，可能會直接存成SQL檔案)](#預備sql暫放可能會直接存成sql檔案)
+- [Java Doc](#java-doc)
+  - [Controller](#controller)
+  - [Service](#service)
+  - [DAO](#dao)
+  - [Model](#model)
+- [各個畫面的簡介和URL](#各個畫面的簡介和url)
+  - [總表](#總表)
+  - [頁面名稱：商品管理頁 `/products`](#頁面名稱商品管理頁-products)
+- [PULL Request (PR)](#pull-request-pr)
+- [Git Branch 命名方式](#git-branch-命名方式)
 
 ---
 
@@ -180,6 +199,17 @@ git push -u origin
 git pull
 ```
 
+9. 只想看別人有沒有更新東西上去，但不想要拉下來合併到自己的道路
+
+- 我只是想看看別人實作的東西跟我有沒有重疊，或他有沒有修改了什麼
+- 如果我的比較好，也比較不會有Bug，那也可以推上去自己的申請PR來看
+
+```
+git fetch
+```
+
+> `git diff "比對的分支名稱"`，遠端的分支名稱前面要多`origin/`
+
 ## 大致流程
 
 這裡快速地描述幾個比較可能會發生的情境做說明（假設大家已經在本地端架好repo並且跟遠端連線過）
@@ -192,7 +222,7 @@ graph TD
     C(git commit)
     F[繼續做其他部分]
     D[告一個段落，將結果推上雲端]
-    E(git pull)
+    E(git push)
 
     A --> B
     B --> C
@@ -261,7 +291,28 @@ git stash pop      ← 取回改動，繼續工作
 
 # 專案結構
 
+相信大家對spring boot 的寫法和它的magic 已經有些了解，也對ㄐjava該死的一堆class和多型有概念；方便更有架構和迅速完成專案，以下會是我們遵守的專案結構：
+
+> 提供一個我覺得寫得不錯的spring boot 好下手的網站 ![網址](https://ithelp.ithome.com.tw/users/20151036/ironman/6130)
+>
+> > 個人看完的感受，就是會用基本的功能，那就夠了！
+> > 剩下的部分就邊做邊學，用簡體去查教學會更多（例如B站）
+
 ## MVC結構（融入Spring boot 常用的 Controller-Service-DAO）
+
+節錄上面網址教學的圖片，先不用特別理解這個環節；我覺得將spring boot 裡結合或套用的結構後，會更好理解：
+
+![MVP概念圖](./images/MVP.png)
+
+- view: 前端畫面，會在裡面寫清楚哪個部分需要請求，哪個部分有功能等
+- controller: 使用者打開前端畫面時，可能會有顯示的需求，或操作的動作，觸發後就會發送request，這個環節就是在幫這些request分流，告訴每個request你要去我的後台哪個class裡面進行處理或找資料
+- model: 就是後台負責處理找資料或判斷的部分，例如看看使用者選擇這個選項後台有沒有資料可以顯示，看看使用者輸入的帳號密碼跟資料庫是否相符等。
+
+那我們現在還要加入 Controller-Service-DAO 的概念（一樣先節錄上面網址的教學，但下面會再多說明一下）：
+
+![Controller-Service-DAO](./images/Controller-Service-DAO.png)
+
+我覺得可以更直覺的把**剛剛的controller的部分融合這三個環節**在裡面，這樣會更直覺去理解（如下所示）：
 
 ```
 [ View (前端畫面) ]
@@ -270,11 +321,27 @@ git stash pop      ← 取回改動，繼續工作
    ↓
 [ Service (處理邏輯) ]
    ↓
-[ DAO (存取資料庫) ]
+[ DAO (存取資料庫 SQL) ]
    ↓
-[ Model (資料結構本體) ]
+[ Model (資料庫的實體Entity) ]
 
 ```
+
+用登入帳號的例子想像一下：
+
+- 我們先在畫面中輸入帳號密碼並且按下登入(View)
+- 後台的控制區會接收到這個畫面的使用者發送request需要接收前台的資料，並且分流到判斷帳密是否正確的class（Controller）
+- 可能會有一個叫做判斷帳號class，所以就會利用這個class並建立一個變數，然後使用裡面的method做邏輯判斷（Service）
+- 那這個class要動態地存取所有資料庫中的帳號，所以要去存取資料庫相關帳號資訊的class跟他要帳號；那這個資料庫帳號資訊的class就會有相對應的SQL在裡面(DAO)
+- 資料庫內每個表都會有許多不同attribute，那要如何有效管理這些提取出來的資料，我們可以針對沒一個relation (Entity) 建立一個class，存取出來的資料就創建這個class的變數傳回給前面的class，這樣可以有效地撰寫input parameter和return值。
+
+我們可以發現，就是專業分工下的結果，並且搭配JAVA最大的特性，物件導向以及多型的概念；而同時這個過程可以搭配繼承和interface混著使用（發瘋）。藉此行程我們以下又肥又醜的專案結構Tree
+
+> 還有一些關於Maven 或著是 spring boot 的設定檔等，我也還沒有很熟，所以邊寫邊修，我們還有小雀
+
+> request 和response 跟API有關(使用RESTful API)，所以就多多練習吧！
+>
+> > 同時這裡會影響到網頁的名稱(URL)和class名稱設定的問題，所以記得去參考那個地方大家的整理和設定！（如果記得會回來補連結）
 
 ## Tree
 
@@ -287,16 +354,16 @@ git stash pop      ← 取回改動，繼續工作
 │       │   └── com
 │       │       └── yourcompany
 │       │           └── yourproject
-│       │               ├── Application.java      (啟動類，含 @SpringBootApplication)
+│       │               ├── Application.java      (啟動類main，含 @SpringBootApplication)
 │       │               ├── controller             (Controller 層)
 │       │               │   └── XxxController.java
 │       │               ├── service                (Service 層)
 │       │               │   ├── XxxService.java
 │       │               │   └── impl
 │       │               │       └── XxxServiceImpl.java
-│       │               ├── repository             (DAO 層，連資料庫)
+│       │               ├── repository             (DAO 層，連資料庫SQL)
 │       │               │   └── XxxRepository.java
-│       │               └─── model                  (Entity 或 DTO/VO)
+│       │               └─── model                  (Entity)
 │       │                   ├── entity
 │       │                   │   └── XxxEntity.java
 │       │                   ├── dto
@@ -315,24 +382,333 @@ git stash pop      ← 取回改動，繼續工作
 
 # 資料庫DB架構
 
-::: danger
-Danger 內文
-:::
+> 目前大問題在於所有人已經理解我們的系統運作方式了嗎？
+
+> 尤其是若實體那兩個部分大家可以理解嗎？還是有什麼疑問？
+
+## 各個表格的MetaData
+
+### User
+
+| 欄位名稱       | 說明       |
+| -------------- | ---------- |
+| `User_ID` (PK) | 使用者 ID  |
+| `Name`         | 使用者名稱 |
+| `Gender`       | 性別       |
+
+### Market
+
+| 欄位名稱         | 說明     |
+| ---------------- | -------- |
+| `Market_ID` (PK) | 市集 ID  |
+| `Market_Name`    | 市集名稱 |
+| `Map_Link`       | 地圖連結 |
+| `Location`       | 位置     |
+| `Start_Time`     | 開始時間 |
+| `End_Time`       | 結束時間 |
+
+### Vendor
+
+| 欄位名稱             | 說明     |
+| -------------------- | -------- |
+| `Vendor_ID` (PK)     | 攤商 ID  |
+| `Vendor_Name`        | 攤商名稱 |
+| `Vendor_Description` | 攤商描述 |
+| `Category`           | 類別     |
+| `Contact_Info`       | 聯絡方式 |
+| `Exhibition_Card`    | 出展卡   |
+
+### Product
+
+| 欄位名稱              | 說明     |
+| --------------------- | -------- |
+| `Product_ID` (PK)     | 商品 ID  |
+| `Vendor_ID` (FK)      | 攤商 ID  |
+| `Product_Name`        | 商品名稱 |
+| `Product_Description` | 商品描述 |
+| `Stock_Quantity`      | 庫存數量 |
+| `Price`               | 價格     |
+| `Preorder`            | 是否預購 |
+| `Picture_Link`        | 圖片連結 |
+
+### Reservation (Reserve)
+
+| 欄位名稱              | 說明      |
+| --------------------- | --------- |
+| `Reservation_ID` (PK) | 預約 ID   |
+| `Product_ID` (FK)     | 商品 ID   |
+| `Vendor_ID` (FK)      | 攤商 ID   |
+| `User_ID` (FK)        | 使用者 ID |
+| `Total_Price`         | 總價      |
+| `Pick_Up_Time`        | 取貨時間  |
+| `Status`              | 狀態      |
+
+### Review
+
+| 欄位名稱         | 說明         |
+| ---------------- | ------------ |
+| `Review_ID` (PK) | 評論 ID      |
+| `User_ID` (FK)   | 使用者 ID    |
+| `Vendor_ID` (FK) | 攤商 ID      |
+| `Purchased_Item` | 購買商品名稱 |
+| `Rating`         | 評分         |
+| `Comment`        | 留言         |
+
+### Have_Points
+
+| 欄位名稱             | 說明      |
+| -------------------- | --------- |
+| `User_ID` (PK, FK)   | 使用者 ID |
+| `Market_ID` (PK, FK) | 市集 ID   |
+| `Points`             | 累積點數  |
+
+### Prefer
+
+| 欄位名稱             | 說明        |
+| -------------------- | ----------- |
+| `User_ID` (PK, FK)   | 使用者 ID   |
+| `Vendor_ID` (PK, FK) | 攤商 ID     |
+| `Preference_ID`      | 偏好類型 ID |
+| `List_Type`          | 類別型態    |
+
+### Exhibit
+
+| 欄位名稱             | 說明     |
+| -------------------- | -------- |
+| `Vendor_ID` (PK, FK) | 攤商 ID  |
+| `Market_ID` (PK, FK) | 市集 ID  |
+| `Exhibit_ID`         | 出展 ID  |
+| `Preorder`           | 是否預購 |
+
+### Sell
+
+| 欄位名稱          | 說明    |
+| ----------------- | ------- |
+| `Vendor_ID` (FK)  | 攤商 ID |
+| `Product_ID` (FK) | 商品 ID |
+
+### 各表格的舉例（暫放）
+
+### User
+
+| User_ID (PK) | Name | Gender |
+| ------------ | ---- | ------ |
+|              |      |        |
+|              |      |        |
+
+### Market
+
+| Market_ID (PK) | Market_Name | Map_Link | Location | Start_Time | End_Time |
+| -------------- | ----------- | -------- | -------- | ---------- | -------- |
+|                |             |          |          |            |          |
+|                |             |          |          |            |          |
+
+### Vendor
+
+| Vendor_ID (PK) | Vendor_Name | Vendor_Description | Category | Contact_Info | Exhibition_Card |
+| -------------- | ----------- | ------------------ | -------- | ------------ | --------------- |
+|                |             |                    |          |              |                 |
+|                |             |                    |          |              |                 |
+
+### Product
+
+| Product_ID (PK) | Vendor_ID (FK) | Product_Name | Product_Description | Stock_Quantity | Price | Preorder | Picture_Link |
+| --------------- | -------------- | ------------ | ------------------- | -------------- | ----- | -------- | ------------ |
+|                 |                |              |                     |                |       |          |              |
+|                 |                |              |                     |                |       |          |              |
+
+### Reservation (Reserve)
+
+| Reservation_ID (PK) | Product_ID (FK) | Vendor_ID (FK) | User_ID (FK) | Total_Price | Pick_Up_Time | Status |
+| ------------------- | --------------- | -------------- | ------------ | ----------- | ------------ | ------ |
+|                     |                 |                |              |             |              |        |
+|                     |                 |                |              |             |              |        |
+
+### Review
+
+| Review_ID (PK) | User_ID (FK) | Vendor_ID (FK) | Purchased_Item | Rating | Comment |
+| -------------- | ------------ | -------------- | -------------- | ------ | ------- |
+|                |              |                |                |        |         |
+|                |              |                |                |        |         |
+
+### Have_Points
+
+| User_ID (PK, FK) | Market_ID (PK, FK) | Points |
+| ---------------- | ------------------ | ------ |
+|                  |                    |        |
+|                  |                    |        |
+
+### Prefer
+
+| User_ID (PK, FK) | Vendor_ID (PK, FK) | Preference_ID | List_Type |
+| ---------------- | ------------------ | ------------- | --------- |
+|                  |                    |               |           |
+|                  |                    |               |           |
+
+### Exhibit
+
+| Vendor_ID (PK, FK) | Market_ID (PK, FK) | Exhibit_ID | Preorder |
+| ------------------ | ------------------ | ---------- | -------- |
+|                    |                    |            |          |
+|                    |                    |            |          |
+
+### Sell
+
+| Vendor_ID (FK) | Product_ID (FK) |
+| -------------- | --------------- |
+|                |                 |
+|                |                 |
+
+## 預備SQL(暫放，可能會直接存成SQL檔案)
+
+> Create 的部分可能會直接寫好，不會在DAO層看到
 
 ---
 
 # Java Doc
 
-## (三層)
+為了方便大家快速找到每個人命名的方式，或是每個function的功能，暫時先留著這個區塊，不知道後續會不會忙到懶得寫
+
+```
+### Class: `ClassName`
+
+| Return type | Method or Variable | Description                     |
+|-------------|---------------------|---------------------------------|
+| **Instance variable** |                     |                                 |
+|             |                     |                                 |
+|             |                     |                                 |
+|             |                     |                                 |
+| **Methods** |                     |                                 |
+|             |                     |                                 |
+|             |                     |                                 |
+|             |                     |                                 |
+
+```
+
+### Class: `ClassName`
+
+| Return type           | Method or Variable | Description |
+| --------------------- | ------------------ | ----------- |
+| **Instance variable** |                    |             |
+|                       |                    |             |
+|                       |                    |             |
+|                       |                    |             |
+| **Methods**           |                    |             |
+|                       |                    |             |
+|                       |                    |             |
+|                       |                    |             |
+
+## Controller
+
+## Service
+
+## DAO
+
+## Model
 
 ---
 
 # 各個畫面的簡介和URL
 
+> 請參考與助教討論的簡報裡面的框架，我們需要先有共識！（今日目標之一）
+
+## 總表
+
+> 前端頁面URL 與 API 整理對照表
+
+這是GPT給我的舉例（方便今天討論）
+
+| 頁面名稱     | URL 路徑             | 功能描述                 | 對應 API                    | Method     | 說明 / 備註          |
+| ------------ | -------------------- | ------------------------ | --------------------------- | ---------- | -------------------- |
+| 市集首頁     | `/markets`           | 顯示市集清單             | `/api/markets`              | GET        | 回傳所有市集資料     |
+| 單一市集頁   | `/markets/:id`       | 顯示市集內攤商與商品     | `/api/markets/:id/vendors`  | GET        | 載入攤商清單         |
+|              |                      |                          | `/api/markets/:id/products` | GET        | 載入所有商品清單     |
+| 攤商詳情頁   | `/vendors/:id`       | 顯示攤商資訊與商品清單   | `/api/vendors/:id`          | GET        | 攤商基本資料與商品   |
+| 商品預約頁   | `/reserve/:id`       | 預約商品                 | `/api/reservations`         | POST       | 預約單送出           |
+| 使用者偏好頁 | `/user/preferences`  | 顯示與設定偏好攤商與類型 | `/api/preferences`          | GET / POST | 讀取與更新使用者偏好 |
+| 我的預約清單 | `/user/reservations` | 顯示使用者預約紀錄       | `/api/reservations/user`    | GET        | 需要登入 token       |
+| 登入頁       | `/login`             | 使用者登入               | `/api/login`                | POST       | 傳入帳號密碼         |
+
+### 頁面名稱：商品管理頁 `/products`
+
+| API 功能     | Method   | URL                 | Request 參數                      | Response 範例                   |
+| ------------ | -------- | ------------------- | --------------------------------- | ------------------------------- |
+| 取得商品清單 | `GET`    | `/api/products`     | 無                                | `[{"id":1,"name":"蘋果"}, ...]` |
+| 新增商品     | `POST`   | `/api/products`     | `{ "name": "香蕉", "price": 30 }` | `{ "success": true }`           |
+| 刪除商品     | `DELETE` | `/api/products/:id` | 無                                | `{ "success": true }`           |
+
 ---
 
 # PULL Request (PR)
 
+要合併到遠端的main的時候，需要上去Github按下Pull Request，讓其他協作者知道你合併了什麼到我們的專案主幹道上！
+
+> 提供一個模板，可以新增刪除裡面的內容！
+
+```
+## Pull Request 說明
+
+### 變更項目 Checklist
+請勾選你本次 PR 涉及的修改項目（可新增或刪除項目）：
+
+- [ ] 新增：xxxx 功能（例如：新增商品預約 API）
+- [ ] 修改：xxxx 方法邏輯（例如：修正登入流程的錯誤處理）
+- [ ] 調整：xxxx UI / 文件 / 設定（例如：調整 README）
+- [ ] 刪除：xxxx 已無用功能（例如：移除過時的測試檔案）
+
+---
+
+### 這個 PR 的目的 (Why)
+簡要說明你為什麼要進行這些更動？解決什麼問題或實作什麼功能？
+
+---
+
+### 主要修改內容 (What)
+列出這次修改的檔案、功能點，讓 reviewer 可以快速掌握重點：
+
+- `xxxController.java`：新增 / 修改 xxx 方法
+- `xxxService.java`：重構邏輯 / 加入驗證處理
+- `README.md`：補充開發環境說明
+
+---
+
+### 測試說明 (Test Coverage)
+有無測試過？測試方式與結果簡要說明如下：
+
+- [ ] 已本地測試過功能流程
+- [ ] 頁面操作流程無誤，UI 正常呈現
+- [ ] 已確認未影響現有功能（或簡述測試情境）
+
+---
+
+### 其他備註 (Optional)
+有沒有額外提醒 reviewer 的事？例如：
+- 此修改依賴某 PR / 外部設定
+- 下一版會加入的 TODO / 測試尚未補上
+
+
+```
+
 ---
 
 # Git Branch 命名方式
+
+我們需要統一在遠端的Branch命名方式，當出現問題時比較容易互相幫忙（也可以偷看別人的進度~）(不使用camelCase!!)
+
+```
+<類型> / <名字> / <描述（全部小寫，多單字用 - 分隔）>
+```
+
+> 例如：`doc/cyLin/readme-update`
+
+這樣可以方便大家找尋每個人正在做什麼，但不能單靠 branch 名稱就完全知道對方會不會動到你正在用的 Java class 唷！
+
+| 類型 (Prefix) | 說明                     | 範例 (命名格式)                  | 使用時機                       |
+| ------------- | ------------------------ | -------------------------------- | ------------------------------ |
+| `feature`     | 新功能開發               | `feature/name/login-ui`          | 新增頁面、API、模組等          |
+| `fix`         | 錯誤修正                 | `fix/name/login-error-message`   | 修 bug、處理錯誤輸出、錯誤邏輯 |
+| `refactor`    | 程式重構，不影響功能     | `refactor/name/header-layout`    | 清除死碼、優化架構、變數命名   |
+| `doc`         | 文件相關更新             | `doc/name/update-readme`         | README、API 文件、開發指引     |
+| `chore`       | 雜項（不會直接影響功能） | `chore/name/update-dependencies` | 整理資料夾或新增圖片，更新套件 |
+| `test`        | 測試相關內容             | `test/name/add-user-tests`       | 加單元測試、自動化測試         |
+| `release`     | 版本發佈用分支           | `release/name/v1.0.0`            | 正式版準備                     |
