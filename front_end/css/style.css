@@ -1,0 +1,243 @@
+/* Base Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Header */
+  .site-header {
+    background-color: #f7e2a1;
+    padding: 0.75rem 1rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .logo-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .logo {
+    width: 40px;
+    height: auto;
+  }
+  
+  .site-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #1e293b;
+    margin: 0;
+  }
+  
+  .site-name .highlight {
+    color: #1e293b;
+    font-weight: 500;
+  }
+  
+  .right {
+    display: flex;
+    gap: 1.5rem;
+  }
+  
+  .nav-link {
+    font-weight: bold;
+    color: #1e293b;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .nav-link:hover {
+    color: #fd785a;
+  }
+  
+  /* Main Layout */
+  main {
+    padding: 2rem 1rem;
+    background-color: #ffffff;
+  }
+  
+  /* Carousel */
+  .carousel {
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    display: flex;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    border-radius: 0.5rem;
+    scrollbar-width: none;
+  }
+  
+  .carousel-track {
+    display: flex;
+    animation: scroll 30s infinite linear;
+    gap: 1rem;
+    padding: 1rem;
+  }
+  
+  .carousel img {
+    width: 100vw;
+    max-width: 100%;
+    height: auto;
+    max-height: 800px;
+    object-fit: cover;
+    border-radius: 0.6rem;
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+  
+  .carousel-pagination {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+  
+  @keyframes scroll {
+    0% {
+      transform: translateX(0);
+    }
+    33% {
+      transform: translateX(-100vw);
+    }
+    66% {
+      transform: translateX(-200vw);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  
+  /* Market List */
+  .market-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: space-between;
+  }
+  
+  .market-list {
+    flex: 2;
+    margin-bottom: 3rem;
+  }
+  
+  .market-list h2 {
+    font-size: 32px;
+    color: #073046;
+    margin-bottom: 1.5rem;
+  }
+  
+  .market-card {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    background: #fbf0dc;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    gap: 1.5rem;
+    flex-wrap: nowrap;
+    color: #073046;
+  }
+  
+  .market-card img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    flex-shrink: 0;
+  }
+  
+  .market-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 18px;
+    color: #073046;
+  }
+  
+  .market-info h3 {
+    font-size: 24px;
+    margin-bottom: 0.5rem;
+    color: #073046;
+  }
+  
+  .market-info ul {
+    margin-bottom: 0.5rem;
+    list-style: disc;
+    padding-left: 1.2rem;
+    font-size: 18px;
+    color: #073046;
+  }
+  
+  .market-info p {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+    font-size: 18px;
+    color: #073046;
+  }
+  
+  .btn {
+    align-self: start;
+    display: inline-block;
+    background-color: #fd785a;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    font-size: 18px;
+  }
+  
+  .btn:hover {
+    background-color: #e75f47;
+  }
+  
+  /* Announcements */
+  .announcements {
+    flex: 1;
+    padding: 1rem;
+    border-radius: 1rem;
+    height: fit-content;
+  }
+  
+  .announcements h2 {
+    font-size: 32px;
+    color: #073046;
+    margin-bottom: 1.5rem;
+  }
+  
+  .announcement {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .announcement:last-child {
+    border-bottom: none;
+  }
+
+  /* footer */
+  footer {
+    background-color: #1e3444; 
+    color: #ffffff;        
+    text-align: center;   
+    padding: 1rem 0; 
+    font-size: 18px;      
+  }
+  
+  
+  
