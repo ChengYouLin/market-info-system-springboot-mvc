@@ -15,10 +15,37 @@
       </div>
       <nav class="right">
         <a href="#" class="nav-link">找市集</a>
-        <a href="#" class="nav-link">註冊/登入</a>
+        <a href="#" class="nav-link login-btn">註冊/登入</a>
       </nav>
     </div>
   </header>
+
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <h2>登入</h2>
+      <form id="loginForm">
+        <label for="username">郵件</label>
+        <input type="text" id="username" name="username" required>
+  
+        <label for="password">密碼</label>
+        <input type="password" id="password" name="password" required>
+  
+        <label for="role">身份</label>
+        <select id="role" name="role" required>
+          <option value="">請選擇身份</option>
+          <option value="user">一般使用者</option>
+          <option value="vendor">攤商</option>
+          <option value="organizer">主辦方</option>
+        </select>
+
+        <div class="form-footer">
+          <a href="register.html" class="register-link">還沒有帳號嗎？點擊加入會員</a>
+          <button type="submit" class="btn login-btn">登入</button>
+        </div>
+      </form>
+    </div>
+  </div>  
 
   <main>
     <!-- 1. 輪播廣告區 -->
@@ -34,7 +61,6 @@
 
     <!-- 市集與公告區塊 -->
     <div class="market-section">
-      <!-- 2. 市集列表 -->
       <section class="market-list">
         <div class="market-header">
           <h2>市集列表</h2>
@@ -73,7 +99,6 @@
         </div>
       </section>
 
-      <!-- 3. 臨時公告 -->
       <section class="announcements">
         <h2>臨時公告</h2>
         <div class="announcement">
@@ -89,24 +114,6 @@
   <footer>
     <p>© 2025 eView. All Rights Reserved.</p>
   </footer>
-
-  <!-- JS: 市集篩選功能 -->
-  <script>
-    const filterButtons = document.querySelectorAll(".filter-btn");
-    const marketCards = document.querySelectorAll(".market-card");
-
-    filterButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        filterButtons.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-
-        const filter = button.getAttribute("data-filter");
-
-        marketCards.forEach(card => {
-          card.style.display = (card.dataset.status === filter) ? "flex" : "none";
-        });
-      });
-    });
-  </script>
+  <script src="js/scripts.js"></script>
 </body>
 </html>

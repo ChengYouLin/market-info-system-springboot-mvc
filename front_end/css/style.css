@@ -1,11 +1,11 @@
-/* Base Reset */
+/* ===== 全站初始化 Reset ===== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
   }
   
-/* Header */
+/* ===== 頁首區塊 Header ===== */
 .site-header {
     background-color: #f7e2a1;
     padding: 0.75rem 1rem;
@@ -36,10 +36,9 @@
   }
   
   .site-name {
-    font-size: 2rem; /* 32px */
+    font-size: 2rem;
     font-weight: bold;
     color: #073046;
-    margin: 0;
   }
   
   .site-name .highlight {
@@ -49,6 +48,7 @@
   
   .right {
     display: flex;
+    align-items: center; 
     gap: 1.5rem;
   }
   
@@ -64,13 +64,93 @@
     color: #fd785a;
   }
   
-  /* Main Layout */
+  /* ===== 登入 Modal 背景與彈窗 ===== */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  
+  .modal-content {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+  }
+  
+  .close-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+  }
+  
+  .modal-content label {
+    display: block;
+    margin-top: 1rem;
+    font-size: 1rem;
+    color: #073046;
+  }
+  
+  .modal-content input,
+  .modal-content select {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid #ccc;
+    margin-top: 0.25rem;
+  }
+  
+  /* ===== 登入表單底部樣式 ===== */
+  .form-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1.5rem;
+  }
+  
+  .register-link {
+    font-size: 0.85rem;
+    color: #073046;
+    text-decoration: underline;
+    cursor: pointer;
+    flex-shrink: 1;
+    white-space: nowrap;
+  }
+  
+  .login-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #073046;
+    padding: 0.5rem 1.5rem;
+    border-radius: 999px;
+    font-size: 24px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    line-height: 1; 
+  }
+  
+
+/* ===== 主要內容區塊 Main ===== */
   main {
     padding: 2rem 1rem;
     background-color: #ffffff;
   }
   
-  /* Carousel */
+/* ===== 輪播圖 Carousel ===== */
   .carousel {
     width: 100%;
     overflow: hidden;
@@ -122,7 +202,7 @@
     }
   }
   
-  /* Market Section */
+/* ===== 市集區塊 ===== */
   .market-section {
     display: flex;
     flex-wrap: wrap;
@@ -221,6 +301,7 @@
     color: #073046;
   }
   
+  /* ===== 按鈕通用樣式 ===== */
   .btn {
     align-self: start;
     display: inline-block;
@@ -237,7 +318,7 @@
     background-color: #e75f47;
   }
   
-  /* Announcements */
+/* ===== 公告區塊 ===== */
   .announcements {
     flex: 1;
     padding: 1rem;
@@ -254,7 +335,7 @@
     border-bottom: none;
   }
   
-  /* Footer */
+/* ===== 頁尾區塊 Footer ===== */
   footer {
     background-color: #1e3444;
     color: #ffffff;
