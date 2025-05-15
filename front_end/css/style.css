@@ -5,8 +5,8 @@
     box-sizing: border-box;
   }
   
-  /* Header */
-  .site-header {
+/* Header */
+.site-header {
     background-color: #f7e2a1;
     padding: 0.75rem 1rem;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -27,6 +27,7 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    color: #073046;
   }
   
   .logo {
@@ -35,14 +36,14 @@
   }
   
   .site-name {
-    font-size: 1.5rem;
+    font-size: 2rem; /* 32px */
     font-weight: bold;
-    color: #1e293b;
+    color: #073046;
     margin: 0;
   }
   
   .site-name .highlight {
-    color: #1e293b;
+    color: #073046;
     font-weight: 500;
   }
   
@@ -52,8 +53,9 @@
   }
   
   .nav-link {
+    font-size: 24px;
     font-weight: bold;
-    color: #1e293b;
+    color: #073046;
     text-decoration: none;
     transition: color 0.2s;
   }
@@ -120,7 +122,7 @@
     }
   }
   
-  /* Market List */
+  /* Market Section */
   .market-section {
     display: flex;
     flex-wrap: wrap;
@@ -133,10 +135,38 @@
     margin-bottom: 3rem;
   }
   
-  .market-list h2 {
+  .market-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .market-list h2,
+  .announcements h2 {
     font-size: 32px;
     color: #073046;
     margin-bottom: 1.5rem;
+  }
+  
+  .filter-buttons {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .filter-btn {
+    padding: 0.5rem 1rem;
+    font-size: 16px;
+    border: none;
+    background: #eee;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    color: #073046;
+  }
+  
+  .filter-btn.active {
+    background-color: #fd785a;
+    color: white;
   }
   
   .market-card {
@@ -215,12 +245,6 @@
     height: fit-content;
   }
   
-  .announcements h2 {
-    font-size: 32px;
-    color: #073046;
-    margin-bottom: 1.5rem;
-  }
-  
   .announcement {
     padding: 0.5rem 0;
     border-bottom: 1px solid #ccc;
@@ -229,14 +253,14 @@
   .announcement:last-child {
     border-bottom: none;
   }
-
-  /* footer */
+  
+  /* Footer */
   footer {
-    background-color: #1e3444; 
-    color: #ffffff;        
-    text-align: center;   
-    padding: 1rem 0; 
-    font-size: 18px;      
+    background-color: #1e3444;
+    color: #ffffff;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 18px;
   }
   
   
