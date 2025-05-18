@@ -1,0 +1,94 @@
+.register-main {
+    display: flex;
+    height: calc(100vh - 80px - 60px); /* 除 header/footer */
+  }
+  
+  .register-wrapper {
+    display: flex;
+    width: 100%;
+  }
+  
+  .register-form label {
+    font-size: 24px;
+    color: #073046;
+    font-weight: 100; 
+    margin-top: 1rem;
+  }
+
+  .register-form {
+    width: 50%;
+    padding: 3rem;
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .register-form h2 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #1f2d3d;
+  }
+  
+  .register-form label {
+    margin-top: 1rem;
+    font-weight: 500;
+    display: block;
+  }
+  
+  .register-form input {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.25rem;
+    border-radius: 12px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+  }
+
+  select {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 0.25rem;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    font-size: 1rem;
+    background-color: #fff;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+  
+  select:invalid {
+    color: #999; /* 預設選項變淡灰色 */
+  }
+  
+  .btn.register-btn {
+    margin-top: 2rem;
+    padding: 0.75rem;
+    background-color: #ff7b5c;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .register-image {
+    width: 50%;
+    height: 100%;
+  }
+  
+  .register-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  footer {
+    background-color: #072d3e;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+  }  

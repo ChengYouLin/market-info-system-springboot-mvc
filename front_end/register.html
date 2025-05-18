@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>註冊 - 藝覽無遺 eView</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/register.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="logo-title">
+        <img src="image/logo.png" alt="藝覽無遺 Logo" class="logo" />
+        <h1 class="site-name">藝覽無遺 <span class="highlight">eView</span></h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="register-main">
+    <div class="register-wrapper">
+      <div class="register-form">
+        <h2>註冊</h2>
+        <form id="registerForm">
+          <label for="name">姓名</label>
+          <input type="text" id="name" name="name" required>
+
+          <label for="email">郵件</label>
+          <input type="email" id="email" name="email" required>
+
+          <label for="phone">手機號碼</label>
+          <input type="tel" id="phone" name="phone" required>
+
+          <label for="password">密碼</label>
+          <input type="password" id="password" name="password" required>
+
+          <label for="role">身份</label>
+          <select id="role" name="role" required>
+            <option value="">請選擇身份</option>
+            <option value="user">一般使用者</option>
+            <option value="vendor">攤商</option>
+            <option value="organizer">主辦方</option>
+          </select>
+
+          <button type="submit" class="btn register-btn">註冊</button>
+        </form>
+      </div>
+
+      <div class="register-image">
+        <img src="image/market.png" alt="市集背景圖">
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 eView. All Rights Reserved.</p>
+  </footer>
+
+  <script src="js/register.js" defer></script>
+</body>
+</html>

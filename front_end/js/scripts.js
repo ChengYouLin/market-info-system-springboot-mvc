@@ -65,4 +65,37 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
-  
+
+      // 註冊表單提交處理：依身份導向不同頁面
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("registerForm");
+      
+        if (form) {
+          form.addEventListener("submit", function (e) {
+            e.preventDefault(); // 阻止預設表單提交行為
+      
+            const role = document.getElementById("role").value;
+      
+            if (!role) {
+              alert("請選擇身份！");
+              return;
+            }
+      
+            // 根據身份導向不同頁面
+            switch (role) {
+              case 'user':
+                window.location.href = 'user.html';
+                break;
+              case 'vendor':
+                window.location.href = 'vendor.html';
+                break;
+              case 'organizer':
+                window.location.href = 'organizer.html';
+                break;
+              default:
+                alert("未知身份，請重新選擇。");
+            }
+          });
+        }
+      });
+      
