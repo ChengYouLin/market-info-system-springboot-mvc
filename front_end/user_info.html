@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>會員中心 - 藝覽無遺 eView</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/user.css" />
+</head>
+<body>
+  <!-- 共用 Header -->
+  <header class="site-header">
+    <div class="container header-content">
+      <!-- 左側：Logo 與標題 -->
+      <div class="logo-title">
+        <img src="image/logo.png" alt="藝覽無遺 Logo" class="logo" />
+        <h1 class="site-name">藝覽無遺 <span class="highlight">eView</span></h1>
+      </div>
+  
+      <!-- 中間：功能導覽 -->
+      <nav class="main-nav">
+        <button class="filter-btn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-filter-circle" viewBox="0 0 16 16">
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+            <path d="M7 11.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5m-2-3a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5"/>
+          </svg>
+          <span>商品類型篩選</span>
+        </button>
+        <a href="user_markets.html">市集資訊</a>
+        <a href="User_map.html">會場地圖</a>
+        <a href="user_rewards.html">抽獎集點</a>
+        <a href="user_leftover.html">剩食搜尋</a>
+      </nav>
+  
+      <!-- 右側：使用者 Icon -->
+      <div class="user-icon">
+        <a href="user_info.html">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+               class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 
+                  11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+          </svg>
+        </a>
+      </div>
+  </header>
+
+  <!--個人資訊-->
+  <main class="user-main">
+    <div class="user-info-title">
+      <h2>個人資訊</h2>
+    </div>  
+    <div class="user-wrapper">
+      <aside class="sidebar">
+        <button class="sidebar-btn active">基本資料</button>
+        <button class="sidebar-btn">收藏清單</button>
+      </aside>
+
+      <section class="user-info">
+        <form>
+          <label>姓名</label>
+          <div class="value">UserID</div>
+
+          <label for="gender">性別</label>
+          <input type="text" id="gender" name="gender" />
+
+          <label for="email">郵件</label>
+          <input type="email" id="email" name="email" />
+
+          <label for="phone">手機號碼</label>
+          <input type="tel" id="phone" name="phone" />
+
+          <button type="button" class="btn edit-btn edit-trigger">編輯個人資訊</button>
+        </form>
+      </section>
+
+      <div class="user-avatar">
+        <img src="image/user_avatar_refer.png" alt="頭像">
+      </div>
+    </div>
+
+    <!-- 編輯視窗彈出 -->
+    <div id="editModal" class="modal" style="display: none;">
+      <div class="modal-content">
+        <button type="button" class="edit-close-btn" style="float: right;">✕</button>
+
+        <form id="editForm">
+          <label for="edit-name">姓名</label>
+          <input type="text" id="edit-name" />
+
+          <label for="edit-gender">性別</label>
+          <input type="text" id="edit-gender" />
+
+          <label for="edit-email">電子郵件</label>
+          <input type="email" id="edit-email" />
+
+          <label for="edit-phone">手機號碼</label>
+          <input type="tel" id="edit-phone" />
+
+          <button type="submit" class="btn edit-btn">完成編輯</button>
+        </form>
+      </div>
+    </div>
+
+
+  <!-- 共用 Footer -->
+  <footer>
+    <p>© 2025 eView. All Rights Reserved.</p>
+  </footer>
+  <script src="js/scripts.js"></script>
+</body>
+</html>

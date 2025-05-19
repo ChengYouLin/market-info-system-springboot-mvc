@@ -1,3 +1,11 @@
+/* 基本設定 */
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", sans-serif;
+  background-color: #fffaf0;
+  color: #1f2d3d;
+}
+
 /* ===== 登入 Modal 背景與彈窗 ===== */
 .modal {
     display: none;

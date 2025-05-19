@@ -4,6 +4,14 @@
     padding: 0;
     box-sizing: border-box;
   }
+
+  /* 基本設定 */
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", sans-serif;
+  background-color: #fffaf0;
+  color: #1f2d3d;
+}
   
 /* ===== 頁首區塊 Header ===== */
 .site-header {

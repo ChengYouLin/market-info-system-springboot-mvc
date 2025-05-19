@@ -1,3 +1,12 @@
+/* 基本設定 */
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", sans-serif;
+  background-color: #fffaf0;
+  color: #1f2d3d;
+}
+
+
 .register-main {
     display: flex;
     height: calc(100vh - 80px - 60px); /* 除 header/footer */

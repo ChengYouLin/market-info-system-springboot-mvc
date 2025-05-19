@@ -66,21 +66,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-      // 註冊表單提交處理：依身份導向不同頁面
-      document.addEventListener("DOMContentLoaded", () => {
-        const form = document.getElementById("registerForm");
+    // 註冊表單提交處理：依身份導向不同頁面
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("registerForm");
       
-        if (form) {
-          form.addEventListener("submit", function (e) {
-            e.preventDefault(); // 阻止預設表單提交行為
+      if (form) {
+        form.addEventListener("submit", function (e) {
+          e.preventDefault(); // 阻止預設表單提交行為
       
-            const role = document.getElementById("role").value;
+          const role = document.getElementById("role").value;
       
-            if (!role) {
-              alert("請選擇身份！");
-              return;
-            }
-      
+          if (!role) {
+            alert("請選擇身份！");
+            return;
+          }
+  
             // 根據身份導向不同頁面
             switch (role) {
               case 'user':
@@ -98,4 +98,29 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         }
       });
+  
+    // 編輯個人資訊彈窗功能
+    const openEditBtn = document.querySelector('.edit-trigger'); // 開啟用
+    const editModal = document.getElementById('editModal');
+    const closeEditBtn = document.querySelector('.edit-close-btn'); // 可選
+    
+    if (openEditBtn && editModal) {
+      openEditBtn.addEventListener('click', () => {
+        editModal.style.display = 'flex';
+      });
+    
+      // 點擊 modal 背景關閉
+      window.addEventListener('click', (e) => {
+        if (e.target === editModal) {
+          editModal.style.display = 'none';
+        }
+      });
+    
+      // 如果有 ✕ 按鈕也能關閉
+      closeEditBtn?.addEventListener('click', () => {
+        editModal.style.display = 'none';
+      });
+    }
+    
+   
       
