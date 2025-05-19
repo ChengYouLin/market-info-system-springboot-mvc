@@ -46,63 +46,89 @@
       </div>
   </header>
 
-  <!--個人資訊-->
-  <main class="user-main">
-    <div class="user-info-title">
-      <h2>個人資訊</h2>
-    </div>  
-    <div class="user-wrapper">
-      <aside class="sidebar">
-        <button class="sidebar-btn active">基本資料</button>
-        <button class="sidebar-btn">收藏清單</button>
-      </aside>
+<!--個人資訊-->
+<main class="user-main">
+  <div class="user-info-title">
+    <h2>基本資料</h2>
+  </div>  
+  <div class="user-wrapper">
+    <aside class="sidebar">
+      <button class="sidebar-btn active" id="tab-info">個人資訊</button>
+      <button class="sidebar-btn" id="tab-favorites">收藏清單</button>
+    </aside>
 
-      <section class="user-info">
-        <form>
-          <label>姓名</label>
-          <div class="value">UserID</div>
+    <!-- 基本資料區塊 -->
+    <section class="user-info section-tab" id="section-info">
+      <form>
+        <label>姓名</label>
+        <div class="value">UserID</div>
 
-          <label for="gender">性別</label>
-          <input type="text" id="gender" name="gender" />
+        <label for="gender">性別</label>
+        <input type="text" id="gender" name="gender" />
 
-          <label for="email">郵件</label>
-          <input type="email" id="email" name="email" />
+        <label for="email">郵件</label>
+        <input type="email" id="email" name="email" />
 
-          <label for="phone">手機號碼</label>
-          <input type="tel" id="phone" name="phone" />
+        <label for="phone">手機號碼</label>
+        <input type="tel" id="phone" name="phone" />
 
-          <button type="button" class="btn edit-btn edit-trigger">編輯個人資訊</button>
-        </form>
-      </section>
+        <button type="button" class="btn edit-btn edit-trigger">編輯個人資訊</button>
+      </form>
+    </section>
 
-      <div class="user-avatar">
-        <img src="image/user_avatar_refer.png" alt="頭像">
-      </div>
+    <!-- 頭像區塊 -->
+    <div class="user-avatar section-tab" id="avatar-block">
+      <img src="image/user_avatar_refer.png" alt="頭像" />
     </div>
 
-    <!-- 編輯視窗彈出 -->
-    <div id="editModal" class="modal" style="display: none;">
-      <div class="modal-content">
-        <button type="button" class="edit-close-btn" style="float: right;">✕</button>
-
-        <form id="editForm">
-          <label for="edit-name">姓名</label>
-          <input type="text" id="edit-name" />
-
-          <label for="edit-gender">性別</label>
-          <input type="text" id="edit-gender" />
-
-          <label for="edit-email">電子郵件</label>
-          <input type="email" id="edit-email" />
-
-          <label for="edit-phone">手機號碼</label>
-          <input type="tel" id="edit-phone" />
-
-          <button type="submit" class="btn edit-btn">完成編輯</button>
-        </form>
+    <!-- 收藏清單區塊 -->
+    <section class="user-info section-tab" id="section-favorites" style="display: none;">
+      <h2>店家收藏清單</h2>
+      <div class="favorite-list">
+        <div class="favorite-item">
+          <div class="favorite-text">
+            攤商 ID - 攤商名字<br />市集名稱
+          </div>
+          <div class="favorite-icons">
+            <span class="heart">&#x2665;</span>
+          </div>
+        </div>
+        <div class="favorite-item">
+          <div class="favorite-text">
+            攤商 ID - 攤商名字<br />市集名稱
+          </div>
+          <div class="favorite-icons">
+            <span class="heart">&#x2665;</span>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
+  </div>
+</main>
+
+<!-- 編輯視窗彈出 -->
+<div id="editModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <button type="button" class="edit-close-btn" style="float: right;">✕</button>
+
+    <form id="editForm">
+      <label for="edit-name">姓名</label>
+      <input type="text" id="edit-name" />
+
+      <label for="edit-gender">性別</label>
+      <input type="text" id="edit-gender" />
+
+      <label for="edit-email">電子郵件</label>
+      <input type="email" id="edit-email" />
+
+      <label for="edit-phone">手機號碼</label>
+      <input type="tel" id="edit-phone" />
+
+      <button type="submit" class="btn edit-btn">完成編輯</button>
+    </form>
+  </div>
+</div>
 
   <!-- 共用 Footer -->
   <footer>

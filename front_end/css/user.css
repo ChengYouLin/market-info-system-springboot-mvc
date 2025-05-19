@@ -2,7 +2,7 @@
 body {
     margin: 0;
     font-family: "Noto Sans TC", sans-serif;
-    background-color: #fffaf0;
+    background-color: white;
     color: #1f2d3d;
   }
   
@@ -141,7 +141,7 @@ body {
   .sidebar-btn {
     padding: 1rem 1.5rem;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 600px;
     background-color: #ccc;
     color: #fff;
     border: none;
@@ -154,7 +154,8 @@ body {
   .sidebar-btn.active {
     background-color: #f77b55;
   }
-  
+
+ /* 基本資料區塊 */
   .user-info label {
     display: block;
     margin-top: 1.25rem;
@@ -200,19 +201,86 @@ body {
     width: 30%;
   }
   
+
+  #avatar-block {
+    display: block;
+  }
+
+  .section-tab:not(#section-info) ~ #avatar-block {
+    display: none;
+  }
+
   .user-avatar {
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-left: -80px; 
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.user-avatar img {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  object-fit: cover;
+  transform: translateX(-20px);
+}
+
+ /* 收藏清單區塊 */
+
+ #section-favorites {
+    grid-column: 2 / 4;
+    padding-top: 1rem;
+  }
+
+  #section-favorites h2 {
+    max-width: 1000px;
+    margin: 0 auto 1rem calc(-40px);
   }
   
-  .user-avatar img {
-    width: 280px;
-    height: 280px;
-    max-width: 100%;
-    object-fit: cover;
-    border-radius: 50%;
+  .favorite-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+    padding-left: 2rem;
+  }
+  
+  .favorite-item {
+    width: calc(100% + 40px); /* 撐寬 */
+    margin-left: -70px;        /* 往左推 */
+    margin-right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background-color: #fff6e9;
+    border-radius: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+  }
+  
+  .favorite-text {
+    font-size: 1.2rem;
+    color: #1f2d3d;
+    line-height: 1.6;
+  }
+  
+  .favorite-icons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .heart {
+    font-size: 1.5rem;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.3s ease;
+  }
+  
+  .heart.favorited {
+    color:red;
   }
 
  /* 編輯視窗彈出區塊 */

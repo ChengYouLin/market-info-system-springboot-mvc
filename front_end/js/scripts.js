@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // 市集篩選功能
+  ////----- index.html 頁面功能 ----- ////
+  // 市集篩選功能
     const filterButtons = document.querySelectorAll(".filter-btn");
     const marketCards = document.querySelectorAll(".market-card");
   
@@ -18,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 預設啟動「進行中」篩選
     const defaultFilter = document.querySelector(".filter-btn.active") || filterButtons[0];
     defaultFilter?.click();
-  
+    
     // 登入/註冊功能
     const loginLink = document.querySelector('.login-btn');
     const modal = document.getElementById('loginModal');
@@ -38,7 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
         modal.style.display = 'none';
       }
     });
-  
+    
+    ////----- register.html 頁面功能 ----- ////
     // 登入表單提交處理：依身份導向不同頁面
     document.getElementById('loginForm').addEventListener('submit', function (e) {
       e.preventDefault(); // 阻止表單預設送出行為
@@ -99,6 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
   
+    ////----- user_info.html 頁面功能 ----- ////
     // 編輯個人資訊彈窗功能
     const openEditBtn = document.querySelector('.edit-trigger'); // 開啟用
     const editModal = document.getElementById('editModal');
@@ -121,6 +124,36 @@ document.addEventListener("DOMContentLoaded", () => {
         editModal.style.display = 'none';
       });
     }
+
+    // 基本資料 & 收藏清單切換標籤邏輯
+    document.addEventListener("DOMContentLoaded", () => {
+      const tabInfo = document.getElementById("tab-info");
+      const tabFavorites = document.getElementById("tab-favorites");
+      const sectionInfo = document.getElementById("section-info");
+      const sectionFavorites = document.getElementById("section-favorites");
+      const avatarBlock = document.getElementById("avatar-block");
+    
+      tabInfo.addEventListener("click", () => {
+        tabInfo.classList.add("active");
+        tabFavorites.classList.remove("active");
+    
+        sectionInfo.style.display = "block";
+        sectionFavorites.style.display = "none";
+    
+        if (avatarBlock) avatarBlock.style.display = "flex";
+      });
+    
+      tabFavorites.addEventListener("click", () => {
+        tabFavorites.classList.add("active");
+        tabInfo.classList.remove("active");
+    
+        sectionFavorites.style.display = "block";
+        sectionInfo.style.display = "none";
+    
+        if (avatarBlock) avatarBlock.style.display = "none";
+      });
+    });
+    
     
    
       
