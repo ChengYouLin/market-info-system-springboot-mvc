@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>會員中心 - 藝覽無遺 eView</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/organizer_markets_info.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+</head>
+<body>
+  <!-- 共用 Header -->
+  <header class="site-header">
+    <div class="container header-content">
+      <!-- 左側：Logo 與標題 -->
+      <div class="logo-title">
+        <img src="image/logo.png" alt="藝覽無遺 Logo" class="logo" />
+        <h1 class="site-name">藝覽無遺 <span class="highlight">eView</span></h1>
+      </div>
+  
+      <!-- 中間：功能導覽 -->
+      <nav class="main-nav">
+        <a href="organizer_markets_info.html">市集設定</a>
+        <a href="organizer_map.html">會場佈置</a>
+        <a href="organizer_rewards.html">抽獎系統</a>
+      </nav>
+
+      <!-- 右側：使用者 Icon -->
+      <div class="user-icon">
+        <a href="user_info.html">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+               class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 
+                  11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+          </svg>
+        </a>
+      </div>
+  </header>
+
+<!--市集資訊-->
+<div class="tab-wrapper">
+    <aside class="tab-menu">
+      <button class="tab-btn active" data-tab="tab-info">市集資訊</button>
+      <button class="tab-btn" data-tab="tab-announcement">臨時公告</button>
+      <button class="tab-btn" data-tab="tab-schedule">節目表</button>
+    </aside>
+  
+    <div class="tab-content">
+      <!-- 市集資訊 -->
+      <section id="tab-info" class="tab-section active">
+        <h2>市集設定</h2>
+        <div class="form-grid">
+            <div class="form-group-vertical">
+              <label>市集名稱</label>
+              <input type="text" placeholder="請輸入市集名稱" />
+            </div>
+          
+            <div class="form-group-vertical">
+              <label>市集地點</label>
+              <input type="text" placeholder="請輸入地點" />
+            </div>
+          
+            <div class="form-group-vertical form-grid-full">
+                <label>市集舉辦時間</label>
+                <div id="event-times-container">
+                  <div class="event-time-row">
+                    <input type="date" />
+                    <input type="time" placeholder="開始時間"/>
+                    <input type="time" placeholder="結束時間"/>
+                    <button class="delete-btn" type="button">❌</button>
+                  </div>
+                </div>
+                <button type="button" id="add-event-time-btn" class="add-time-btn">＋ 新增時段</button>
+              </div>
+
+            <div class="form-group-vertical">
+              <label>招商開始時間</label>
+              <div class="time-range-row">
+                <input type="date" />
+                <input type="time"/>
+              </div>
+            </div>
+          
+            <div class="form-group-vertical">
+              <label>招商結束時間</label>
+              <div class="time-range-row">
+                <input type="date" />
+                <input type="time"/>
+              </div>
+            </div>
+          
+            <div class="form-group-vertical form-grid-full">
+                <label>市集簡介</label>
+                <textarea class="market-description" placeholder="請輸入簡介內容 (限150字以內)"></textarea>
+            </div>
+          
+            <div class="form-group-vertical form-grid-full">
+                <label>上傳市集 Banner (尺寸須為 1920*800 px)</label>
+                <label for="banner-upload" class="upload-box">
+                  <div class="upload-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                      class="bi bi-cloud-arrow-up-fill" viewBox="0 0 16 16">
+                      <path d="M8 2a5.53 5.53 0 0 0-3.594 1.342c-.766.66-1.321 1.52-1.464 2.383C1.266 6.095 0 7.555 0 9.318 0 11.366 1.708 13 3.781 13h8.906C14.502 13 16 11.57 16 9.773c0-1.636-1.242-2.969-2.834-3.194C12.923 3.999 10.69 2 8 2m2.354 5.146a.5.5 0 0 1-.708.708L8.5 6.707V10.5a.5.5 0 0 1-1 0V6.707L6.354 7.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0z"/>
+                    </svg>
+                  </div>
+                  <p>上傳圖片<br>或將圖片拖曳至此</p>
+                </label>
+                <input type="file" id="banner-upload" accept="image/*" style="display: none" />
+              </div>
+          
+            <div class="form-group-vertical form-grid-full">
+              <label>聯絡資訊</label>
+              <div class="social-group">
+                <input type="email" placeholder="example@gmail.com" />
+                <input type="text" placeholder="http://facebook.com/yourpage" />
+                <input type="text" placeholder="http://instagram.com/yourname" />
+                <input type="text" placeholder="@yourline" />
+                <input type="text" placeholder="http://yourwebsite.com" />
+              </div>
+            </div>
+          </div>
+          
+          <div class="btn-row">
+            <button class="cancel">取消</button>
+            <button class="submit">新增市集</button>
+          </div>     
+      </section>
+  
+      <section id="tab-announcement" class="tab-section">
+        <h2>臨時公告</h2>
+        <!-- 公告表單或資料區塊 -->
+      </section>
+  
+      <section id="tab-schedule" class="tab-section">
+        <h2>節目表</h2>
+        <!-- 節目表上傳區塊 -->
+      </section>
+    </div>
+  </div>
+
+    <!-- 共用 Footer -->
+  <footer>
+    <p>© 2025 eView. All Rights Reserved.</p>
+  </footer>
+  <div id="success-popup" class="popup hidden">
+    <div class="popup-content">
+      🎉 新增市集成功！
+    </div>
+<script src="js/scripts.js"></script>
+
+</body>
+</html>

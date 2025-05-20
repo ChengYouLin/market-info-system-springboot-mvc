@@ -170,6 +170,78 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     });
+
+    ////----- organizer_markets_info.html 頁面功能 ----- ////
+    // 左側欄篩選切換功能
+
+    document.querySelectorAll(".tab-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tab-btn").forEach((b) => b.classList.remove("active"));
+        document.querySelectorAll(".tab-section").forEach((sec) => sec.classList.remove("active"));
+    
+        btn.classList.add("active");
+        document.getElementById(btn.dataset.tab).classList.add("active");
+      });
+    });
+
+    // 時段選擇器
+    document.addEventListener("DOMContentLoaded", function () {
+      const eventTimesContainer = document.getElementById("event-times-container");
+      const addBtn = document.getElementById("add-event-time-btn");
+    
+      flatpickr("input[type='time']", {
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true,
+        disableMobile: true
+      });
+    
+      addBtn.addEventListener("click", function () {
+        const row = document.createElement("div");
+        row.className = "event-time-row";
+        row.innerHTML = `
+          <input type="date" />
+          <input type="time" placeholder="開始時間" />
+          <input type="time" placeholder="結束時間" />
+          <button class="delete-btn" type="button">❌</button>
+        `;
+        eventTimesContainer.appendChild(row);
+    
+        flatpickr(row.querySelectorAll("input[type='time']"), {
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: "H:i",
+          time_24hr: true,
+          disableMobile: true
+        });
+    
+        row.querySelector(".delete-btn").addEventListener("click", function () {
+          row.remove();
+        });
+      });
+    });
+
+    // 市集新增成功
+    document.addEventListener("DOMContentLoaded", function () {
+      const submitBtn = document.querySelector(".submit");
+      const popup = document.getElementById("success-popup");
+    
+      submitBtn.addEventListener("click", function () {
+        popup.classList.remove("hidden");
+        popup.classList.add("show");
+    
+        setTimeout(() => {
+          popup.classList.remove("show");
+          popup.classList.add("hidden");
+        }, 3000);
+      });
+    });
+    
+    
+    
+    
+    
     
    
       
