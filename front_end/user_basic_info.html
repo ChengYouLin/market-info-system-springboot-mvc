@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>會員中心 - 藝覽無遺 eView</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/user.css" />
+  <link rel="stylesheet" href="css/user_basic_info.css" />
 </head>
 <body>
   <!-- 共用 Header -->
@@ -31,7 +31,27 @@
         <a href="user_rewards.html">抽獎集點</a>
         <a href="user_leftover.html">剩食搜尋</a>
       </nav>
-  
+
+      <!-- 小鈴鐺 Icon -->
+      <div class="notification-wrapper">
+        <button id="notificationBtn" class="notification-btn" aria-label="查看通知">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+              class="bi bi-bell-fill" viewBox="0 0 16 16">
+            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+          </svg>
+        </button>
+
+        <!-- 小鈴鐺 彈出視窗內容 -->
+        <div id="notificationPopup" class="notification-popup" style="display: none;">
+          <p>您有 3 則新通知</p>
+          <ul>
+            <li>【耶誕市集】本次耶誕市集進場報到時間為 12/22(五)下午 14:00~17:00</li>
+            <li>【耶誕市集】各攤商若有用電需求，請於 12/20 前至後台填寫《用電申請表》</li>
+            <li>【耶誕市集】感謝各位支持本次「剩食分享區」活動！</li>
+          </ul>
+        </div>
+      </div>
+
       <!-- 右側：使用者 Icon -->
       <div class="user-icon">
         <a href="user_info.html">
@@ -46,7 +66,7 @@
       </div>
   </header>
 
-<!--個人資訊-->
+<!--基本資料-->
 <main class="user-main">
   <div class="user-info-title">
     <h2>基本資料</h2>

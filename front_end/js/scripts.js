@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
   
-    ////----- user_info.html 頁面功能 ----- ////
+    ////----- user_basic_info.html 頁面功能 ----- ////
     // 編輯個人資訊彈窗功能
     const openEditBtn = document.querySelector('.edit-trigger'); // 開啟用
     const editModal = document.getElementById('editModal');
@@ -154,6 +154,22 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
     
+    // basic_user 小鈴鐺 popup
+    document.addEventListener("DOMContentLoaded", () => {
+      const notificationBtn = document.getElementById("notificationBtn");
+      const notificationPopup = document.getElementById("notificationPopup");
+  
+      notificationBtn.addEventListener("click", () => {
+        const isVisible = notificationPopup.style.display === "block";
+        notificationPopup.style.display = isVisible ? "none" : "block";
+      });
+  
+      document.addEventListener("click", (e) => {
+        if (!notificationBtn.contains(e.target) && !notificationPopup.contains(e.target)) {
+          notificationPopup.style.display = "none";
+        }
+      });
+    });
     
    
       
