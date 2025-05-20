@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>會員中心 - 藝覽無遺 eView</title>
   <link rel="stylesheet" href="css/style.css" />
-  <link rel="stylesheet" href="css/user_basic_info.css" />
+  <link rel="stylesheet" href="css/user_basic_info.css" /> <!-- 共用 Header&Footer -->
 </head>
 <body>
   <!-- 共用 Header -->
@@ -54,7 +54,7 @@
 
       <!-- 右側：使用者 Icon -->
       <div class="user-icon">
-        <a href="user_info.html">
+        <a href="user_basic_info.html">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
                class="bi bi-person-circle" viewBox="0 0 16 16">
             <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
@@ -154,6 +154,42 @@
   <footer>
     <p>© 2025 eView. All Rights Reserved.</p>
   </footer>
+
+  <!-- 商品類型篩選 popup -->
+  <!-- 商品類型篩選 popup -->
+  <div id="filter-popup" class="filter-popup hidden" role="dialog" aria-modal="true">
+    <div class="filter-content">
+      <h2>商品類型篩選（可複選）</h2>
+      
+      <!-- 可加 aria-label 做可及性 -->
+      <div class="filter-options" role="group" aria-label="篩選標籤群組">
+        <button class="tag" data-value="小吃／熟食">小吃／熟食</button>
+        <button class="tag" data-value="甜點／烘焙">甜點／烘焙</button>
+        <button class="tag" data-value="飲品／咖啡">飲品／咖啡</button>
+        <button class="tag" data-value="農產加工品">農產加工品</button>
+        <button class="tag" data-value="香氛與清潔用品">香氛與清潔用品</button>
+        <button class="tag" data-value="手作飾品">手作飾品</button>
+        <button class="tag" data-value="布作與皮件">布作與皮件</button>
+        <button class="tag" data-value="插畫與文創商品">插畫與文創商品</button>
+        <button class="tag" data-value="文具與手帳用品">文具與手帳用品</button>
+        <button class="tag" data-value="植栽與花藝">植栽與花藝</button>
+        <button class="tag" data-value="居家擺飾與木工">居家擺飾與木工</button>
+        <button class="tag" data-value="衣物與配件">衣物與配件</button>
+        <button class="tag" data-value="寵物用品">寵物用品</button>
+        <button class="tag" data-value="書籍與出版品">書籍與出版品</button>
+        <button class="tag" data-value="藝文／體驗活動">藝文／體驗活動</button>
+        <button class="tag" data-value="原民／在地工藝">原民／在地工藝</button>
+        <button class="tag" data-value="二手選物／環保">二手選物／環保</button>
+        <button class="tag" data-value="其他">其他</button>
+      </div>
+      <div class="popup-footer">
+        <button class="cancel-filter">取消</button>
+        <button class="apply-filter">進行篩選</button>
+      </div>
+    </div>
+  </div>
+
+
   <script src="js/scripts.js"></script>
 </body>
 </html>

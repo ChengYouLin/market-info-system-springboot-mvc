@@ -102,75 +102,131 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   
     ////----- user_basic_info.html 頁面功能 ----- ////
-    // 編輯個人資訊彈窗功能
-    const openEditBtn = document.querySelector('.edit-trigger'); // 開啟用
-    const editModal = document.getElementById('editModal');
-    const closeEditBtn = document.querySelector('.edit-close-btn'); // 可選
-    
-    if (openEditBtn && editModal) {
-      openEditBtn.addEventListener('click', () => {
-        editModal.style.display = 'flex';
-      });
-    
-      // 點擊 modal 背景關閉
-      window.addEventListener('click', (e) => {
-        if (e.target === editModal) {
-          editModal.style.display = 'none';
-        }
-      });
-    
-      // 如果有 ✕ 按鈕也能關閉
-      closeEditBtn?.addEventListener('click', () => {
-        editModal.style.display = 'none';
-      });
-    }
-
-    // 基本資料 & 收藏清單切換標籤邏輯
     document.addEventListener("DOMContentLoaded", () => {
+      // 編輯個人資訊彈窗功能
+      const openEditBtn = document.querySelector('.edit-trigger');
+      const editModal = document.getElementById('editModal');
+      const closeEditBtn = document.querySelector('.edit-close-btn');
+    
+      if (openEditBtn && editModal) {
+        openEditBtn.addEventListener('click', () => {
+          editModal.style.display = 'flex';
+        });
+    
+        window.addEventListener('click', (e) => {
+          if (e.target === editModal) {
+            editModal.style.display = 'none';
+          }
+        });
+    
+        closeEditBtn?.addEventListener('click', () => {
+          editModal.style.display = 'none';
+        });
+      }
+    
+      // 基本資料 & 收藏清單切換標籤邏輯
       const tabInfo = document.getElementById("tab-info");
       const tabFavorites = document.getElementById("tab-favorites");
       const sectionInfo = document.getElementById("section-info");
       const sectionFavorites = document.getElementById("section-favorites");
       const avatarBlock = document.getElementById("avatar-block");
     
-      tabInfo.addEventListener("click", () => {
+      tabInfo?.addEventListener("click", () => {
         tabInfo.classList.add("active");
         tabFavorites.classList.remove("active");
-    
         sectionInfo.style.display = "block";
         sectionFavorites.style.display = "none";
-    
         if (avatarBlock) avatarBlock.style.display = "flex";
       });
     
-      tabFavorites.addEventListener("click", () => {
+      tabFavorites?.addEventListener("click", () => {
         tabFavorites.classList.add("active");
         tabInfo.classList.remove("active");
-    
         sectionFavorites.style.display = "block";
         sectionInfo.style.display = "none";
-    
         if (avatarBlock) avatarBlock.style.display = "none";
       });
-    });
     
-    // basic_user 小鈴鐺 popup
-    document.addEventListener("DOMContentLoaded", () => {
+      // 小鈴鐺 popup
       const notificationBtn = document.getElementById("notificationBtn");
       const notificationPopup = document.getElementById("notificationPopup");
-  
-      notificationBtn.addEventListener("click", () => {
+    
+      notificationBtn?.addEventListener("click", () => {
         const isVisible = notificationPopup.style.display === "block";
         notificationPopup.style.display = isVisible ? "none" : "block";
       });
-  
+    
       document.addEventListener("click", (e) => {
-        if (!notificationBtn.contains(e.target) && !notificationPopup.contains(e.target)) {
+        if (
+          !notificationBtn?.contains(e.target) &&
+          !notificationPopup?.contains(e.target)
+        ) {
           notificationPopup.style.display = "none";
         }
       });
+    
+      // 商品篩選 popup
+      const popup = document.getElementById("filter-popup");
+      const filterBtn = document.querySelector(".filter-btn");
+      const cancelBtn = document.querySelector(".cancel-filter");
+      const applyBtn = document.querySelector(".apply-filter");
+      const tagButtons = document.querySelectorAll(".tag");
+    
+      filterBtn?.addEventListener("click", () => {
+        popup.classList.remove("hidden");
+      });
+    
+      cancelBtn?.addEventListener("click", () => {
+        popup.classList.add("hidden");
+      });
+    
+      tagButtons.forEach(btn => {
+        btn.addEventListener("click", () => {
+          btn.classList.toggle("active");
+        });
+      });
+    
+      applyBtn?.addEventListener("click", () => {
+        const selected = [...tagButtons]
+          .filter(btn => btn.classList.contains("active"))
+          .map(btn => encodeURIComponent(btn.textContent.trim()));
+    
+        const query = selected.length
+          ? `?types=${selected.join(",")}`
+          : "";
+    
+          window.location.href = "user_map.html";
+      });
     });
-
+    
+    // 商品篩選成功跳轉到 user_map 專屬頁面
+    document.addEventListener("DOMContentLoaded", () => {
+      const selectedTags = JSON.parse(localStorage.getItem("selectedTags") || "[]");
+    
+      const defaultMap = document.getElementById("map-default");
+      const filteredMap = document.getElementById("map-filtered");
+      const selectedText = document.getElementById("selected-types-text");
+      const booths = document.querySelectorAll(".booth");
+    
+      if (selectedTags.length > 0) {
+        defaultMap.style.display = "none";
+        filteredMap.style.display = "block";
+        selectedText.textContent = `目前篩選：${selectedTags.join("、")}`;
+    
+        booths.forEach(booth => {
+          const tag = booth.dataset.value?.trim();
+          if (selectedTags.includes(tag)) {
+            booth.classList.add("highlight");
+          } else {
+            booth.classList.remove("highlight");
+          }
+        });
+      } else {
+        defaultMap.style.display = "block";
+        filteredMap.style.display = "none";
+      }
+    });
+  
     ////----- organizer_markets_info.html 頁面功能 ----- ////
     // 左側欄篩選切換功能
 
