@@ -100,7 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         }
       });
-  
+
     ////----- user_basic_info.html 頁面功能 ----- ////
     document.addEventListener("DOMContentLoaded", () => {
       // 編輯個人資訊彈窗功能
@@ -147,7 +147,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (avatarBlock) avatarBlock.style.display = "none";
       });
     
-      // 小鈴鐺 popup
+      // 小鈴鐺 popup(user共用功能)
       const notificationBtn = document.getElementById("notificationBtn");
       const notificationPopup = document.getElementById("notificationPopup");
     
@@ -165,7 +165,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
     
-      // 商品篩選 popup
+      // 商品篩選 popup(user共用功能)
       const popup = document.getElementById("filter-popup");
       const filterBtn = document.querySelector(".filter-btn");
       const cancelBtn = document.querySelector(".cancel-filter");
@@ -199,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
     
-    // 商品篩選成功跳轉到 user_map 專屬頁面
+    // 商品篩選成功跳轉到 user_map 專屬頁面(user共用功能)
     document.addEventListener("DOMContentLoaded", () => {
       const selectedTags = JSON.parse(localStorage.getItem("selectedTags") || "[]");
     
@@ -226,7 +226,77 @@ document.addEventListener("DOMContentLoaded", () => {
         filteredMap.style.display = "none";
       }
     });
-  
+    
+    // 點擊查看更多看更多市集資訊
+    document.addEventListener('DOMContentLoaded', () => {
+      const popup = document.getElementById('market-detail-popup');
+      const closeBtn = popup.querySelector('.close-popup');
+    
+      // 綁定每一個 "查看更多" 按鈕的點擊事件
+      document.querySelectorAll('.market-card .btn').forEach(button => {
+        button.addEventListener('click', async (e) => {
+          e.preventDefault();
+    
+          const card = button.closest('.market-card');
+          const title = card.querySelector('h3')?.innerText.trim().split('(')[0];
+    
+          try {
+            const res = await fetch(`/api/market-detail?title=${encodeURIComponent(title)}`);
+            const data = await res.json();
+    
+            // 填入標題與基本資訊
+            document.getElementById('popup-title').textContent = data.title;
+            document.getElementById('popup-info').innerHTML = `
+              <li><strong>活動日期：</strong>${data.date}</li>
+              <li><strong>攤攤時間：</strong>${data.time}</li>
+              <li><strong>市集地點：</strong>${data.location}</li>
+            `;
+            document.getElementById('popup-description').textContent = data.description;
+    
+            // 多張節目表圖片
+            const scheduleGallery = document.getElementById('popup-schedule');
+            scheduleGallery.innerHTML = '';
+            data.scheduleImages.forEach(src => {
+              const img = document.createElement('img');
+              img.src = src;
+              img.alt = '節目表圖片';
+              img.style.width = '100%';
+              img.style.maxWidth = '500px';
+              img.style.borderRadius = '10px';
+              img.style.marginBottom = '1rem';
+              scheduleGallery.appendChild(img);
+            });
+    
+            // 聯絡資訊
+            document.getElementById('popup-contact').innerHTML = `
+              <li><strong>Email：</strong>${data.contact.email}</li>
+              <li><strong>Instagram：</strong><a href="${data.contact.instagram}" target="_blank">連結</a></li>
+              <li><strong>報名連結：</strong><a href="${data.contact.link}" target="_blank">點我前往</a></li>
+            `;
+    
+            popup.classList.remove('hidden');
+          } catch (err) {
+            alert('無法載入市集資料');
+            console.error(err);
+          }
+        });
+      });
+    
+      // 點擊關閉按鈕時關閉彈出視窗
+      if (closeBtn) {
+        closeBtn.addEventListener('click', () => {
+          popup.classList.add('hidden');
+        });
+      }
+    
+      // 點擊彈出視窗背景時關閉彈出視窗
+      popup.addEventListener('click', (e) => {
+        if (e.target === popup) {
+          popup.classList.add('hidden');
+        }
+      });
+    });    
+    
     ////----- organizer_markets_info.html 頁面功能 ----- ////
     // 左側欄篩選切換功能
 
