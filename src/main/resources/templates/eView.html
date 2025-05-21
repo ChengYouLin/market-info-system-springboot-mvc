@@ -230,7 +230,7 @@
             </div>
             <div th:if="${!#lists.isEmpty(recruitingMarkets)}">
                 <div th:each="market : ${recruitingMarkets}" class="market-card fade-in">
-                    <img src="../static/images/marketList.png" alt="market">
+                    <img src="../static/images/marketImage6.png" alt="market">
                     <div>
                         <h4 th:text="${market.title}">市集名稱</h4>
                         <p>時間：<span th:text="${market.startDate}"></span> - <span th:text="${market.endDate}"></span>
@@ -245,6 +245,7 @@
     </section>
 
     <!-- Footer -->
+    <br>
     <footer>
         <p>© 2025 eView. All Rights Reserved.</p>
     </footer>
