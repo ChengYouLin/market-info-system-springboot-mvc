@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>會場地圖</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f5f5f5;
+        }
+        .main-wrapper {
+            width: 80%;
+            margin: 100px auto;
+        }
+        .map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .map-container {
+            position: relative;
+            background-color: #fdf0d8;
+            border-radius: 30px;
+            padding: 30px;
+            height: 500px;
+            margin-bottom: 40px;
+        }
+        .booth-btn {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background-color: #ccc;
+            color: #073046;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .btn-colored {
+            background-color: #ffa726 !important;
+            color: white !important;
+        }
+        .vendor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .vendor-card {
+            border: 2px solid #333;
+            border-radius: 20px;
+            padding: 15px 20px;
+            background-color: white;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+        .modal-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            z-index: 1001;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+        .modal-content {
+            position: relative;
+        }
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 40px;
+        }
+.filter-btn {
+    display: inline-block;
+    cursor: pointer;
+    border: 2px solid #ccc;
+    background-color: white;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: bold;
+    color: #444;
+    transition: 0.2s;
+    user-select: none;
+}
+
+.filter-btn input:checked + span,
+.filter-btn:has(input:checked) {
+    background-color: #ff7043;
+    color: white;
+    border-color: #ff7043;
+}
+
+    </style>
+</head>
+
+<body>
+<div class="main-wrapper">
+    <div class="map-header">
+        <h2>會場地圖</h2>
+        <button class="btn btn-warning" onclick="showFilter()">篩選器</button>
+    </div>
+
+    <!-- 地圖區塊 -->
+    <div class="map-container">
+        <button th:each="booth : ${booths}"
+                th:text="${booth.code}"
+                th:classappend="${booth.highlighted} ? ' btn-colored' : ''"
+                class="booth-btn">
+        </button>
+    </div>
+
+    <!-- 攤商卡片區塊
+    <div class="vendor-grid">
+        <div th:each="vendor : ${filteredVendors}" class="vendor-card">
+            <h5 class="fw-bold" th:text="${vendor.name}">攤商名</h5>
+            <div th:each="product : ${vendor.filteredProducts}">
+                <div class="d-flex justify-content-between">
+                    <span th:text="${product.name}">商品</span>
+                    <span th:text="${product.price}">價錢</span>
+                </div>
+            </div>
+        </div>
+    </div>-->
+</div>
+
+<!-- 篩選器遮罩與彈窗 -->
+<div id="filterOverlay" class="modal-overlay" onclick="closeFilter()"></div>
+
+<form id="filterModal" th:action="@{/map/filter}" method="post" class="modal-box" onclick="event.stopPropagation()">
+    <div class="modal-content">
+        <h4 class="text-center fw-bold">商品類型篩選（可複選）</h4>
+
+        <div class="filter-grid text-center mt-3">
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="小吃/熟食" hidden>
+                小吃/熟食
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="甜點/烘焙" hidden>
+                甜點/烘焙
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="飲品/咖啡" hidden>
+                飲品／咖啡
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="農產加工品" hidden>
+                農產加工品
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="香氛與清潔用品" hidden>
+                香氛與清潔用品
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="手作飾品" hidden>
+                手作飾品
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="布作與皮件" hidden>
+                布作與皮件
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="插畫與文創商品" hidden>
+                插畫與文創商品
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="文具與手帳用品" hidden>
+                文具與手帳用品
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="植栽與花藝" hidden>
+                植栽與花藝
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="居家擺飾與木工" hidden>
+                居家擺飾與木工
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="衣物與配件" hidden>
+                衣物與配件
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="寵物用品" hidden>
+                寵物用品
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value=書籍與出版品" hidden>
+                書籍與出版品
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="藝文/體驗活動" hidden>
+                藝文/體驗活動
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="原民/在地工藝" hidden>
+                原民/在地工藝
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="二手選物/環保" hidden>
+                二手選物/環保
+            </label>
+            <label class="filter-btn">
+                <input type="checkbox" name="categories" value="其他" hidden>
+                其他
+            </label>
+        </div>
+        <div class="text-center mt-4 d-flex justify-content-around">
+            <button type="button" class="btn btn-secondary px-4" onclick="closeFilter()">取消</button>
+            <button type="submit" class="btn btn-danger px-4">進行篩選</button>
+        </div>
+    </div>
+</form>
+<!-- 🧾 篩選結果區塊（動態版）每排最多三個 -->
+<div class="filtered-vendor-wrapper">
+  <div class="filtered-vendor-grid mt-5">
+      <div th:each="vendor : ${filteredVendors}" class="vendor-card" th:onclick="'openVendorModal(\'' + ${vendor.code} + '\')'">
+          <h5 class="fw-bold mb-2" th:text="'編號 ' + ${vendor.code} + '｜' + ${vendor.name}">攤商名稱</h5>
+          <div class="product-item" th:each="product : ${vendor.filteredProducts}">
+              <div class="d-flex justify-content-between">
+                  <span th:text="${product.name}">商品名</span>
+                  <span th:text="${product.price}">價格</span>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+
+<style>
+.filtered-vendor-wrapper {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.filtered-vendor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 30px;
+}
+
+.vendor-card {
+    border: 2px solid #222;
+    border-radius: 20px;
+    padding: 20px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    box-shadow: 2px 2px 6px rgba(0,0,0,0.05);
+}
+
+.vendor-card:hover {
+    transform: scale(1.02);
+    box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+}
+
+.product-item {
+    margin-top: 5px;
+    font-size: 15px;
+}
+</style>
+
+<script>
+    let selectedCategories = [];
+
+    function toggleCategory(btn, category) {
+        btn.classList.toggle("active");
+        if (btn.classList.contains("active")) {
+            selectedCategories.push(category);
+        } else {
+            selectedCategories = selectedCategories.filter(c => c !== category);
+        }
+    }
+
+    function showFilter() {
+        document.getElementById('filterModal').style.display = 'block';
+        document.getElementById('filterOverlay').style.display = 'block';
+    }
+
+    function closeFilter() {
+        document.getElementById('filterModal').style.display = 'none';
+        document.getElementById('filterOverlay').style.display = 'none';
+        selectedCategories = [];
+    }
+
+    function submitFilter() {
+        fetch("/filter", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ categories: selectedCategories })
+        })
+        .then(response => response.text())
+        .then(data => {
+            window.location.href = "/map?filter=true";
+        });
+    }
+</script>
+
+</body>
+</html>

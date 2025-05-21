@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>攤位申請</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+                        footer {
+            background-color: #073046;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        body {
+
+            color: #073046;
+        }
+
+        header {
+            background-color: #F7DEA0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .header-content {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-weight: bold;
+            height: 100%;
+            gap: 10px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: #073046;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #073046;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: #ff8c00;
+            transition: width 0.3s;
+        }
+
+        .nav-btn:hover::after,
+        .nav-btn.active::after {
+            width: 100%;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #ff8c00;
+        }
+        #notification-icon i,
+        .btn-link i {
+            color: #073046;
+            vertical-align: middle;
+        }
+        .main-title {
+            width: 80%;
+            margin: 100px auto 10px auto;
+            text-align: left;
+            font-size: 30px;
+            font-weight: bold;
+            color: #073046;
+        }
+
+        .section-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .section-inner {
+            width: 80%;
+            background-color: #fdf0d8;
+            padding: 10px 80px;
+            border-radius: 16px;
+            min-height: 850px;
+            position: relative;
+            color: #073046;
+            font-size: 18px;
+        }
+
+        .form-section {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+        }
+
+        .form-column {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-inner {
+            width: 80%;
+        }
+
+        .form-control,
+        textarea,
+        input[type="file"] {
+            border-radius: 16px !important;
+            border: 1px solid #ccc;
+            padding: 14px 18px;
+            font-size: 18px;
+            color: #073046;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 8px;
+            margin-top: 24px;
+            font-size: 18px;
+            color: #073046;
+        }
+
+        .upload-box {
+            border: 2px dashed #ccc;
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            background-color: white;
+            color: #073046;
+            font-size: 18px;
+        }
+
+        .upload-box p {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+
+
+        .upload-box i {
+            font-size: 2rem;
+            color: #777;
+        }
+
+
+        .submit-btn {
+            position: absolute;
+            bottom: 30px;
+            right: 40px;
+            padding: 14px 40px;
+            font-size: 18px;
+            border-radius: 16px;
+        }
+
+        #notification-box {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+
+    <script>
+        function toggleNotificationBox() {
+            const box = document.getElementById('notification-box');
+            box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+        }
+
+        window.onclick = function (event) {
+            const box = document.getElementById('notification-box');
+            if (event.target.closest('#notification-icon') == null && event.target.closest('#notification-box') == null) {
+                box.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="../static/images/logo.png" alt="logo">
+                <span class="logo-text">藝覽無遺 eView</span>
+            </div>
+            <div class="d-flex align-items-center" style="gap: 10px;">
+                <form th:action="@{/marketHome}" method="get"><button class="nav-btn">攤位資訊</button></form>
+                <form th:action="@{/map}" method="get"><button class="nav-btn">商品上架</button></form>
+                <form th:action="@{/activity}" method="get"><button class="nav-btn">剩食更新</button></form>
+                <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
+                    <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
+                </button>
+                <form th:action="@{/profile}" method="get">
+                    <button class="btn btn-link"><i class="bi bi-person-circle" style="font-size: 1.5rem;"></i></button>
+                </form>
+            </div>
+        </div>
+        <div id="notification-box">
+            <h5>通知</h5>
+            <div th:if="${notices.size()} == 0">目前沒有公告消息</div>
+            <div th:each="notice : ${notices}" style="margin-top: 10px;">
+                <p><strong>【<span th:text="${notice.marketName}"></span>】</strong> 發布時間: <span
+                        th:text="${notice.time}"></span></p>
+                <p th:text="${notice.title}"></p>
+                <p th:text="${notice.content}"></p>
+                <hr />
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <h2 class="main-title" th:text="'攤位申請資訊－' + ${marketName}">攤位申請資訊－市集名稱</h2>
+        <div class="section-wrapper">
+            <div class="section-inner">
+                <form th:action="@{/vendor/apply}" th:object="${vendor}" method="post" enctype="multipart/form-data">
+                    <div class="form-section">
+                        <!-- 左欄 -->
+                        <div class="form-column">
+                            <div class="form-inner">
+                                <label>攤商名稱</label>
+                                <input type="text" th:field="*{name}" class="form-control" placeholder="請輸入攤商名稱">
+
+                                <label>攤商介紹</label>
+                                <textarea th:field="*{description}" class="form-control" rows="5"
+                                    placeholder="請輸入簡介"></textarea>
+
+                                <label>上傳 LOGO（尺寸必須為 1080*1080 px）</label>
+                                <div class="upload-box">
+                                    <i class="bi bi-cloud-arrow-up"></i>
+                                    <p>上傳圖片<br>或將圖片拖曳至此</p>
+                                    <input type="file" th:field="*{logoFile}" accept="image/*"
+                                        class="form-control mt-2">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 右欄 -->
+                        <div class="form-column">
+                            <div class="form-inner">
+                                <label>Email</label>
+                                <input type="email" th:field="*{email}" class="form-control"
+                                    placeholder="example@gmail.com">
+
+                                <label>Facebook</label>
+                                <input type="url" th:field="*{facebook}" class="form-control"
+                                    placeholder="http://facebook.com/yourpage">
+
+                                <label>Instagram</label>
+                                <input type="url" th:field="*{instagram}" class="form-control"
+                                    placeholder="http://instagram.com/yourpage">
+
+                                <label>LINE</label>
+                                <input type="text" th:field="*{line}" class="form-control" placeholder="@yourline">
+
+                                <label>Website</label>
+                                <input type="url" th:field="*{website}" class="form-control"
+                                    placeholder="http://yourwebsite.com">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 右下角提交按鈕 -->
+                    <button type="submit" class="btn btn-warning submit-btn">提交申請</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <br>
+    <footer>
+        <p>© 2025 eView. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>

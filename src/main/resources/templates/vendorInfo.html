@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>攤位資訊 - eView</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        footer {
+            background-color: #073046;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header {
+            background-color: #F7DEA0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .header-content {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-weight: bold;
+            height: 100%;
+            gap: 10px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: #073046;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #073046;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: #ff8c00;
+            transition: width 0.3s;
+        }
+
+        .nav-btn:hover::after,
+        .nav-btn.active::after {
+            width: 100%;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #ff8c00;
+        }
+
+        #notification-icon i,
+        .btn-link i {
+            color: #073046;
+            vertical-align: middle;
+        }
+
+        #notification-box {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+
+        body {
+            padding-top: 80px;
+            background-color: #fffefc;
+        }
+
+        .main-container {
+            width: 80%;
+            margin: auto;
+            display: flex;
+            gap: 20px;
+        }
+
+        .info-left {
+            width: 20%;
+            background-color: #fdf0d8;
+            border-radius: 16px;
+            height: 700px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .info-left button {
+            width: 80%;
+            height: 60px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+        }
+
+        .info-left .active {
+            background-color: #FF725E;
+        }
+
+        .info-left .inactive {
+            background-color: #C4C4C4;
+        }
+
+        /* 選擇器外觀 */
+        .selector-box {
+            display: inline-block;
+            background-color: #fff;
+            padding: 6px 12px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #777;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .stamp-code {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .selector-box.selected {
+            color: #333;
+            border-color: #666;
+        }
+
+
+        .btn-market-option {
+            border: 2px solid #ccc;
+            background-color: white;
+            color: #333;
+            font-weight: bold;
+            border-radius: 12px;
+            padding: 12px;
+            transition: 0.2s;
+            width: 100%;
+            text-align: center;
+        }
+
+        .btn-market-option:hover {
+            background-color: #FF7043;
+            color: white;
+            border-color: #FF7043;
+            cursor: pointer;
+        }
+
+        .btn-market-option.selected {
+            background-color: #FF7043;
+            color: white;
+            border-color: #FF7043;
+        }
+
+
+        .content-area {
+            width: 80%;
+
+        }
+
+        .rounded-box {
+            padding: 30px;
+            border-radius: 16px;
+            min-height: 400px;
+        }
+
+        .qr-image {
+            display: block;
+            margin: 30px auto 0;
+            width: 200px;
+        }
+
+        .market-card {
+            background-color: #fffaf0;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+            min-height: 160px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .market-left {
+            flex: 1;
+            padding: 24px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .market-right {
+            flex: 1;
+            padding: 24px 32px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .market-info {
+            margin-bottom: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .status-box-clickable {
+            width: 160px;
+            border-radius: 0 16px 16px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 18px;
+            padding: 10px;
+            text-decoration: none;
+        }
+
+        .bg-invite {
+            background-color: #5cb8ff;
+        }
+
+        .status-box-clickable:hover {
+            opacity: 0.9;
+            cursor: pointer;
+        }
+
+        .modal-content {
+            border-radius: 16px;
+        }
+
+        /*詳細資訊的設定*/
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            z-index: 1040;
+            display: none;
+        }
+
+        .modal-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 60%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px;
+            z-index: 1050;
+            display: none;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .modal-content {
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #888;
+            cursor: pointer;
+        }
+
+        .modal-header {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .vendor-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 16px;
+            object-fit: cover;
+            border: 2px solid #ccc;
+        }
+
+        .vendor-info {
+            flex-grow: 1;
+        }
+
+        #vendorLinks a {
+            margin-right: 10px;
+            font-weight: bold;
+            text-decoration: underline;
+            color: #0d6efd;
+        }
+    </style>
+    <script>
+        function toggleNotificationBox() {
+            const box = document.getElementById('notification-box');
+            box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+        }
+        window.onclick = function (event) {
+            const box = document.getElementById('notification-box');
+            if (event.target.closest('#notification-icon') == null && event.target.closest('#notification-box') == null) {
+                box.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <!-- Header 區塊 -->
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="../static/images/logo.png" alt="logo">
+                <span class="logo-text">藝覽無遺 eView</span>
+            </div>
+            <div class="d-flex align-items-center" style="gap: 10px;">
+                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                    <button class="nav-btn active">攤位資訊</button>
+                </form>
+                <form th:action="@{/map}" method="get" style="display:inline;">
+                    <button class="nav-btn ">商品上架</button>
+                </form>
+                <form th:action="@{/activity}" method="get" style="display:inline;">
+                    <button class="nav-btn">剩食更新</button>
+                </form>
+                <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
+                    <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
+                </button>
+
+                <form th:action="@{/profile}" method="get">
+                    <button class="btn btn-link">
+                        <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                    </button>
+                </form>
+
+
+            </div>
+        </div>
+        <div id="notification-box">
+            <h5>通知</h5>
+            <div th:if="${notices.size()} == 0">目前沒有公告消息</div>
+            <div th:each="notice : ${notices}" style="margin-top: 10px;">
+                <p><strong>【<span th:text="${notice.marketName}"></span>】</strong> 發布時間: <span
+                        th:text="${notice.time}"></span></p>
+                <p th:text="${notice.title}"></p>
+                <p th:text="${notice.content}"></p>
+                <hr />
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+
+        <!-- 左側側邊欄 -->
+        <div class="info-left">
+            <button class="active" onclick="showSection('qr', this)">集點 QR Code</button>
+            <button class="inactive" onclick="showSection('record', this)">市集申請紀錄</button>
+        </div>
+
+        <!-- 右側內容區 -->
+        <div class="content-area">
+
+            <!-- QR Code 區塊 -->
+            <div id="qr-section" class="rounded-box" style="display: block;">
+                <!-- 選擇器作為標題 -->
+                <h4>
+                    <span id="marketSelector" class="selector-box" onclick="openMarketModal()">請點擊選擇市集</span> － 集點活動
+                </h4>
+
+
+                <!-- 攤位與代碼 -->
+                <div class="mt-4">
+                    <p class="market-info">攤位名稱：不能夠有你</p>
+                    <p class="stamp-code">集點代碼：STMP223456</p>
+                    <img src="../static/images/QRcode.png" alt="QR Code" class="qr-image">
+                </div>
+            </div>
+
+
+
+            <div id="record-section" class="rounded-box" style="display: none;">
+                <h4>市集申請紀錄</h4>
+                <p>請點擊「開始招商」按鈕進行申請！</p>
+
+                <!-- 狀態 1：審核中 -->
+                <div class="market-card mb-4">
+                    <div class="market-left">
+                        <h5 class="fw-bold">金勾貝爾市集</h5>
+                        <div class="market-info">主辦單位：哈哈哈哈集團</div>
+                        <div class="market-info">日期：2234/4/5 - 2234/4/10</div>
+                    </div>
+                    <div class="market-right">
+                        <div class="market-info">攤位名稱：不能夠有你</div>
+                        <a href="javascript:void(0)" onclick="openVendorModal()"
+                            class="text-primary fw-bold text-decoration-none">詳細申請資訊</a>
+                    </div>
+                    <div class="status-box-clickable" style="background-color:#f3cc69; cursor: default;">審核中</div>
+                </div>
+
+                <!-- 狀態 2：已通過 -->
+                <div class="market-card mb-4">
+                    <div class="market-left">
+                        <h5 class="fw-bold">金勾貝爾市集</h5>
+                        <div class="market-info">主辦單位：哈哈哈哈集團</div>
+                        <div class="market-info">日期：2234/4/5 - 2234/4/10</div>
+                    </div>
+                    <div class="market-right">
+                        <div class="market-info">攤位名稱：不能夠有你</div>
+                        <a href="javascript:void(0)" onclick="openVendorModal()"
+                            class="text-primary fw-bold text-decoration-none">詳細申請資訊</a>
+                    </div>
+                    <div class="status-box-clickable" style="background-color:#85d96f; cursor: default;">已通過</div>
+                </div>
+
+                <!-- 狀態 3：未通過 -->
+                <div class="market-card mb-4">
+                    <div class="market-left">
+                        <h5 class="fw-bold">金勾貝爾市集</h5>
+                        <div class="market-info">主辦單位：哈哈哈哈集團</div>
+                        <div class="market-info">日期：2234/4/5 - 2234/4/10</div>
+                    </div>
+                    <div class="market-right">
+                        <div class="market-info">攤位名稱：不能夠有你</div>
+                        <a href="javascript:void(0)" onclick="openVendorModal()"
+                            class="text-primary fw-bold text-decoration-none">詳細申請資訊</a>
+                    </div>
+                    <div class="status-box-clickable" style="background-color:#f59494; cursor: default;">未通過</div>
+                </div>
+
+                <!-- 狀態 4：開始招商（可點擊） -->
+                <div class="market-card mb-4">
+                    <div class="market-left">
+                        <h5 class="fw-bold">金勾貝爾市集</h5>
+                        <div class="market-info">主辦單位：哈哈哈哈集團</div>
+                        <div class="market-info">日期：2234/4/5 - 2234/4/10</div>
+                    </div>
+                    <div class="market-right">
+                        <div class="market-info">攤位名稱：不能夠有你</div>
+                        <a href="javascript:void(0)" onclick="openVendorModal()"
+                            class="text-primary fw-bold text-decoration-none">詳細申請資訊</a>
+                    </div>
+                    <a href="/market/open/123" class="status-box-clickable bg-invite">開始招商</a>
+                </div>
+            </div>
+
+
+            <!-- 市集 Modal -->
+            <div class="modal fade" id="marketModal" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content p-4">
+                        <h5>請選擇市集</h5>
+                        <div class="d-grid gap-2">
+                            <button class="btn-market-option" onclick="selectMarket('金勾貝爾市集')">金勾貝爾市集</button>
+                            <button class="btn-market-option" onclick="selectMarket('馬戲公益市集')">馬戲公益市集</button>
+                            <button class="btn-market-option" onclick="selectMarket('世界嘉年華')">世界嘉年華</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- 詳細申請 Modal -->
+            <!-- 🔲 背景遮罩 -->
+            <div id="modalOverlay" class="modal-overlay" onclick="closeModals()"></div>
+
+            <!-- 🏪 攤商詳細資訊 Modal -->
+            <div id="vendorModal" class="modal-box">
+                <div class="modal-content" onclick="event.stopPropagation()">
+                    <span class="close-btn" onclick="closeModals()">&times;</span>
+
+                    <div class="modal-header">
+                        <img src="../static/images/vendor.png" class="vendor-img" />
+                        <div class="vendor-info">
+                            <h4 id="vendorTitle">A1 – 攤商名字</h4>
+                            <p id="vendorDesc">這是簡介文字，這裡可以寫一些關於攤商的介紹與特色內容。</p>
+                            <h6>聯絡方式</h6>
+                            <div id="vendorLinks">
+                                <a href="#">Facebook</a>
+                                <a href="#">Instagram</a>
+                                <a href="#">LINE</a>
+                                <a href="#">網站</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <h5><strong>商品品項</strong></h5>
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>名稱</th>
+                                <th>類別</th>
+                                <th>價錢</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productList">
+                            <tr>
+                                <td>手工果醬</td>
+                                <td>食品</td>
+                                <td>NT$150</td>
+                            </tr>
+                            <tr>
+                                <td>陶瓷杯</td>
+                                <td>生活用品</td>
+                                <td>NT$350</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function openVendorModal() {
+            document.getElementById('modalOverlay').style.display = 'block';
+            document.getElementById('vendorModal').style.display = 'block';
+        }
+
+        function closeModals() {
+            document.getElementById('modalOverlay').style.display = 'none';
+            document.getElementById('vendorModal').style.display = 'none';
+        }
+
+        function showSection(section, button) {
+            document.getElementById('qr-section').style.display = (section === 'qr') ? 'block' : 'none';
+            document.getElementById('record-section').style.display = (section === 'record') ? 'block' : 'none';
+
+            // 按鈕樣式切換
+            const allButtons = document.querySelectorAll('.info-left button');
+            allButtons.forEach(btn => {
+                btn.classList.remove('active');
+                btn.classList.add('inactive');
+            });
+            button.classList.remove('inactive');
+            button.classList.add('active');
+        }
+
+        function openMarketModal() {
+            new bootstrap.Modal(document.getElementById('marketModal')).show();
+        }
+
+
+        function selectMarket(name) {
+            const selector = document.getElementById('marketSelector');
+            selector.textContent = name;
+            selector.classList.add('selected');
+
+            const modal = bootstrap.Modal.getInstance(document.getElementById('marketModal'));
+            modal.hide();
+        }
+
+        function openDetailModal(id) {
+            fetch(`/market/detail/${id}`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('detailContent').innerHTML = html;
+                    new bootstrap.Modal(document.getElementById('detailModal')).show();
+                });
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <br>
+
+    <footer>
+        <p>© 2025 eView. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>

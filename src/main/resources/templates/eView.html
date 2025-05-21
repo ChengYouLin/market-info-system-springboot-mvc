@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>藝覽無遺 eView</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #F7DEA0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-content {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            /* ✅ 垂直置中 */
+            padding: 10px 0;
+            font-weight: bold;
+            /* ✅ 字體加粗 */
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 10px;
+            /* ✅ logo 與文字間距 */
+        }
+
+        .logo-text {
+            color: #073046;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #073046;
+            font-size: 18px;
+            font-weight: bold;
+            /* ✅ 字體加粗 */
+            margin-left: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: #ff8c00;
+            transition: width 0.3s;
+        }
+
+        .nav-btn:hover::after {
+            width: 100%;
+        }
+
+        .nav-btn:hover {
+            color: #ff8c00;
+            /*text-decoration: underline;*/
+        }
+
+        footer {
+            background-color: #073046;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .carousel img {
+            width: 100%;
+            height: 800px;
+            object-fit: contain;
+            background: white;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            font-size: 20px;
+            font-weight: bold;
+            margin-left: 15px;
+            color: #6c757d;
+        }
+
+        .tab-button.active {
+            color: #ff8c00;
+        }
+
+        .market-section {
+            margin-top: 100px;
+            width: 75%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .market-section h3 {
+            color: #073046;
+            font-weight: bold;
+            /* ✅ 標題粗體 */
+        }
+
+        .market-tabs {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .market-tabs hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin-top: 10px;
+        }
+
+        .market-card img {
+            width: 300px;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 10px;
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="../static/images/logo.png" alt="logo">
+                <span class="logo-text">藝覽無遺 eView</span>
+            </div>
+            <div>
+                <form th:action="@{/markets}" method="get" style="display:inline;">
+                    <button class="nav-btn">找市集</button>
+                </form>
+                <form th:action="@{/register}" method="get" style="display:inline;">
+                    <button class="nav-btn">註冊/登入</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+
+    <!-- Carousel Banner -->
+    <div id="carouselBanner" class="carousel slide" data-bs-ride="carousel" style="margin-top: 80px;">
+        <div class="carousel-inner">
+            <div class="carousel-item active"><img src="../static/images/marketImage1.png" class="d-block w-100"
+                    alt="..."></div>
+            <div class="carousel-item"><img src="../static/images/marketImage2.png" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item"><img src="../static/images/marketImage3.png" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item"><img src="../static/images/marketImage4.png" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item"><img src="../static/images/marketImage5.png" class="d-block w-100" alt="...">
+            </div>
+        </div>
+    </div>
+
+    <!-- Market Section -->
+    <section class="market-section">
+        <div class="market-tabs">
+            <h3>市集列表</h3>
+            <div>
+                <button class="tab-button active" id="btn-active" onclick="switchTab('active')">進行中</button>
+                <button class="tab-button" id="btn-recruiting" onclick="switchTab('recruiting')">招商中</button>
+            </div>
+        </div>
+        <hr />
+
+        <!-- Active Markets -->
+        <div id="active-list">
+            <div th:if="${#lists.isEmpty(activeMarkets)}">
+                目前沒有進行中的市集或展覽
+            </div>
+            <div th:if="${!#lists.isEmpty(activeMarkets)}">
+                <div th:each="market : ${activeMarkets}" class="market-card fade-in">
+                    <img src="/images/marketList.png" alt="market">
+                    <div>
+                        <h4 th:text="${market.title}">市集名稱</h4>
+                        <p>時間：<span th:text="${market.startDate}"></span> - <span th:text="${market.endDate}"></span>
+                        </p>
+                        <p>地點：<span th:text="${market.location}"></span></p>
+                        <p th:text="${market.description}" style="white-space: pre-line;"></p>
+                        <button class="btn btn-warning">查看更多</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recruiting Markets -->
+        <div id="recruiting-list" style="display: none;">
+            <div th:if="${#lists.isEmpty(recruitingMarkets)}">
+                目前沒有招商中的市集或展覽
+            </div>
+            <div th:if="${!#lists.isEmpty(recruitingMarkets)}">
+                <div th:each="market : ${recruitingMarkets}" class="market-card fade-in">
+                    <img src="../static/images/marketList.png" alt="market">
+                    <div>
+                        <h4 th:text="${market.title}">市集名稱</h4>
+                        <p>時間：<span th:text="${market.startDate}"></span> - <span th:text="${market.endDate}"></span>
+                        </p>
+                        <p>地點：<span th:text="${market.location}"></span></p>
+                        <p th:text="${market.description}" style="white-space: pre-line;"></p>
+                        <button class="btn btn-primary">提出申請</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 eView. All Rights Reserved.</p>
+    </footer>
+
+    <!-- Script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function switchTab(tab) {
+            document.getElementById('active-list').style.display = tab === 'active' ? 'block' : 'none';
+            document.getElementById('recruiting-list').style.display = tab === 'recruiting' ? 'block' : 'none';
+
+            document.getElementById('btn-active').classList.toggle('active', tab === 'active');
+            document.getElementById('btn-recruiting').classList.toggle('active', tab === 'recruiting');
+        }
+
+        // 滾動顯示效果
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        });
+        document.querySelectorAll('.market-card').forEach(card => observer.observe(card));
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+<!-- stamps.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>抽獎集點 - eView</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        header {
+            background-color: #F7DEA0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .header-content {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-weight: bold;
+            height: 100%;
+            gap: 10px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: #073046;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #073046;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: #ff8c00;
+            transition: width 0.3s;
+        }
+
+        footer {
+            background-color: #073046;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            flex-shrink: 0;
+
+        }
+
+        html,
+        body {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .main-container {
+            flex: 1 0 auto;
+        }
+
+
+        .nav-btn:hover::after,
+        .nav-btn.active::after {
+            width: 100%;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #ff8c00;
+        }
+
+        #notification-icon i,
+        .btn-link i {
+            color: #073046;
+            vertical-align: middle;
+        }
+                #notification-box {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin-top: 80px;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .main-container {
+            width: 80%;
+            margin: auto;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #073046;
+            margin-bottom: 20px;
+        }
+
+        .stamp-card {
+            background-color: #fdf0d8;
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .stamp-card img {
+            width: 100px;
+            height: 100px;
+        }
+
+        .point-input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            align-items: center;
+        }
+
+        .point-input {
+            flex: 1;
+            max-width: 70%;
+        }
+
+        .btn-submit,
+        .btn-scan {
+            background-color: #f76b3c;
+            color: white;
+            font-weight: bold;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .btn-submit:hover,
+        .btn-scan:hover {
+            background-color: #e0592f;
+        }
+
+        .rule-section {
+            margin-top: 40px;
+        }
+
+        .rule-section p {
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+    </style>
+    <script>
+        function toggleNotificationBox() {
+            const box = document.getElementById('notification-box');
+            box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+        }
+        window.onclick = function (event) {
+            const box = document.getElementById('notification-box');
+            if (event.target.closest('#notification-icon') == null && event.target.closest('#notification-box') == null) {
+                box.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="../static/images/logo.png" alt="logo">
+                <span class="logo-text">藝覽無遺 eView</span>
+            </div>
+            <div class="d-flex align-items-center" style="gap: 10px;">
+                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                    <button class="nav-btn active">市集資訊</button>
+                </form>
+                <form th:action="@{/map}" method="get" style="display:inline;">
+                    <button class="nav-btn">會場地圖</button>
+                </form>
+                <form th:action="@{/activity}" method="get" style="display:inline;">
+                    <button class="nav-btn">抽獎集點</button>
+                </form>
+                <form th:action="@{/leftfood}" method="get" style="display:inline;">
+                    <button class="nav-btn">剩食搜尋</button>
+                </form>
+                <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
+                    <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
+                </button>
+
+                <form th:action="@{/profile}" method="get">
+                    <button class="btn btn-link">
+                        <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                    </button>
+                </form>
+
+
+            </div>
+        </div>
+        <div id="notification-box">
+            <h5>通知</h5>
+            <div th:if="${notices.size()} == 0">目前沒有公告消息</div>
+            <div th:each="notice : ${notices}" style="margin-top: 10px;">
+                <p><strong>【<span th:text="${notice.marketName}"></span>】</strong> 發布時間: <span
+                        th:text="${notice.time}"></span></p>
+                <p th:text="${notice.title}"></p>
+                <p th:text="${notice.content}"></p>
+                <hr />
+            </div>
+        </div>
+    </header>
+    <div class="main-container">
+        <div>
+            <div class="section-title">集點卡</div>
+            <div class="stamp-card">
+                <div th:each="i : ${#numbers.sequence(1, pointCount)}">
+                    <img src="../static/images/point.png" alt="已集點">
+                </div>
+                <div th:each="i : ${#numbers.sequence(1, 10 - pointCount)}">
+                    <img src="../static/images/nonpoint.png" alt="未集點">
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <div class="section-title">累積點數</div>
+            <form th:action="@{/submitPoint}" method="post" class="point-input-group">
+                <input type="text" name="pointCode" class="form-control point-input" placeholder="請輸入點數代碼">
+                <button type="submit" class="btn-submit">輸入</button>
+                <button type="button" class="btn-scan">掃描 QR Code</button>
+            </form>
+            <div class="text-danger mt-2" th:if="${errorMsg}" th:text="${errorMsg}"></div>
+            <div class="text-success mt-2" th:if="${successMsg}" th:text="${successMsg}"></div>
+        </div>
+
+        <div class="rule-section">
+            <div class="section-title">活動規則說明</div>
+            <p th:text="${activityRule}">活動規則將顯示於此...</p>
+        </div>
+    </div>
+</body>
+<br>
+<footer>
+    <p class="text-center">© 2025 eView. All Rights Reserved.</p>
+</footer>
+
+</html>

@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>抽獎管理</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        footer {
+            background-color: #073046;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header {
+            background-color: #F7DEA0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .header-content {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-weight: bold;
+            height: 100%;
+            gap: 10px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: #073046;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #073046;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: #ff8c00;
+            transition: width 0.3s;
+        }
+
+        .nav-btn:hover::after,
+        .nav-btn.active::after {
+            width: 100%;
+        }
+                #notification-icon i,
+        .btn-link i {
+            color: #073046;
+            vertical-align: middle;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #ff8c00;
+        }
+        .main-wrapper {
+            margin: 80px auto;
+            width: 80%;
+            display: flex;
+            gap: 30px;
+        }
+        .left-panel {
+            width: 20%;
+            background-color: #fdf0d8;
+            border-radius: 16px;
+            height: 650px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            min-height: 700px;
+        }
+        .left-panel button {
+            width: 80%;
+            height: 60px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+            background-color: #C4C4C4;
+
+        }
+        .left-panel button.active {
+            background-color: #FF725E;
+        }
+        .right-panel {
+            width: 80%;
+            padding: 30px;
+            border-radius: 16px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .reward-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .reward-row input {
+            flex: 1;
+        }
+        .reward-row button {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 20px;
+        }
+                .btn-danger {
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 40px;
+        }
+.btn-secondary.mt-2{
+                color: gray;
+            border: 1px solid gray;
+            background-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+
+}
+.btn-secondary.mt-2:hover{
+            background-color: #555;
+            color: white;
+        }
+    </style>
+    <script>
+        function switchTab(tab) {
+            document.getElementById('infoSetting').style.display = tab === 'info' ? 'block' : 'none';
+            document.getElementById('lotteryDraw').style.display = tab === 'draw' ? 'block' : 'none';
+            document.getElementById('infoBtn').classList.toggle('active', tab === 'info');
+            document.getElementById('drawBtn').classList.toggle('active', tab === 'draw');
+        }
+
+        function addRewardRow() {
+            const container = document.getElementById('rewardContainer');
+            const row = document.createElement('div');
+            row.className = 'reward-row';
+            row.innerHTML = `
+                <input type="text" name="rewardNames" placeholder="獎品名稱" class="form-control">
+                <input type="number" name="rewardCounts" placeholder="數量" class="form-control">
+                <button onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(row);
+        }
+    </script>
+</head>
+<body>
+        <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="../static/images/logo.png" alt="logo">
+                <span class="logo-text">藝覽無遺 eView</span>
+            </div>
+            <div class="d-flex align-items-center" style="gap: 10px;">
+                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                    <button class="nav-btn">活動設定</button>
+                </form>
+                <form th:action="@{/map}" method="get" style="display:inline;">
+                    <button class="nav-btn">會場佈置</button>
+                </form>
+                <form th:action="@{/activity}" method="get" style="display:inline;">
+                    <button class="nav-btn">抽獎系統</button>
+                </form>
+                 <form th:action="@{/apply}" method="get" style="display:inline;">
+                    <button class="nav-btn">招商狀況</button>
+                </form>
+
+                <form th:action="@{/profile}" method="get">
+                    <button class="btn btn-link">
+                        <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+<div class="main-wrapper">
+    <div class="left-panel">
+        <button id="infoBtn" class="active" onclick="switchTab('info')">資訊設定</button>
+        <button id="drawBtn" onclick="switchTab('draw')">進行抽獎</button>
+    </div>
+    <div class="right-panel">
+        <!-- 資訊設定頁面 -->
+        <div id="infoSetting">
+            <form th:action="@{/lottery/save}" method="post">
+                <div class="form-group">
+                    <label>抽獎主題</label>
+                    <input type="text" name="title" class="form-control" th:value="${lottery?.title}">
+                </div>
+                <div class="form-group">
+                    <label>抽獎規則</label>
+                    <textarea name="rule" class="form-control" rows="3" th:text="${lottery?.rule}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>獎品內容</label>
+                    <div id="rewardContainer">
+                        <div th:each="reward, iter : ${lottery?.rewards}" class="reward-row">
+                            <input type="text" name="rewardNames" th:value="${reward.name}" placeholder="獎品名稱" class="form-control">
+                            <input type="number" name="rewardCounts" th:value="${reward.count}" placeholder="數量" class="form-control">
+                            <button type="button" onclick="this.parentElement.remove()">&times;</button>
+                        </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary mt-2" onclick="addRewardRow()">新增獎品</button>
+                </div>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-danger">儲存資訊</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 進行抽獎頁面 -->
+        <div id="lotteryDraw" style="display:none">
+            <h5>待抽名單</h5>
+            <ul>
+                <li th:each="user : ${lotteryUsers}" th:text="${user.name}"></li>
+            </ul>
+            <form th:action="@{/lottery/draw}" method="post">
+                <button type="submit" class="btn btn-danger">進行抽獎</button>
+            </form>
+            <div th:if="${drawResults != null}" class="mt-4">
+                <h5>中獎結果</h5>
+                <ul>
+                    <li th:each="result : ${drawResults}" th:text="${result.userName} + ' - ' + ${result.rewardName}"></li>
+                </ul>
+                <form th:action="@{/lottery/announce}" method="post">
+                    <button type="submit" class="btn btn-success">建立中獎公告</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+    <footer>
+        <p>© 2025 eView. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

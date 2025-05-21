@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>藝覽無遺 eView - 活動設定</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        footer {
+            background-color: #073046;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header {
+            background-color: #F7DEA0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 60px;
+        }
+        #notification-icon i,
+        .btn-link i {
+            color: #073046;
+            vertical-align: middle;
+        }
+        .header-content {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-weight: bold;
+            height: 100%;
+            gap: 10px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: #073046;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #073046;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: #ff8c00;
+            transition: width 0.3s;
+        }
+
+        .nav-btn:hover::after,
+        .nav-btn.active::after {
+            width: 100%;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #ff8c00;
+        }
+
+
+        body {
+            background-color: #fff;
+            font-family: sans-serif;
+            padding-top: 80px;
+        }
+
+        .main-container {
+            width: 80%;
+            margin: 0 auto;
+            display: flex;
+            gap: 20px;
+            min-height: 650px;
+        }
+
+        .sidebar {
+            width: 20%;
+            background-color: #fdf0d8;
+            border-radius: 16px;
+            height: 700px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            min-height: 750px;
+        }
+
+        .sidebar button {
+            width: 80%;
+            height: 60px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 18px;
+            color: white;
+            background-color: #C4C4C4;
+
+        }
+
+        .sidebar button.active {
+            background-color: #FF725E;
+        }
+
+        .content {
+            width: 80%;
+            background-color: white;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .form-label {
+            font-weight: bold;
+            color: #073046;
+        }
+
+        .time-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .time-row input {
+            width: auto;
+        }
+
+        .delete-btn {
+            background: none;
+            border: none;
+            color: red;
+            font-size: 20px;
+        }
+
+        .notice-filter {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .notice-filter button {
+            border: 1px solid #FF725E;
+            background-color: white;
+            padding: 6px 12px;
+            border-radius: 8px;
+        }
+
+        .notice-card {
+            background-color: #fff4e6;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .schedule-upload {
+            border: 2px dashed #aaa;
+            text-align: center;
+            padding: 40px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+        }
+
+        .schedule-preview {
+            display: flex;
+            gap: 20px;
+        }
+
+        .schedule-preview img {
+            width: 30%;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+        }
+
+        .modal-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 500px;
+        }
+
+        .form-label,
+        .form-control,
+        .btn {
+            font-size: 18px;
+            color: #073046;
+        }
+
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .btn-outline-primary.custom-add-btn {
+            color: gray;
+            border: 1px solid gray;
+            background-color: transparent;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .btn-outline-primary.custom-add-btn:hover {
+            background-color: #555;
+            color: white;
+        }
+
+        .form-control {
+            width: 70%;
+        }
+
+        .mb-3 {
+            margin-bottom: 2rem !important;
+        }
+
+        .btn-danger {
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 40px;
+        }
+
+        .btn-secondary {
+            color: white;
+        }
+
+        .button-wrapper {
+            margin-top: 2rem;
+            text-align: right;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #073046;
+            margin-bottom: 1rem;
+        }
+
+        .contact-field {
+            margin-bottom: 1.5rem;
+        }
+
+        .notice-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .notice-header h4 {
+            font-size: 1.6rem;
+            color: #073046;
+            margin-right: 2rem;
+            margin-bottom: 0;
+        }
+
+        .notice-tabs {
+            display: flex;
+            gap: 10px;
+        }
+
+        .notice-tabs button {
+            background: none;
+            border: 2px solid transparent;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            color: #073046;
+        }
+
+        .notice-tabs button.active {
+            border-color: #FF725E;
+        }
+
+        .notice-card {
+            background-color: #fff4e6;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .notice-card h5 {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .notice-card small {
+            float: right;
+            color: gray;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.4);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1050;
+        }
+
+        .modal-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 500px;
+        }
+
+        #modalTitle {
+            font-size: 1.6rem;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #073046;
+        }
+
+        .modal-box h5#modalTitle {
+            font-size: 1.6rem;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #073046;
+        }
+
+        .modal-box .form-control,
+        .modal-box .form-select,
+        .modal-box textarea.form-control {
+            width: 100% !important;
+            max-width: 100%;
+            min-height: 70px;
+        }
+
+        .modal-box .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .modal-box .modal-footer .btn {
+            min-width: 100px;
+            padding: 10px 20px;
+            font-size: 1rem;
+        }
+    </style>
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.sidebar button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tab + 'Btn').classList.add('active');
+            document.querySelectorAll('.content-section').forEach(sec => sec.style.display = 'none');
+            document.getElementById(tab + 'Section').style.display = 'block';
+        }
+
+        function addTimeRow() {
+            const container = document.getElementById('eventTimes');
+            const row = document.createElement('div');
+            row.className = 'time-row';
+            row.innerHTML = `
+                <input type="date" name="startDate" class="form-control">
+                <input type="time" name="startTime" class="form-control">
+                <input type="date" name="endDate" class="form-control">
+                <input type="time" name="endTime" class="form-control">
+                <button class="delete-btn" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            container.appendChild(row);
+        }
+
+        function toggleModal(show) {
+            document.getElementById('noticeModal').style.display = show ? 'flex' : 'none';
+        }
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="../static/images/logo.png" alt="logo">
+                <span class="logo-text">藝覽無遺 eView</span>
+            </div>
+            <div class="d-flex align-items-center" style="gap: 10px;">
+                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                    <button class="nav-btn active">活動設定</button>
+                </form>
+                <form th:action="@{/map}" method="get" style="display:inline;">
+                    <button class="nav-btn">會場佈置</button>
+                </form>
+                <form th:action="@{/activity}" method="get" style="display:inline;">
+                    <button class="nav-btn">抽獎系統</button>
+                </form>
+                 <form th:action="@{/apply}" method="get" style="display:inline;">
+                    <button class="nav-btn">招商狀況</button>
+                </form>
+
+                <form th:action="@{/profile}" method="get">
+                    <button class="btn btn-link">
+                        <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </header>
+    <div class="main-container">
+        <div class="sidebar">
+            <button id="marketBtn" class="active" onclick="switchTab('market')">市集資訊</button>
+            <button id="noticeBtn" onclick="switchTab('notice')">臨時公告</button>
+            <button id="scheduleBtn" onclick="switchTab('schedule')">節目表</button>
+        </div>
+        <div class="content">
+            <!-- 市集資訊 -->
+            <div id="marketSection" class="content-section">
+                <h4 class="mb-4" style="color: #073046; font-size: 2rem; font-weight: bold;">活動設定</h4>
+                <form th:action="@{/market/save}" method="post">
+                    <div class="mb-3">
+                        <label class="section-title">市集名稱</label>
+                        <input type="text" name="marketName" class="form-control" th:value="${market.name}">
+                    </div>
+
+                    <!-- 舉辦時間 -->
+                    <div class="mb-3">
+                        <label class="section-title">舉辦時間</label>
+                        <div id="eventTimes">
+                            <div th:each="period, stat : ${market.eventPeriods}" class="time-row">
+                                <input type="date" class="form-control"
+                                    th:name="'eventPeriods[' + ${stat.index} + '].startDate'"
+                                    th:value="${period.startDate}">
+                                <input type="time" class="form-control"
+                                    th:name="'eventPeriods[' + ${stat.index} + '].startTime'"
+                                    th:value="${period.startTime}">
+                                <input type="date" class="form-control"
+                                    th:name="'eventPeriods[' + ${stat.index} + '].endDate'"
+                                    th:value="${period.endDate}">
+                                <input type="time" class="form-control"
+                                    th:name="'eventPeriods[' + ${stat.index} + '].endTime'"
+                                    th:value="${period.endTime}">
+                                <button class="delete-btn" type="button"
+                                    onclick="this.parentElement.remove()">&times;</button>
+                            </div>
+                            <div th:if="${#lists.isEmpty(market.eventPeriods)}" class="time-row">
+                                <input type="date" name="eventPeriods[0].startDate" class="form-control">
+                                <input type="time" name="eventPeriods[0].startTime" class="form-control">
+                                <input type="date" name="eventPeriods[0].endDate" class="form-control">
+                                <input type="time" name="eventPeriods[0].endTime" class="form-control">
+                                <button class="delete-btn" type="button"
+                                    onclick="this.parentElement.remove()">&times;</button>
+                            </div>
+                        </div>
+                        <button class="btn btn-outline-primary custom-add-btn mt-2" type="button"
+                            onclick="addTimeRow()">＋ 新增時段</button>
+                    </div>
+
+                    <!-- 招商時間 -->
+                    <div class="mb-3">
+                        <label class="section-title">招商時間</label>
+                        <div style="font-size: 0.9rem; font-weight: normal; margin-bottom: 0.5rem;">開始時間</div>
+                        <div class="time-row">
+                            <input type="date" name="recruitStartDate" class="form-control"
+                                th:value="${market.recruitStartDate}">
+                            <input type="time" name="recruitStartTime" class="form-control"
+                                th:value="${market.recruitStartTime}">
+                        </div>
+                        <div style="font-size: 0.9rem; font-weight: normal; margin-top: 1rem; margin-bottom: 0.5rem;">
+                            結束時間</div>
+                        <div class="time-row">
+                            <input type="date" name="recruitEndDate" class="form-control"
+                                th:value="${market.recruitEndDate}">
+                            <input type="time" name="recruitEndTime" class="form-control"
+                                th:value="${market.recruitEndTime}">
+                        </div>
+                    </div>
+
+                    <!-- 聯絡資訊 -->
+                    <div class="mb-3">
+                        <label class="section-title">聯絡資訊</label>
+                        <div class="contact-field">
+                            <span class="form-label">信箱：</span>
+                            <input type="email" name="email" class="form-control" placeholder="example@gmail.com"
+                                th:value="${market.email}">
+                        </div>
+                        <div class="contact-field">
+                            <span class="form-label">Facebook：</span>
+                            <input type="text" name="facebook" class="form-control"
+                                placeholder="http://facebook.com/yourpage" th:value="${market.facebook}">
+                        </div>
+                        <div class="contact-field">
+                            <span class="form-label">Instagram：</span>
+                            <input type="text" name="instagram" class="form-control"
+                                placeholder="http://instagram.com/NCCUDBMS" th:value="${market.instagram}">
+                        </div>
+                        <div class="contact-field">
+                            <span class="form-label">LINE：</span>
+                            <input type="text" name="line" class="form-control" placeholder="@yourline"
+                                th:value="${market.line}">
+                        </div>
+                        <div class="contact-field">
+                            <span class="form-label">Website：</span>
+                            <input type="text" name="website" class="form-control" placeholder="http://yourwebsite.com"
+                                th:value="${market.website}">
+                        </div>
+                    </div>
+                    <div class="button-wrapper">
+                        <button class="btn btn-danger" type="submit">儲存更改</button>
+                    </div>
+                </form>
+            </div>
+
+
+            <!-- 臨時公告區塊 -->
+            <div id="noticeSection" class="content-section" style="display: none;">
+                <div class="notice-header">
+                    <h4>臨時公告</h4>
+                    <div
+                        style="flex-grow: 1; display: flex; justify-content: flex-start; gap: 10px; align-items: center;">
+                        <div class="notice-tabs">
+                            <button class="active" onclick="setTab(this)">全部</button>
+                            <button onclick="setTab(this)">一般使用者</button>
+                            <button onclick="setTab(this)">攤商</button>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger" onclick="openNoticeModal('新增臨時公告')">新增公告</button>
+                </div>
+
+                <div class="notice-card">
+                    <h5>哈哈哈集團舉辦市集，歡迎大家參與！ <small>最後更新時間：2344/5/3 29:39</small></h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ante sem.</p>
+                    <div class="text-end">
+                        <button class="btn btn-secondary">刪除</button>
+                        <button class="btn btn-warning"
+                            onclick="openNoticeModal('編輯公告', '哈哈哈集團舉辦市集，歡迎大家參與！', 'Lorem ipsum...', '攤商')">編輯</button>
+                    </div>
+                </div>
+            </div>
+            <!-- 節目表 -->
+            <div id="scheduleSection" class="content-section" style="display:none">
+                <h5 class="section-title">節目表（至多3張）</h5>
+                <p>上傳節目表（尺寸必須為1080*1080 px）</p>
+                <div class="schedule-upload">
+                    <p>上傳圖片<br>或將圖片拖曳至此</p>
+                </div>
+                <div class="schedule-preview">
+                    <img src="../static/images/schedule1.png">
+                    <img src="../static/images/schedule2.png">
+                    <img src="../static/images/schedule3.png">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增/編輯 Modal -->
+    <div id="noticeModal" class="modal-overlay" onclick="toggleModal(false)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <h5 id="modalTitle">新增臨時公告</h5>
+            <div class="mb-3">
+                <label class="form-label">* 標題（限20字）</label>
+                <input type="text" id="noticeTitle" class="form-control" maxlength="20">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">內文（限150字）</label>
+                <textarea id="noticeContent" class="form-control" maxlength="150"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">發布對象</label>
+                <select id="noticeTarget" class="form-select">
+                    <option>一般使用者</option>
+                    <option>攤商</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="toggleModal(false)">取消</button>
+                <button class="btn btn-danger" onclick="submitNotice()">發布</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleModal(show) {
+            const modal = document.getElementById('noticeModal');
+            modal.style.display = show ? 'flex' : 'none';
+        }
+
+        function openNoticeModal(title, presetTitle = '', presetContent = '', presetTarget = '一般使用者') {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('noticeTitle').value = presetTitle;
+            document.getElementById('noticeContent').value = presetContent;
+            document.getElementById('noticeTarget').value = presetTarget;
+            toggleModal(true);
+        }
+
+        function setTab(button) {
+            document.querySelectorAll('.notice-tabs button').forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            // Add filter logic here if connected to back-end
+        }
+
+        function submitNotice() {
+            // Simulated back-end submission logic
+            toggleModal(false);
+            location.reload();
+        }
+    </script>
+    <br>
+    <footer>
+        <p>© 2025 eView. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>剩食搜尋</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        header {
+            background-color: #F7DEA0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .header-content {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-weight: bold;
+            height: 100%;
+            gap: 10px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: #073046;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #073046;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: #ff8c00;
+            transition: width 0.3s;
+        }
+
+        .nav-btn:hover::after,
+        .nav-btn.active::after {
+            width: 100%;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #ff8c00;
+        }
+
+        #notification-icon i,
+        .btn-link i {
+            color: #073046;
+            vertical-align: middle;
+        }
+
+        .main-title {
+            width: 80%;
+            margin: 50px auto 20px auto;
+            text-align: left;
+            font-size: 28px;
+            font-weight: bold;
+            color: #073046;
+        }
+
+        .section-wrapper {
+            background-color: white;
+            display: flex;
+            justify-content: center;
+        }
+
+        .section-inner {
+            width: 80%;
+            background-color: #fdf0d8;
+            padding: 40px;
+            text-align: left;
+            border-radius: 16px;
+
+        }
+
+        .section-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #073046;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+        }
+
+        .section-content p,
+        .section-content li {
+            margin-left: 2em;
+        }
+
+        .schedule-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 20px;
+            margin-top: 15px;
+            margin-left: 2em;
+        }
+
+        .schedule-row img {
+            max-width: 30%;
+            height: auto;
+        }
+
+        .contact-info li {
+            margin-bottom: 10px;
+            margin-left: 2em;
+        }
+
+        .contact-info i {
+            margin-right: 8px;
+        }
+
+        #notification-box {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            margin-top: 80px;
+            background-color: #FFFDF7;
+        }
+
+        .container-custom {
+            width: 80%;
+            margin: auto;
+        }
+
+        .record-box {
+            background-color: #fdf0d8;
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 40px;
+        }
+
+        .leftfood-card {
+            border: 1px solid #333;
+            border-radius: 16px;
+            padding: 20px;
+            width: 30%;
+            min-width: 280px;
+            box-sizing: border-box;
+        }
+
+        .leftfood-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .modal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .modal-content-custom {
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            width: 400px;
+            position: relative;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .qty-btn {
+            width: 32px;
+            height: 32px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #073046;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: auto;
+
+        }
+
+        main {
+            flex-grow: 1;
+        }
+
+        .btn-danger {
+            color: #fff;
+            background-color: #ff8c00;
+            /* 這就是紅色 */
+            border-color: #ff8c00;
+        }
+
+
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+    </style>
+    <script>
+        function toggleNotificationBox() {
+            const box = document.getElementById('notification-box');
+            box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+        }
+        window.onclick = function (event) {
+            const box = document.getElementById('notification-box');
+            if (event.target.closest('#notification-icon') == null && event.target.closest('#notification-box') == null) {
+                box.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="page-container">
+
+        <!-- Header 引入 -->
+        <header>
+            <div class="header-content">
+                <div class="header-left">
+                    <img src="../static/images/logo.png" alt="logo">
+                    <span class="logo-text">藝覽無遺 eView</span>
+                </div>
+                <div class="d-flex align-items-center" style="gap: 10px;">
+                    <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                        <button class="nav-btn">市集資訊</button>
+                    </form>
+                    <form th:action="@{/map}" method="get" style="display:inline;">
+                        <button class="nav-btn">會場地圖</button>
+                    </form>
+                    <form th:action="@{/activity}" method="get" style="display:inline;">
+                        <button class="nav-btn">抽獎集點</button>
+                    </form>
+                    <form th:action="@{/leftfood}" method="get" style="display:inline;">
+                        <button class="nav-btn active">剩食搜尋</button>
+                    </form>
+                    <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
+                        <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
+                    </button>
+
+                    <form th:action="@{/profile}" method="get">
+                        <button class="btn btn-link">
+                            <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                        </button>
+                    </form>
+
+
+                </div>
+            </div>
+            <div id="notification-box">
+                <h5>通知</h5>
+                <div th:if="${notices.size()} == 0">目前沒有公告消息</div>
+                <div th:each="notice : ${notices}" style="margin-top: 10px;">
+                    <p><strong>【<span th:text="${notice.marketName}"></span>】</strong> 發布時間: <span
+                            th:text="${notice.time}"></span></p>
+                    <p th:text="${notice.title}"></p>
+                    <p th:text="${notice.content}"></p>
+                    <hr />
+                </div>
+            </div>
+        </header>
+        <div class="container-custom">
+
+            <!-- 預約紀錄 -->
+            <div class="record-box">
+                <h4>剩食預約紀錄搜尋</h4>
+                <div class="row fw-bold mt-3">
+                    <div class="col">取餐編號</div>
+                    <div class="col">商品</div>
+                    <div class="col">份數</div>
+                    <div class="col">攤位</div>
+                    <div class="col">最後取餐時間</div>
+                </div>
+                <div class="row mt-2" th:each="r : ${reservations}">
+                    <div class="col" th:text="${r.id}"></div>
+                    <div class="col" th:text="${r.productName}"></div>
+                    <div class="col" th:text="${r.quantity}"></div>
+                    <div class="col" th:text="${r.vendor}"></div>
+                    <div class="col" th:text="${r.pickupTime}"></div>
+                </div>
+            </div>
+
+            <!-- 剩食搜尋 -->
+            <h4 th:if="${leftFoods != null and !leftFoods.isEmpty()}">剩食搜尋</h4>
+            <div class="leftfood-grid mt-4" th:if="${leftFoods != null and !leftFoods.isEmpty()}">
+                <div class="leftfood-card" th:each="item : ${leftFoods}">
+                    <h5 th:text="${item.productName}"></h5>
+                    <p>攤商名稱：<span th:text="${item.vendor}"></span></p>
+                    <p>類別：<span th:text="${item.category}"></span></p>
+                    <p>剩餘份數：<span th:text="${item.remaining}"></span></p>
+                    <button class="btn btn-danger" th:attr="data-name=${item.productName}, data-qty=${item.remaining}"
+                        onclick="openModal(this)">
+                        我要預訂
+                    </button>
+
+                </div>
+            </div>
+
+
+        </div>
+        <main>
+            <!-- 彈跳預約視窗 -->
+            <div class="modal-bg" id="bookingModal">
+                <div class="modal-content-custom">
+                    <span class="close-btn" onclick="hideModal()">&times;</span>
+                    <h5 class="text-center mb-3">剩食預約：「<span id="modalProductName">商品</span>」</h5>
+                    <form th:action="@{/book}" method="post">
+                        <input type="hidden" name="productName" id="hiddenProductName" />
+                        <div class="mb-2">姓名：<span th:text="${user.name}"></span></div>
+                        <div class="mb-2">電話：<span th:text="${user.phone}"></span></div>
+                        <div class="d-flex align-items-center my-3">
+                            <label class="me-2">份數：</label>
+                            <button type="button" class="btn btn-secondary qty-btn" onclick="adjustQty(-1)">−</button>
+                            <input type="text" id="qtyInput" name="quantity" value="1" readonly class="mx-2 text-center"
+                                style="width: 40px;" />
+                            <button type="button" class="btn btn-secondary qty-btn" onclick="adjustQty(1)">＋</button>
+                        </div>
+                        <div class="mb-3">最後取餐時間：（系統時間 +15 分鐘）<span id="pickupTimeText"></span></div>
+                        <button type="submit" class="btn btn-warning w-100">預約</button>
+                    </form>
+                </div>
+            </div>
+    </div>
+
+    <script>
+        function openModal(btn) {
+            const name = btn.getAttribute('data-name');
+            const qty = parseInt(btn.getAttribute('data-qty'));
+            showModal(name, qty);
+        }
+
+
+        let maxQty = 1; // 預設初始值
+
+        function openModal(btn) {
+            const name = btn.getAttribute('data-name');
+            maxQty = parseInt(btn.getAttribute('data-qty')); // 這裡才正確設定 maxQty
+            document.getElementById('modalProductName').textContent = name;
+            document.getElementById('hiddenProductName').value = name;
+            document.getElementById('qtyInput').value = 1;
+            document.getElementById('bookingModal').style.display = 'flex';
+            updatePickupTime();
+        }
+
+
+        function hideModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
+
+        function adjustQty(change) {
+            const input = document.getElementById('qtyInput');
+            let val = parseInt(input.value);
+            val = Math.min(Math.max(val + change, 1), maxQty);
+            input.value = val;
+        }
+
+        function updatePickupTime() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() + 15);
+            const time = now.toTimeString().slice(0, 5);
+            document.getElementById('pickupTimeText').textContent = time;
+        }
+
+        window.addEventListener('click', function (e) {
+            const modal = document.getElementById('bookingModal');
+            if (e.target === modal) hideModal();
+        });
+    </script>
+    </main>
+    <br>
+
+    <footer>
+        <p class="text-center">© 2025 eView. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>

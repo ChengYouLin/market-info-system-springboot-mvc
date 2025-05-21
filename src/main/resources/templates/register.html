@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>註冊 - eView</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Header */
+        header {
+            background-color: #F7DEA0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-content {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-weight: bold;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: #073046;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #073046;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: #ff8c00;
+            transition: width 0.3s;
+        }
+
+        .nav-btn:hover::after,
+        .nav-btn.active::after {
+            width: 100%;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #ff8c00;
+        }
+
+
+
+ /* Layout */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 60px); /* 扣掉 header 高度 */
+            margin-top: 60px; /* 讓內容從 header 底下開始 */
+        }
+
+        .left-form {
+            width: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 50px;
+        }
+
+        .form-wrapper {
+            width: 80%;
+            max-width: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px; /* 增加欄位之間間距 */
+        }
+
+        .form-wrapper h2 {
+            font-weight: bold;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        .submit-btn {
+            padding: 12px 0;
+            background-color: #FF8247;
+            border: none;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: #e86c2f;
+        }
+
+        .right-image {
+            width: 50%;
+            background-image: url('../static/images/register.png');
+            background-size: cover;
+            background-position: center;
+            margin-top: -60px; /* 把圖片拉上來對齊 header */
+        }
+
+        footer {
+            background-color: #073046;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<header>
+    <div class="header-content">
+        <div class="header-left">
+            <img src="../static/images/logo.png" alt="logo">
+            <span class="logo-text">藝覽無遺 eView</span>
+        </div>
+            <div>
+                <form th:action="@{/markets}" method="get" style="display:inline;">
+                    <button class="nav-btn">找市集</button>
+                </form>
+                <form th:action="@{/register}" method="get" style="display:inline;">
+                    <button class="nav-btn active">註冊/登入</button>
+                </form>
+            </div>
+    </div>
+</header>
+
+<!-- Main Section -->
+<div class="main-container">
+    <div class="left-form">
+        <form class="form-wrapper" th:action="@{/register}" method="post">
+            <h2>註冊</h2>
+
+            <div>
+                <label for="name">姓名</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+
+            <div>
+                <label for="email">郵件</label>
+                <input type="email" id="email" name="email" placeholder="example@mail.com" required>
+            </div>
+
+            <div>
+                <label for="password">密碼</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <div>
+                <label for="role">身份</label>
+                <select id="role" name="role" required>
+                    <option value="" disabled selected>請選擇身份</option>
+                    <option value="user">一般使用者</option>
+                    <option value="vendor">攤商</option>
+                </select>
+            </div>
+            <br>
+            <br>
+            <button type="submit" class="submit-btn">註冊</button>
+        </form>
+    </div>
+
+    <div class="right-image"></div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <p>© 2025 eView. All Rights Reserved.</p>
+</footer>
+
+</body>
+</html>

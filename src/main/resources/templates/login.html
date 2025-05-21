@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>登入 - 藝覽無遺 eView</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* header 基本樣式 */
+        header {
+            background-color: #F7DEA0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header-content {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-weight: bold;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: #073046;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #073046;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: #ff8c00;
+            transition: width 0.3s;
+        }
+
+        .carousel img {
+            width: 100%;
+            height: 800px;
+            object-fit: contain;
+            background: white;
+        }
+
+        footer {
+            background-color: #073046;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .nav-btn:hover::after,
+        .nav-btn.active::after {
+            width: 100%;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #ff8c00;
+        }
+
+
+        @keyframes slide {
+            0% {
+                transform: translateX(0);
+            }
+
+            20% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-1800px);
+            }
+
+            45% {
+                transform: translateX(-1800px);
+            }
+
+            50% {
+                transform: translateX(-3600px);
+            }
+
+            70% {
+                transform: translateX(-3600px);
+            }
+
+            75% {
+                transform: translateX(-5400px);
+            }
+
+            95% {
+                transform: translateX(-5400px);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        /* 登入表單樣式 */
+
+        /* Login Box */
+        .login-box {
+            position: absolute;
+            top: 50%;
+            left: 65%;
+            transform: translateY(-50%);
+            width: 400px;
+            /* 放大寬度 */
+            background: white;
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-title {
+            font-size: 26px;
+            color: #073046;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        .login-box label {
+            font-weight: bold;
+            display: block;
+            color: #333;
+            margin-bottom: 6px;
+        }
+
+        .login-box input,
+        .login-box select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            /* 行距拉大 */
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+
+        .login-btn {
+            width: 100%;
+            margin-top: 10px;
+            background-color: #F78A5A;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .login-btn:hover {
+            background-color: #e27544;
+        }
+
+        /* 加入會員提示字 */
+        .register-hint {
+            font-size: 14px;
+            margin-top: 15px;
+            color: #666;
+            /* 灰色 */
+        }
+
+        .register-hint a {
+            color: inherit;
+            /* 不預設藍色 */
+            font-weight: bold;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .register-hint a:hover {
+            color: #073046;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img src="../static/images/logo.png" alt="logo">
+                <span class="logo-text">藝覽無遺 eView</span>
+            </div>
+            <div>
+                <form th:action="@{/markets}" method="get" style="display:inline;">
+                    <button class="nav-btn">找市集</button>
+                </form>
+                <form th:action="@{/register}" method="get" style="display:inline;">
+                    <button class="nav-btn active">註冊/登入</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <!-- 背景廣告輪播 -->
+    <div id="carouselBanner" class="carousel slide" data-bs-ride="carousel" style="margin-top: 80px;"
+        data-bs-interval="5000">
+        <div class="carousel-inner">
+            <div class="carousel-item active"><img src="../static/images/marketImage1.png" class="d-block w-100"
+                    alt="..."></div>
+            <div class="carousel-item"><img src="../static/images/marketImage2.png" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item"><img src="../static/images/marketImage3.png" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item"><img src="../static/images/marketImage4.png" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item"><img src="../static/images/marketImage5.png" class="d-block w-100" alt="...">
+            </div>
+        </div>
+    </div>
+
+    <!-- 登入表單 -->
+    <div class="login-box">
+        <h2 class="login-title">登入</h2>
+
+        <form th:action="@{/login}" method="post">
+            <label>郵件（帳號）</label>
+            <input type="email" name="email" required>
+
+            <label>密碼</label>
+            <input type="password" name="password" required>
+
+            <label>身份</label>
+            <select name="role">
+                <option value="user" selected>一般使用者</option>
+                <option value="vendor">攤商</option>
+                <option value="organizer">主辦單位</option>
+            </select>
+
+            <p class="register-hint">
+                還沒有帳號嗎？<a href="/register">點擊加入會員</a>
+            </p>
+
+            <button type="submit" class="login-btn">登入</button>
+        </form>
+    </div>
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 eView. All Rights Reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
