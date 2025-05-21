@@ -5,228 +5,6 @@ body {
     background-color: white;
     color: #1f2d3d;
   }
-  
-  /* Header 區塊 */
-  .site-header {
-    background-color: #f7d58c;
-    padding: 1rem 0;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    position: relative;
-  }
-  
-  .header-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  
-  .logo-title {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-  
-  .logo {
-    width: 40px;
-    height: auto;
-  }
-  
-  .site-name {
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #073046;
-  }
-  
-  .highlight {
-    color: #005468;
-  }
-  
-  .main-nav {
-    display: flex;
-    gap: 1.5rem;
-    align-items: center;
-    margin-left: auto;
-    margin-right: -18rem;
-  }
-  
-  .main-nav a,
-  .main-nav .filter-btn {
-    font-weight: 700;
-    color: #1f2d3d;
-    text-decoration: none;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-  
-  .main-nav .filter-btn {
-    border: 2px solid #1f2d3d;
-    border-radius: 1.5rem;
-    padding: 0.4rem 0.8rem;
-    transition: background 0.3s;
-  }
-  
-  .main-nav .filter-btn:hover {
-    background-color: #ffeaa7;
-  }
-  
-  .notification-wrapper {
-    position: relative;
-    margin-left: auto;
-    margin-right: 1rem;
-  }
-  
-  .notification-btn {
-    background: none;
-    border: none;
-    color:#073046;
-    cursor: pointer;
-    padding: 0.3rem;
-    display: flex;
-    align-items: center;
-  }
-  
-  .notification-popup {
-    position: absolute;
-    top: 140%;
-    right: 0;
-    background-color: #ffffff;
-    padding: 1.2rem 1.5rem;
-    border-radius: 0.75rem;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
-    width: 260px;
-    font-size: 0.95rem;
-    color: #1f2d3d;
-    line-height: 1.6;
-    z-index: 999;
-    transition: opacity 0.3s ease, transform 0.3s ease;
-  }
-  
-  .notification-popup p {
-    font-weight: bold;
-    margin-bottom: 0.8rem;
-  }
-  
-  .notification-popup ul {
-    padding-left: 1.2rem;
-    margin: 0;
-  }
-  
-  .notification-popup li {
-    margin-bottom: 0.5rem;
-    list-style: disc;
-  }
-  
-  .user-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-  }
-  
-  .user-icon svg {
-    fill: #1f2d3d;
-    width: 25px;
-    height: 25px;
-  }
-
-  /* 商品篩選 pop out 區塊 */
-.filter-popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4); /* 半透明黑色遮罩 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-.filter-content {
-  background: #fff;
-  border-radius: 16px;
-  padding: 2rem;
-  width: 90%;
-  max-width: 600px;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-  animation: slideDown 0.3s ease;
-}
-
-.filter-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.tag {
-  padding: 0.6rem 1rem;
-  border: 2px solid #ccc;
-  border-radius: 999px;
-  background: #fff;
-  color: #333;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.tag.active {
-  background: #fb8452;
-  border-color: #fb8452;
-  color: white;
-}
-
-.popup-footer {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 2rem;
-}
-
-.popup-footer button {
-  flex: 1;
-  padding: 0.75rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s ease;
-}
-
-.cancel-filter {
-  background: #ccc;
-  color: #fff;
-}
-
-.apply-filter {
-  background: #fb8452;
-  color: #fff;
-}
-
-.hidden {
-  display: none;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
 /* header 畫橘色底線區塊 */
 .main-nav a {
@@ -330,12 +108,12 @@ main {
     margin-bottom: 1.5rem;
   }
   
-  .filter-buttons {
+  .market-filter-buttons {
     display: flex;
     gap: 1rem;
   }
   
-  .filter-btn {
+  .market-filter-btn {
     padding: 0.5rem 1rem;
     font-size: 16px;
     border: none;
@@ -345,12 +123,12 @@ main {
     color: #073046;
   }
   
-  .filter-btn.active {
+  .market-filter-btn.active {
     background-color: #fd785a;
     color: white;
   }
   
-  .market-card {
+  .market-market-card {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
@@ -364,7 +142,7 @@ main {
     color: #073046;
   }
   
-  .market-card img {
+  .market-market-card img {
     width: 300px;
     height: 200px;
     object-fit: cover;

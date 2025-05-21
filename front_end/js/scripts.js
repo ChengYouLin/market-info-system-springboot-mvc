@@ -1,24 +1,21 @@
-document.addEventListener("DOMContentLoaded", () => {
-  ////----- index.html 頁面功能 ----- ////
+////----- index.html 頁面功能 ----- ////
   // 市集篩選功能
-    const filterButtons = document.querySelectorAll(".filter-btn");
-    const marketCards = document.querySelectorAll(".market-card");
-  
-    filterButtons.forEach(button => {
-      button.addEventListener("click", () => {
-        filterButtons.forEach(btn => btn.classList.remove("active"));
-        button.classList.add("active");
-  
-        const filter = button.getAttribute("data-filter");
-        marketCards.forEach(card => {
-          card.style.display = (card.dataset.status === filter) ? "flex" : "none";
+    document.addEventListener("DOMContentLoaded", () => {
+      const filterButtons = document.querySelectorAll(".filter-btn");
+      const marketCards = document.querySelectorAll(".market-card");
+    
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+    
+          const filter = button.getAttribute("data-filter");
+          marketCards.forEach(card => {
+            card.style.display = (card.dataset.status === filter) ? "flex" : "none";
+          });
         });
       });
-    });
-  
-    // 預設啟動「進行中」篩選
-    const defaultFilter = document.querySelector(".filter-btn.active") || filterButtons[0];
-    defaultFilter?.click();
+
     
     // 登入/註冊功能
     const loginLink = document.querySelector('.login-btn');
@@ -101,7 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-    ////----- user_basic_info.html 頁面功能 ----- ////
+    ////----- user_basic_info.html & 共用 header 頁面功能 ----- ////
     document.addEventListener("DOMContentLoaded", () => {
       // 編輯個人資訊彈窗功能
       const openEditBtn = document.querySelector('.edit-trigger');
@@ -226,7 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
         filteredMap.style.display = "none";
       }
     });
-    
+    ////----- user_markets.html 頁面功能 ----- ////
     // 點擊查看更多看更多市集資訊
     document.addEventListener('DOMContentLoaded', () => {
       const popup = document.getElementById('market-detail-popup');
@@ -297,6 +294,26 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });    
     
+    // 市集篩選功能
+    document.addEventListener("DOMContentLoaded", () => {
+      const filterButtons = document.querySelectorAll(".market-filter-btn");
+      const marketCards = document.querySelectorAll(".market-market-card");
+    
+      filterButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          filterButtons.forEach(btn => btn.classList.remove("active"));
+          button.classList.add("active");
+    
+          const filter = button.getAttribute("data-filter");
+          marketCards.forEach(card => {
+            card.style.display = (card.dataset.status === filter) ? "flex" : "none";
+          });
+        });
+      });
+    
+    });
+    
+
     ////----- organizer_markets_info.html 頁面功能 ----- ////
     // 左側欄篩選切換功能
 

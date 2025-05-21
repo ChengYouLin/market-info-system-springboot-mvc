@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>會員中心 - 藝覽無遺 eView</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/vendor_basic_info.css"/> <!-- 共用 header & footer -->
+  <link rel="stylesheet" href="css/vendor_products.css"/> <!-- 商品上架 css -->
+</head>
+<body>
+  <!-- 共用 Header -->
+  <header class="site-header">
+    <div class="container header-content">
+      <!-- 左側：Logo 與標題 -->
+      <div class="logo-title">
+        <img src="image/logo.png" alt="藝覽無遺 Logo" class="logo" />
+        <h1 class="site-name">藝覽無遺 <span class="highlight">eView</span></h1>
+      </div>
+  
+      <!-- 中間：功能導覽 -->
+      <nav class="main-nav">
+        <a href="vendor_info.html">攤位資訊</a>
+        <a href="vendor_products.html">商品上架</a>
+        <a href="vendor_leftover.html">剩食更新</a>
+        <a href="#">主辦公告</a>
+      </nav>
+
+      <!-- 小鈴鐺 Icon -->
+      <div class="notification-wrapper">
+        <button id="notificationBtn" class="notification-btn" aria-label="查看通知">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+              class="bi bi-bell-fill" viewBox="0 0 16 16">
+            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
+          </svg>
+        </button>
+
+        <!-- 小鈴鐺 彈出視窗內容 -->
+        <div id="notificationPopup" class="notification-popup" style="display: none;">
+          <p>您有 3 則新通知</p>
+          <ul>
+            <li>【耶誕市集】本次耶誕市集進場報到時間為 12/22(五)下午 14:00~17:00</li>
+            <li>【耶誕市集】各攤商若有用電需求，請於 12/20 前至後台填寫《用電申請表》</li>
+            <li>【耶誕市集】感謝各位支持本次「剩食分享區」活動！</li>
+          </ul>
+        </div>
+      </div>
+  
+      <!-- 右側：使用者 Icon -->
+      <div class="user-icon">
+        <a href="vendor_basic_info.html">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor"
+               class="bi bi-person-circle" viewBox="0 0 16 16">
+            <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0"/>
+            <path fill-rule="evenodd"
+                  d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 
+                  11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"/>
+          </svg>
+        </a>
+      </div>
+  </header>
+
+<!--商品上架-->
+
+
+
+
+
+
+
+
+
+
+  <!-- 共用 Footer -->
+  <footer>
+    <p>© 2025 eView. All Rights Reserved.</p>
+  </footer>
+  <script src="js/scripts.js"></script>
+</body>
+</html>
