@@ -21,7 +21,7 @@
       <!-- 中間：功能導覽 -->
       <nav class="main-nav">
         <a href="vendor_info.html">攤位資訊</a>
-        <a href="vendor_products.html">商品上架</a>
+        <a href="vendor_products.html" class="active">商品上架</a>
         <a href="vendor_leftover.html">剩食更新</a>
         <a href="#">主辦公告</a>
       </nav>
@@ -61,15 +61,61 @@
   </header>
 
 <!--商品上架-->
+<main class="product-main">
+  <h2 class="section-title">商品上架</h2>
+  <div class="product-wrapper">
+    
+    <!-- 左側：商品表單區 -->
+    <section class="form-section">
+      <form id="productForm" class="product-form">
+        <label>
+          商品名稱
+          <input type="text" name="name" placeholder="輸入商品名稱" required />
+        </label>
 
+        <label>
+          商品類型
+          <select class="product-select" name="type" required>
+            <option value="" disabled selected>請選擇商品類型</option>
+            <option value="小吃／熟食">小吃／熟食</option>
+            <option value="甜點／烘焙">甜點／烘焙</option>
+            <option value="飲品／咖啡">飲品／咖啡</option>
+            <option value="農產加工品">農產加工品</option>
+            <option value="香氛與清潔用品">香氛與清潔用品</option>
+            <option value="手作飾品">手作飾品</option>
+            <option value="布作與皮件">布作與皮件</option>
+            <option value="插畫與文創商品">插畫與文創商品</option>
+            <option value="文具與手帳用品">文具與手帳用品</option>
+            <option value="植栽與花藝">植栽與花藝</option>
+            <option value="居家擺飾與木工">居家擺飾與木工</option>
+            <option value="衣物與配件">衣物與配件</option>
+            <option value="寵物用品">寵物用品</option>
+            <option value="書籍與出版品">書籍與出版品</option>
+            <option value="藝文／體驗活動">藝文／體驗活動</option>
+            <option value="原民／在地工藝">原民／在地工藝</option>
+            <option value="二手選物／環保">二手選物／環保</option>
+            <option value="其他">其他</option>
+          </select>
+        </label>
 
+        <label>
+          價格
+          <input type="number" name="price" placeholder="輸入價格" required />
+        </label>
 
+        <button type="submit" class="add-product-btn">＋ 新增商品</button>
+      </form>
+    </section>
 
+    <!-- 右側：商品清單區 -->
+    <section class="list-section">
+      <div id="productList" class="product-list">
+        <!-- 新增商品會出現在這裡 -->
+      </div>
+    </section>
 
-
-
-
-
+  </div>
+</main>
 
   <!-- 共用 Footer -->
   <footer>

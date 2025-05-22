@@ -380,8 +380,55 @@
         }, 3000);
       });
     });
-    
-    
+
+    ////----- vendor_products.html ----- ////
+    // 新增、刪除商品功能
+    document.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("productForm");
+      const productList = document.getElementById("productList");
+  
+      form.addEventListener("submit", function (e) {
+        e.preventDefault(); // 阻止表單送出刷新頁面
+  
+        const name = form.name.value.trim();
+        const type = form.type.value;
+        const price = form.price.value.trim();
+  
+        if (!name || !type || !price) {
+          alert("請填寫完整商品資料");
+          return;
+        }
+  
+        // 建立卡片
+        const card = document.createElement("div");
+        card.className = "product-card";
+        card.innerHTML = `
+          <div class="product-info">
+            <span>${name}</span>
+            <span>${type}</span>
+            <span>$${price}</span>
+          </div>
+          <div class="product-actions">
+            <button class="delete-btn">✕</button>
+          </div>
+        `;
+  
+        // 加到清單中
+        productList.appendChild(card);
+  
+        // 清空表單
+        form.reset();
+  
+        // 加入刪除功能
+        card.querySelector(".delete-btn").addEventListener("click", () => {
+          card.remove();
+        });
+  
+        // 可加入 POST 傳資料 API
+        const payload = { name, type, price: Number(price) };
+        console.log("📦 POST 資料：", payload);
+      });
+    });
     
     
     
