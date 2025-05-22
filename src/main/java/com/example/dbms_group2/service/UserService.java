@@ -8,6 +8,8 @@ import com.example.dbms_group2.repository.PreferRepository;
 import com.example.dbms_group2.repository.UserQueryRepository;
 import com.example.dbms_group2.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -32,7 +34,7 @@ public class UserService {
     }
 
     public List<UserDTO> findGetUserDetail(String email) {
-        return userQueryRepository.getUserDetail(email);
+        return userRepository.getUserDetail(email);
     }
 
     public List<FaoDTO> getFindUserFao(String email){

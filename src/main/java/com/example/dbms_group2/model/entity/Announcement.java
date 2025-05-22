@@ -18,8 +18,7 @@ public class Announcement {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Lob
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "update_time", nullable = false)

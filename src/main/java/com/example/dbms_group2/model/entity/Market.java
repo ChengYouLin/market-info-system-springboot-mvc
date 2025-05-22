@@ -55,6 +55,12 @@ public class Market {
     @Column(name = "lottery_title")
     private String lotteryTitle;
 
+    @Column(name = "location")
+    private String location;
+
+    @Column(name = "imageUrl")
+    private String imageUrl;
+
     public Market() {
     }
 
@@ -76,6 +82,7 @@ public class Market {
         this.website = website;
         this.lotteryRule = lotteryRule;
         this.lotteryTitle = lotteryTitle;
+
     }
 
     public int getMarketId() {
