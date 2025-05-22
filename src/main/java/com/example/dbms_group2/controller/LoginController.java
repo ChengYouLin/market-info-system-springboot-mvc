@@ -26,9 +26,12 @@ public class LoginController {
             redirectAttributes.addFlashAttribute("message", "您已經登入！");
             return "redirect:/eView";
         }
+        System.out.println("login畫面成功載入");
+
         return "login";
     }
 
+    // 登入按鈕按下去
     @PostMapping("/login")
     public String login(@RequestParam("email") String email,
                         @RequestParam("password") String password,
@@ -61,7 +64,7 @@ public class LoginController {
         }
 
         // 如果登入失敗，顯示錯誤訊息並重新導回登入頁面
-        redirectAttributes.addFlashAttribute("message", "登入失敗，請確認帳號密碼！");
+        redirectAttributes.addFlashAttribute("message", "登入失敗，請確認帳號密碼是否錯誤！");
         return "redirect:/eView/login";
     }
 

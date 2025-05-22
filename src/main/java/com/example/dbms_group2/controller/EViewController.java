@@ -22,7 +22,7 @@ public class EViewController {
 
         model.addAttribute("activeMarkets", activeMarkets);
         model.addAttribute("recruitingMarkets", recruitingMarkets);
-
+        System.out.println("主畫面成功載入");
         return "eView";
     }
 
