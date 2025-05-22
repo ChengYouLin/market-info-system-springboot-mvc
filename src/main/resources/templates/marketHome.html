@@ -103,7 +103,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-<!--    -->
+
         .main-title {
             width: 80%;
             margin: 50px auto 20px auto;
@@ -184,30 +184,34 @@
 </head>
 
 <body>
+    <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
     <header>
         <div class="header-content">
             <div class="header-left">
-                <img src="../static/images/logo.png" alt="logo">
+                <img th:src="@{/images/logo.png}" alt="logo">
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/home(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn active">市集資訊</button>
                 </form>
-                <form th:action="@{/map}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/map(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn">會場地圖</button>
                 </form>
-                <form th:action="@{/activity}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/activity(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn">抽獎集點</button>
                 </form>
-                <form th:action="@{/leftfood}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/leftfood(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn">剩食搜尋</button>
                 </form>
                 <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
                     <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
                 </button>
 
-                <form th:action="@{/profile}" method="get">
+                <form th:action="@{/eView/market/{id}/profile(id=${marketId})}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
@@ -231,12 +235,14 @@
 
     <!--
 <div style="margin-top: 100px; text-align: center;">
-    <img th:src="${marketBanner != null} ? ${marketBanner} : '../static/images/marketImage2.png'" style="width:100%; max-height: 800px; object-fit: contain; background:white" alt="Market Banner">
+    <img th:src="${marketBanner != null} ? ${marketBanner} : '../static/images/marketImage2.png'" 
+    style="width:100%; max-height: 800px; object-fit: contain; background:white" alt="Market Banner">
 </div>
 -->
 
     <div style="margin-top: 100px; text-align: center;">
-        <img src="../static/images/marketImage2.png" class="d-block w-100" alt="...">
+        <img th:src="${market.imageUrl != null and !#strings.isEmpty(market.imageUrl) ? market.imageUrl : '/images/marketImage2.png'}"
+            class="d-block w-100" alt="市集圖片">
     </div>
 
     <br>
@@ -249,16 +255,29 @@
             <div class="section-content">
                 <br>
                 <p>活動日期：<span th:text="${market.date}"></span></p>
-                <p>營業時間：<span th:text="${market.time}"></span></p>
+                <!-- 營業時段 -->
+                <p>營業時段：</p>
+                <ul>
+                    <li th:each="slot : ${timeSlots}">
+                        <span th:text="${slot.date}"></span>：
+                        <span th:text="${slot.startTime}"></span> ~
+                        <span th:text="${slot.endTime}"></span>
+                    </li>
+                </ul>
                 <p>市集地點：<span th:text="${market.location}"></span></p>
                 <p th:text="${market.description}" style="white-space: pre-wrap;"></p>
             </div>
             <h2 class="section-title mt-4"><i class="bi bi-calendar-event-fill"></i>節目表：</h2>
+            <!-- 節目表圖片：從 DTO 裡抓取，如果為空則顯示預設圖 -->
             <div class="schedule-row">
-                <img src="../static/images/schedule1.png" alt="schedule1">
-                <img src="../static/images/schedule2.png" alt="schedule2">
-                <img src="../static/images/schedule3.png" alt="schedule3">
+                <img th:src="${market.schedule1 != null and !#strings.isEmpty(market.schedule1) ? market.schedule1 : '/images/schedule1.png'}"
+                    alt="schedule1">
+                <img th:src="${market.schedule2 != null and !#strings.isEmpty(market.schedule2) ? market.schedule2 : '/images/schedule2.png'}"
+                    alt="schedule2">
+                <img th:src="${market.schedule3 != null and !#strings.isEmpty(market.schedule3) ? market.schedule3 : '/images/schedule3.png'}"
+                    alt="schedule3">
             </div>
+
 
             <h2 class="section-title mt-4"><i class="bi bi-telephone-fill"></i>聯絡資訊：</h2>
             <ul class="list-unstyled contact-info">

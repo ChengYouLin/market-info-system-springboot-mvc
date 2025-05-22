@@ -1,12 +1,11 @@
 package com.example.dbms_group2.service;
 
 import com.example.dbms_group2.model.DTO.FaoDTO;
+import com.example.dbms_group2.model.DTO.MarketHomeDTO;
+import com.example.dbms_group2.model.DTO.TimeSlotDTO;
 import com.example.dbms_group2.model.DTO.UserDTO;
 import com.example.dbms_group2.model.entity.Announcement;
-import com.example.dbms_group2.repository.AnnouncementRepository;
-import com.example.dbms_group2.repository.PreferRepository;
-import com.example.dbms_group2.repository.UserQueryRepository;
-import com.example.dbms_group2.repository.UserRepository;
+import com.example.dbms_group2.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +25,12 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MarketRepository marketRepository;
+
+    @Autowired
+    private OpeningRepository openingRepository;
 
     public List<Announcement> findMarketAnnouncement(int marketId) {
         return userQueryRepository.findMarketAnnouncement(marketId);
@@ -47,5 +52,12 @@ public class UserService {
         userRepository.updateUserProfile(email,name);
     }
 
+    public List<MarketHomeDTO> getFindMarketInfo(int marketId){
+        return marketRepository.findMarketInfo(marketId);
+    }
+
+    public List<TimeSlotDTO> getFindTimeSlot(int marketId){
+        return openingRepository.findTimeSlot(marketId);
+    }
 
 }
