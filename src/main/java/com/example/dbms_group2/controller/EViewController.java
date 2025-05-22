@@ -19,7 +19,6 @@ public class EViewController {
     public String showHomePage(Model model) {
         List<MarketDTO> activeMarkets = homeService.activeMarkets();
         List<MarketDTO> recruitingMarkets = homeService.recruitingMarkets();
-
         model.addAttribute("activeMarkets", activeMarkets);
         model.addAttribute("recruitingMarkets", recruitingMarkets);
         System.out.println("主畫面成功載入");
