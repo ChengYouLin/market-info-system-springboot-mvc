@@ -209,6 +209,12 @@
 
 <body>
 
+    <!-- 顯示 Flash message 提示 -->
+    <div th:if="${message}" class="alert alert-info alert-dismissible fade show" role="alert">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
     <!-- Header -->
     <header>
         <div class="header-content">
@@ -217,10 +223,10 @@
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div>
-                <form th:action="@{/markets}" method="get" style="display:inline;">
+                <form th:action="@{/eView}" method="get" style="display:inline;">
                     <button class="nav-btn">找市集</button>
                 </form>
-                <form th:action="@{/register}" method="get" style="display:inline;">
+                <form th:action="@{/eView/login}" method="get" style="display:inline;">
                     <button class="nav-btn active">註冊/登入</button>
                 </form>
             </div>
@@ -263,8 +269,9 @@
             </select>
 
             <p class="register-hint">
-                還沒有帳號嗎？<a href="/register">點擊加入會員</a>
+                還沒有帳號嗎？<a th:href="@{/eView/register}">點擊加入會員</a>
             </p>
+
 
             <button type="submit" class="login-btn">登入</button>
         </form>

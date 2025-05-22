@@ -3,7 +3,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "assignment_point")
-public class lAssignmentPoint {
+public class AssignmentPoint {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -156,6 +156,11 @@
 </head>
 
 <body>
+    <!-- 顯示 Flash message 提示 -->
+    <div th:if="${message}" class="alert alert-info alert-dismissible fade show" role="alert">
+        <span th:text="${message}"></span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
 
     <!-- Header -->
     <header>
@@ -165,10 +170,10 @@
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div>
-                <form th:action="@{/markets}" method="get" style="display:inline;">
+                <form th:action="@{/eView}" method="get" style="display:inline;">
                     <button class="nav-btn">找市集</button>
                 </form>
-                <form th:action="@{/register}" method="get" style="display:inline;">
+                <form th:action="@{/eView/login}" method="get" style="display:inline;">
                     <button class="nav-btn">註冊/登入</button>
                 </form>
             </div>
@@ -210,17 +215,21 @@
             </div>
             <div th:if="${!#lists.isEmpty(activeMarkets)}">
                 <div th:each="market : ${activeMarkets}" class="market-card fade-in">
-                    <img src="/images/marketList.png" alt="market">
+                    <img th:src="${market.imageUrl != null && !#strings.isEmpty(market.imageUrl) 
+               ? @{${market.imageUrl}} 
+               : @{../static/images/marketImage1.png}}" alt="market" />
                     <div>
                         <h4 th:text="${market.title}">市集名稱</h4>
                         <p>時間：<span th:text="${market.startDate}"></span> - <span th:text="${market.endDate}"></span>
                         </p>
                         <p>地點：<span th:text="${market.location}"></span></p>
                         <p th:text="${market.description}" style="white-space: pre-line;"></p>
-                        <button class="btn btn-warning">查看更多</button>
+                        <a th:href="@{/eView/market/{id}(id=${market.id})/home}" class="btn btn-warning">查看更多</a>
                     </div>
                 </div>
+                <hr>
             </div>
+
         </div>
 
         <!-- Recruiting Markets -->
@@ -230,22 +239,24 @@
             </div>
             <div th:if="${!#lists.isEmpty(recruitingMarkets)}">
                 <div th:each="market : ${recruitingMarkets}" class="market-card fade-in">
-                    <img src="../static/images/marketImage6.png" alt="market">
+                    <img th:src="${market.imageUrl != null and !#strings.isEmpty(market.imageUrl) 
+                ? @{${market.imageUrl}} 
+                : @{/images/marketList.png}}" alt="market">
                     <div>
                         <h4 th:text="${market.title}">市集名稱</h4>
                         <p>時間：<span th:text="${market.startDate}"></span> - <span th:text="${market.endDate}"></span>
                         </p>
                         <p>地點：<span th:text="${market.location}"></span></p>
                         <p th:text="${market.description}" style="white-space: pre-line;"></p>
-                        <button class="btn btn-primary">提出申請</button>
+                        <a th:href="@{/vendor/info/apply(id=${market.id})}" class="btn btn-primary">提出申請</a>
                     </div>
                 </div>
+                <hr>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <br>
     <footer>
         <p>© 2025 eView. All Rights Reserved.</p>
     </footer>
