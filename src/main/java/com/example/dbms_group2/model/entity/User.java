@@ -27,12 +27,12 @@ public class User {
 
     @Lob
     @Column(name = "picture")
-    private byte[] picture;
+    private String picture;
 
     public User() {
     }
 
-    public User(int userId, String name, String telephone, String gender, String gmail, String password, byte[] picture) {
+    public User(int userId, String name, String telephone, String gender, String gmail, String password, String picture) {
         this.userId = userId;
         this.name = name;
         this.telephone = telephone;
@@ -90,11 +90,11 @@ public class User {
         this.password = password;
     }
 
-    public byte[] getPicture() {
+    public String getPicture() {
         return picture;
     }
 
-    public void setPicture(byte[] picture) {
+    public void setPicture(String picture) {
         this.picture = picture;
     }
 }

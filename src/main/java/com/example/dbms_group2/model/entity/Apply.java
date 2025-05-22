@@ -1,5 +1,6 @@
 package com.example.dbms_group2.model.entity;
 import java.time.*;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -45,14 +46,14 @@ public class Apply {
 
     @Lob
     @Column(name = "logo")
-    private byte[] logo;
+    private String logo;
 
     @Column(name = "status")
     private String status;
 
     @Lob
     @Column(name = "qrcode")
-    private byte[] qrcode;
+    private String qrcode;
 
     @Column(name = "stamp")
     private String stamp;
@@ -60,8 +61,8 @@ public class Apply {
     public Apply() {}
 
     public Apply(int applyId, Vendor vendor, Market market, LocalDate date, String name, String description, String email,
-                 String facebook, String instagram, String line, String website, byte[] logo,
-                 String status, byte[] qrcode, String stamp) {
+                 String facebook, String instagram, String line, String website, String logo,
+                 String status, String qrcode, String stamp) {
         this.applyId = applyId;
         this.vendor = vendor;
         this.market = market;
@@ -167,11 +168,11 @@ public class Apply {
         this.website = website;
     }
 
-    public byte[] getLogo() {
+    public String getLogo() {
         return logo;
     }
 
-    public void setLogo(byte[] logo) {
+    public void setLogo(String logo) {
         this.logo = logo;
     }
 
@@ -183,11 +184,11 @@ public class Apply {
         this.status = status;
     }
 
-    public byte[] getQrcode() {
+    public String getQrcode() {
         return qrcode;
     }
 
-    public void setQrcode(byte[] qrcode) {
+    public void setQrcode(String qrcode) {
         this.qrcode = qrcode;
     }
 

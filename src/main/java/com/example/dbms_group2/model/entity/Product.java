@@ -1,5 +1,4 @@
 package com.example.dbms_group2.model.entity;
-
 import jakarta.persistence.*;
 
 @Entity

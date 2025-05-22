@@ -32,7 +32,7 @@ public class Market {
 
     @Lob
     @Column(name = "banner")
-    private byte[] banner;
+    private String banner;
 
     @Column(name = "email")
     private String email;
@@ -59,7 +59,7 @@ public class Market {
     }
 
     public Market(int marketId, Organizer organizer, String name, String status, LocalDateTime recruitStartTime,
-                  LocalDateTime recruitEndTime, String description, byte[] banner, String email, String facebook,
+                  LocalDateTime recruitEndTime, String description, String banner, String email, String facebook,
                   String instagram, String line, String website, String lotteryRule, String lotteryTitle) {
         this.marketId = marketId;
         this.organizer = organizer;
@@ -134,11 +134,11 @@ public class Market {
         this.description = description;
     }
 
-    public byte[] getBanner() {
+    public String getBanner() {
         return banner;
     }
 
-    public void setBanner(byte[] banner) {
+    public void setBanner(String banner) {
         this.banner = banner;
     }
 
