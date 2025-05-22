@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class MarketDTO {
 
-    private Long id;                // 市集 ID，用於連結詳細頁與申請頁
+    private int id;                // 市集 ID，用於連結詳細頁與申請頁
     private String title;           // 市集標題，如「夏日綠市集」
     private String description;     // 市集介紹（多行文字）
     private String location;        // 舉辦地點，如「華山文創園區」
@@ -12,7 +12,7 @@ public class MarketDTO {
     private LocalDate endDate;      // 結束日期
     private String imageUrl;        // 圖片網址，可為 null 或空字串
 
-    public MarketDTO(Long id, String title, String description, String location, LocalDate startDate, LocalDate endDate, String imageUrl) {
+    public MarketDTO(int id, String title, String description, String location, LocalDate startDate, LocalDate endDate, String imageUrl) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -24,11 +24,11 @@ public class MarketDTO {
 
     // Getter & Setter（或用 Lombok @Data）
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

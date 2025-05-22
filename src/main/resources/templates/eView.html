@@ -156,11 +156,11 @@
 </head>
 
 <body>
-    <!-- 顯示 Flash message 提示 -->
-    <div th:if="${message}" class="alert alert-info alert-dismissible fade show" role="alert">
-        <span th:text="${message}"></span>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
+
+        <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
 
     <!-- Header -->
     <header>

@@ -71,6 +71,79 @@ public class HomeService {
                 return encoder.matches(password, u.getPassword());
         }
 
+        return false;
+    }
+
+    public boolean register(String name, String mail, String phone, String password, String role) {
+
+        OtherService otherService = new OtherService();
+
+        if (otherService.isValidPassword(password) != true) {
+            return false;
+        }
+
+        switch (role) {
+            case "organizer":
+
+                try {
+                    List<Organizer> organizers = organizerRepository.findByGmail(mail);
+
+                    if (!organizers.isEmpty()) return false; // 已存在
+
+                    Organizer o = new Organizer();
+                    o.setGmail(mail);
+                    o.setPassword(encoder.encode(password));
+
+                    organizerRepository.save(o); // 儲存可能會拋出例外
+
+                    return true;
+                } catch (Exception e) {
+                    // 可以 log.error("註冊失敗", e);
+                    return false;
+                }
+
+            case "vendor":
+                try {
+                    List<Vendor> vendors = vendorRepository.findByGmail(mail);
+
+                    if (!vendors.isEmpty()) return false; // 已存在
+
+                    Vendor v = new Vendor();
+                    v.setGmail(mail);
+                    v.setPassword(encoder.encode(password));
+                    v.setTelephone(phone);
+                    v.setName(name);
+
+                    vendorRepository.save(v); // 儲存可能會拋出例外
+
+                    return true;
+                } catch (Exception e) {
+                    // 可以 log.error("註冊失敗", e);
+                    System.out.println("商家註冊失敗");
+                    return false;
+                }
+
+            case "user":
+                try {
+                    List<User> users = userRepository.findByGmail(mail);
+
+                    if (!users.isEmpty()) return false; // 已存在
+
+                    User u = new User();
+                    u.setGmail(mail);
+                    u.setPassword(encoder.encode(password));
+                    u.setName(name);
+                    u.setTelephone(phone);
+
+                    userRepository.save(u); // 儲存可能會拋出例外
+
+                    return true;
+                } catch (Exception e) {
+                    // 可以 log.error("註冊失敗", e);
+                    System.out.println("一般使用者註冊失敗");
+                    return false;
+                }
+        }
 
         return false;
     }

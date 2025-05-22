@@ -57,8 +57,10 @@ public class LoginController {
 
             // 根據 role 導向不同頁面
             if(role.equals("organizer")) {
+                redirectAttributes.addFlashAttribute("message", "登入成功！");
                 return "redirect:/eView/organizer/config";
             }else{
+                redirectAttributes.addFlashAttribute("message", "登入成功！");
                 return "redirect:/eView";
             }
         }
