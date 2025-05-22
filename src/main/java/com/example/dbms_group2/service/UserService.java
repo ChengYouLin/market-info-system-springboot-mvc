@@ -1,9 +1,6 @@
 package com.example.dbms_group2.service;
 
-import com.example.dbms_group2.model.DTO.FaoDTO;
-import com.example.dbms_group2.model.DTO.MarketHomeDTO;
-import com.example.dbms_group2.model.DTO.TimeSlotDTO;
-import com.example.dbms_group2.model.DTO.UserDTO;
+import com.example.dbms_group2.model.DTO.*;
 import com.example.dbms_group2.model.entity.Announcement;
 import com.example.dbms_group2.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +29,15 @@ public class UserService {
     @Autowired
     private OpeningRepository openingRepository;
 
+    @Autowired
+    private HavePointsRespository havePointsRespository;
+
+    @Autowired
+    private OrganizerRepository organizerRepository;
+
+    @Autowired
+    private ApplyRepository applyRepository;
+
     public List<Announcement> findMarketAnnouncement(int marketId) {
         return userQueryRepository.findMarketAnnouncement(marketId);
     }
@@ -58,6 +64,27 @@ public class UserService {
 
     public List<TimeSlotDTO> getFindTimeSlot(int marketId){
         return openingRepository.findTimeSlot(marketId);
+    }
+
+    public int getFindTotalPoint(String email, int marketId){
+        List<PointDTO> p = havePointsRespository.findTotalPoint(email, marketId);
+        return p.getFirst().getPointCount();
+    }
+
+    public List<DTO> genFindStatus(int marketId){
+        return organizerRepository.findStatus(marketId);
+    }
+
+    public String getFindActDes(int marketId){
+        return marketRepository.findLotteryRuleById(marketId);
+    }
+
+    public boolean correctStamp(int marketId, String stamp) {
+        return applyRepository.checkCorrectStamp.getFirst().getCorrect();
+    }
+
+    public void findUpdateHavePoint(String email, int marketId){
+        havePointsRespository.updateHavePoint(email, marketId);
     }
 
 }
