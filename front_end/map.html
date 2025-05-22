@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>市集地圖切換</title>
+  <style>
+    body {
+      font-family: "Noto Sans TC", sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 2rem;
+    }
+    .map-container {
+      background: #fbf0dc;
+      border-radius: 1.5rem;
+      padding: 2rem;
+      max-width: 1100px;
+      margin: 3rem auto;
+    }
+    .map-title {
+      text-align: center;
+      font-weight: medium;
+      font-size: 24px;
+      margin-bottom: 2rem;
+      color: #073046;
+    }
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      text-align: center;
+      align-items: start;
+    }
+    .map-column {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+    .label {
+      font-weight: medium;
+      font-size: 18px;
+      color: #073046;
+    }
+    .middle-label {
+      font-weight: medium;
+      font-size: 18px;
+      color: #073046;
+      margin: 1.5rem 0;
+    }
+    .map-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 60px);
+      gap: 12px;
+      justify-content: center;
+    }
+    .booth {
+      width: 60px;
+      height: 60px;
+      background: #ccc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: medium;
+      color: #1f2d3d;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 地圖一 -->
+  <div class="map-container">
+    <div class="map-title">四維堂前</div>
+    <div class="layout-grid">
+      <!-- 資訊大樓 -->
+      <div class="map-column">
+        <div class="label">資訊大樓</div>
+        <div class="map-grid">
+          <div class="booth">A1</div><div class="booth">A2</div><div class="booth">A3</div><div class="booth">A4</div><div class="booth">A5</div>
+        </div>
+        <div class="map-grid" style="margin-top: 15px;">
+          <div class="booth">B1</div><div class="booth">B2</div><div class="booth">B3</div><div class="booth">B4</div><div class="booth">B5</div>
+        </div>
+      </div>
+
+      <!-- 中間 -->
+      <div class="map-column">
+        <div style="height: 60px;"></div>
+        <div class="middle-label">四維堂前面的路</div>
+        <div style="height: 60px;"></div>
+      </div>
+
+      <!-- 商館 -->
+      <div class="map-column">
+        <div class="label">商館</div>
+        <div class="map-grid">
+          <div class="booth">C1</div><div class="booth">C2</div><div class="booth">C3</div><div class="booth">C4</div><div class="booth">C5</div>
+        </div>
+        <div class="map-grid" style="margin-top: 15px;">
+          <div class="booth">D1</div><div class="booth">D2</div><div class="booth">D3</div><div class="booth">D4</div><div class="booth">D5</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 建築底部對齊列 -->
+    <div class="layout-grid" style="margin-top: -1rem;">
+      <div class="label">行政大樓</div>
+      <div class="label">四維堂</div>
+      <div class="label">中正圖書館</div>
+    </div>
+  </div>
+
+  <!-- 地圖二 -->
+  <div class="map-container">
+    <div class="map-title">四維堂裡面</div>
+    <div class="layout-grid">
+      <!-- 左側 AB -->
+      <div class="map-column">
+        <div class="map-grid">
+          <div class="booth">A1</div><div class="booth">A2</div><div class="booth">A3</div><div class="booth">A4</div><div class="booth">A5</div>
+        </div>
+        <div class="map-grid">
+          <div class="booth">B1</div><div class="booth">B2</div><div class="booth">B3</div><div class="booth">B4</div><div class="booth">B5</div>
+        </div>
+      </div>
+
+      <!-- 中間 E 區 -->
+      <div class="map-column" style="justify-content: flex-end;">
+        <div style="height: 120px;"></div>
+        <div class="map-grid">
+          <div class="booth">E1</div><div class="booth">E2</div><div class="booth">E3</div><div class="booth">E4</div><div class="booth">E5</div>
+        </div>
+      </div>
+
+      <!-- 右側 CD -->
+      <div class="map-column">
+        <div class="map-grid">
+          <div class="booth">C1</div><div class="booth">C2</div><div class="booth">C3</div><div class="booth">C4</div><div class="booth">C5</div>
+        </div>
+        <div class="map-grid">
+          <div class="booth">D1</div><div class="booth">D2</div><div class="booth">D3</div><div class="booth">D4</div><div class="booth">D5</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
