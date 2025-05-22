@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>個人資訊</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
-                header {
+        header {
             background-color: #F7DEA0;
             position: fixed;
             top: 0;
@@ -64,6 +65,7 @@
             background-color: #ff8c00;
             transition: width 0.3s;
         }
+
         footer {
             background-color: #073046;
             color: white;
@@ -86,6 +88,7 @@
             color: #073046;
             vertical-align: middle;
         }
+
         #notification-box {
             display: none;
             position: absolute;
@@ -100,6 +103,7 @@
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+
         .main-title {
             width: 80%;
             margin: 50px auto 20px auto;
@@ -112,10 +116,12 @@
         body {
             padding-top: 80px;
         }
+
         .main-container {
             width: 80%;
             margin: auto;
         }
+
         .info-section {
             background-color: #fdf0d8;
             border-radius: 16px;
@@ -123,6 +129,7 @@
             height: 650px;
             padding: 20px;
         }
+
         .info-left {
             width: 30%;
             display: flex;
@@ -132,6 +139,7 @@
             gap: 20px;
             padding-top: 30px;
         }
+
         .info-left button {
             width: 80%;
             height: 60px;
@@ -141,12 +149,15 @@
             font-size: 18px;
             color: white;
         }
+
         .info-left .active {
             background-color: #FF725E;
         }
+
         .info-left .inactive {
             background-color: #C4C4C4;
         }
+
         .info-right {
             width: 60%;
             display: flex;
@@ -154,17 +165,21 @@
             align-items: flex-start;
             padding: 40px;
         }
+
         .info-content {
             width: 60%;
         }
+
         .info-content h5 {
             margin-bottom: 20px;
             font-weight: bold;
         }
+
         .info-content p {
             margin-bottom: 16px;
             font-size: 18px;
         }
+
         .edit-button {
             width: 40%;
             margin-top: 20px;
@@ -175,7 +190,8 @@
             color: white;
             border-radius: 8px;
         }
-.profile-img {
+
+        .profile-img {
             width: 30%;
             display: flex;
             justify-content: flex-start;
@@ -188,9 +204,11 @@
             width: 100%;
             max-width: 180px;
         }
+
         .favorite-list {
             width: 100%;
         }
+
         .favorite-card {
             display: flex;
             justify-content: space-between;
@@ -201,45 +219,54 @@
             padding: 15px 20px;
             margin-bottom: 15px;
         }
+
         .favorite-card p {
             margin: 0;
             font-size: 16px;
             font-weight: 500;
         }
+
         .favorite-card .btn {
             border-radius: 10px;
         }
+
         /* Modal style */
         .modal-backdrop.show {
             opacity: 0.5;
         }
     </style>
 </head>
+
 <body>
+
+        <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
     <header>
         <div class="header-content">
             <div class="header-left">
-                <img src="../static/images/logo.png" alt="logo">
+                <img th:src="@{/images/logo.png}" alt="logo">
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/home(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn">市集資訊</button>
                 </form>
-                <form th:action="@{/map}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/map(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn">會場地圖</button>
                 </form>
-                <form th:action="@{/activity}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/activity(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn">抽獎集點</button>
                 </form>
-                <form th:action="@{/leftfood}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/leftfood(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn">剩食搜尋</button>
                 </form>
                 <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
                     <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
                 </button>
 
-                <form th:action="@{/profile}" method="get">
+                <form th:action="@{/eView/market/{id}/profile(id=${marketId})}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
@@ -260,89 +287,91 @@
             </div>
         </div>
     </header>
-<br>
-<div class="main-container">
-    <h2 style="color:#073046; font-weight: bold;">個人資訊</h2>
-    <div class="info-section">
-        <div class="info-left">
-            <button id="btn-basic" class="active" onclick="showSection('basic')">基本資料</button>
-            <button id="btn-fav" class="inactive" onclick="showSection('favorite')">收藏清單</button>
-        </div>
-        <div class="info-right">
-            <!-- Basic Info -->
-            <div class="info-content" id="basic-info">
-                <br>
-                <br>
-                <br>
-                <br>
-                <h5>姓名：<span th:text="${user.name}">UserID</span></h5>
-                <p>電子郵件：<span th:text="${user.email}"></span></p>
-                <br>
-                <br>
-                <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal">編輯個人資訊</button>
+    <br>
+    <div class="main-container">
+        <h2 style="color:#073046; font-weight: bold;">個人資訊</h2>
+        <div class="info-section">
+            <div class="info-left">
+                <button id="btn-basic" class="active" onclick="showSection('basic')">基本資料</button>
+                <button id="btn-fav" class="inactive" onclick="showSection('favorite')">收藏清單</button>
             </div>
-            <div class="profile-img" id="profile-img">
-                
-                <img src="../static/images/profile.png" alt="Profile">
-            </div>
-            <!-- Favorites -->
-            <div class="info-content" id="favorite-info" style="display: none; width: 100%;">
-                <h5>店家收藏清單</h5>
-                <div th:if="${favorites.size()} == 0" class="mb-3">
-                    <p>目前你沒有收藏任何攤商。</p>
+            <div class="info-right">
+                <!-- Basic Info -->
+                <div class="info-content" id="basic-info">
+                    <br>
+                    <br>
+                    <br>
+                    <h5>姓名：<span th:text="${user.name}">UserID</span></h5>
+                    <br>
+                    <p>電子郵件：<span th:text="${user.gmail}"></span></p>
+                    <br>
+                    <p>手機：<span th:text="${user.phone}"></span></p>
+                    <br>
+                    <br>
+                    <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal">編輯個人資訊</button>
                 </div>
-                <div class="favorite-list">
-                    <div class="favorite-card" th:each="fav : ${favorites}">
-                        <div>
-                            <p th:text="${fav.vendorName}">攤商 ID－攤商名字</p>
-                            <p th:text="${fav.marketName}" style="font-size: 14px; color: gray;">市集名稱</p>
+                <div class="profile-img" id="profile-img">
+
+                    <img th:src="@{/images/profile.png}" alt="Profile">
+                </div>
+                <!-- Favorites -->
+                <div class="info-content" id="favorite-info" style="display: none; width: 100%;">
+                    <h5>店家收藏清單</h5>
+                    <div th:if="${favorites.size()} == 0" class="mb-3">
+                        <p>目前你沒有收藏任何攤商。</p>
+                    </div>
+                    <div class="favorite-list">
+                        <div class="favorite-card" th:each="fav : ${favorites}">
+                            <div>
+                                <p th:text="${fav.vendorName}">攤商 ID－攤商名字</p>
+                                <p th:text="${fav.marketName}" style="font-size: 14px; color: gray;">市集名稱</p>
+                            </div>
+                            <form th:action="@{'/eView/market/' + ${marketId} + '/profile/unfavorite'}" method="post">
+                                <input type="hidden" name="vendorId" th:value="${fav.vendorId}" />
+                                <button class="btn btn-outline-secondary">
+                                    <i class="bi bi-heart"></i> 取消收藏
+                                </button>
+                            </form>
                         </div>
-                        <form th:action="@{/unfavorite}" method="post">
-                            <input type="hidden" name="vendorId" th:value="${fav.vendorId}" />
-                            <button class="btn btn-outline-secondary">
-                                <i class="bi bi-heart"></i> 取消收藏
-                            </button>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- Modal for editing user info -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form th:action="@{/profile/edit}" method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title">編輯個人資訊</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <label>姓名</label>
-                    <input class="form-control" type="text" name="name" th:value="${user.name}" required>
-                    <label class="mt-2">電子郵件</label>
-                    <input class="form-control" type="email" name="email" th:value="${user.email}" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">確認編輯</button>
-                </div>
-            </form>
+    <!-- Modal for editing user info -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{'/eView/market/' + ${marketId} + 'profile/edit'}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">編輯個人資訊</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label>姓名</label>
+                        <input class="form-control" type="text" name="name" th:value="${user.name}" required>
+                        <label class="mt-2">電子郵件</label>
+                        <input class="form-control" type="email" name="email" th:value="${user.email}" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">確認編輯</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function showSection(section) {
-        document.getElementById('basic-info').style.display = (section === 'basic') ? 'block' : 'none';
-        document.getElementById('profile-img').style.display = (section === 'basic') ? 'flex' : 'none';
-        document.getElementById('favorite-info').style.display = (section === 'favorite') ? 'block' : 'none';
-        document.getElementById('btn-basic').className = (section === 'basic') ? 'active' : 'inactive';
-        document.getElementById('btn-fav').className = (section === 'favorite') ? 'active' : 'inactive';
-    }
-    function toggleNotificationBox() {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showSection(section) {
+            document.getElementById('basic-info').style.display = (section === 'basic') ? 'block' : 'none';
+            document.getElementById('profile-img').style.display = (section === 'basic') ? 'flex' : 'none';
+            document.getElementById('favorite-info').style.display = (section === 'favorite') ? 'block' : 'none';
+            document.getElementById('btn-basic').className = (section === 'basic') ? 'active' : 'inactive';
+            document.getElementById('btn-fav').className = (section === 'favorite') ? 'active' : 'inactive';
+        }
+        function toggleNotificationBox() {
             const box = document.getElementById('notification-box');
             box.style.display = (box.style.display === 'block') ? 'none' : 'block';
         }
@@ -352,10 +381,11 @@
                 box.style.display = 'none';
             }
         }
-</script>
-<br>
+    </script>
+    <br>
     <footer>
         <p class="text-center">© 2025 eView. All Rights Reserved.</p>
     </footer>
 </body>
+
 </html>

@@ -25,7 +25,7 @@ public class Announcement {
     @Column(name = "update_time", nullable = false)
     private LocalDateTime updateTime;
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "target")
     private String target;
 

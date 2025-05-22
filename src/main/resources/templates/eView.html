@@ -157,18 +157,23 @@
 
 <body>
 
+        <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
+
     <!-- Header -->
     <header>
         <div class="header-content">
             <div class="header-left">
-                <img src="../static/images/logo.png" alt="logo">
+                <img th:src="@{/images/logo.png}" alt="logo">
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div>
-                <form th:action="@{/markets}" method="get" style="display:inline;">
+                <form th:action="@{/eView}" method="get" style="display:inline;">
                     <button class="nav-btn">找市集</button>
                 </form>
-                <form th:action="@{/register}" method="get" style="display:inline;">
+                <form th:action="@{/eView/login}" method="get" style="display:inline;">
                     <button class="nav-btn">註冊/登入</button>
                 </form>
             </div>
@@ -177,25 +182,32 @@
 
 
     <!-- Carousel Banner -->
-    <div id="carouselBanner" class="carousel slide" data-bs-ride="carousel" style="margin-top: 80px;">
+    <div id="carouselBanner" class="carousel slide" data-bs-ride="carousel" style="margin-top: 80px;"
+        data-bs-interval="5000">
         <div class="carousel-inner">
-            <div class="carousel-item active"><img src="../static/images/marketImage1.png" class="d-block w-100"
-                    alt="..."></div>
-            <div class="carousel-item"><img src="../static/images/marketImage2.png" class="d-block w-100" alt="...">
+            <div class="carousel-item active">
+                <img th:src="@{/images/marketImage1.png}" class="d-block w-100" alt="...">
             </div>
-            <div class="carousel-item"><img src="../static/images/marketImage3.png" class="d-block w-100" alt="...">
+            <div class="carousel-item">
+                <img th:src="@{/images/marketImage2.png}" class="d-block w-100" alt="...">
             </div>
-            <div class="carousel-item"><img src="../static/images/marketImage4.png" class="d-block w-100" alt="...">
+            <div class="carousel-item">
+                <img th:src="@{/images/marketImage3.png}" class="d-block w-100" alt="...">
             </div>
-            <div class="carousel-item"><img src="../static/images/marketImage5.png" class="d-block w-100" alt="...">
+            <div class="carousel-item">
+                <img th:src="@{/images/marketImage4.png}" class="d-block w-100" alt="...">
+            </div>
+            <div class="carousel-item">
+                <img th:src="@{/images/marketImage5.png}" class="d-block w-100" alt="...">
             </div>
         </div>
     </div>
 
+
     <!-- Market Section -->
     <section class="market-section">
         <div class="market-tabs">
-            <h3>市集列表</h3>
+            <h3>市集與展覽列表</h3>
             <div>
                 <button class="tab-button active" id="btn-active" onclick="switchTab('active')">進行中</button>
                 <button class="tab-button" id="btn-recruiting" onclick="switchTab('recruiting')">招商中</button>
@@ -210,17 +222,21 @@
             </div>
             <div th:if="${!#lists.isEmpty(activeMarkets)}">
                 <div th:each="market : ${activeMarkets}" class="market-card fade-in">
-                    <img src="/images/marketList.png" alt="market">
+                    <img th:src="${market.imageUrl != null && !#strings.isEmpty(market.imageUrl) 
+               ? @{${market.imageUrl}} 
+               : @{../static/images/marketImage1.png}}" alt="market" />
                     <div>
                         <h4 th:text="${market.title}">市集名稱</h4>
                         <p>時間：<span th:text="${market.startDate}"></span> - <span th:text="${market.endDate}"></span>
                         </p>
                         <p>地點：<span th:text="${market.location}"></span></p>
                         <p th:text="${market.description}" style="white-space: pre-line;"></p>
-                        <button class="btn btn-warning">查看更多</button>
+                        <a th:href="@{/eView/market/{id}(id=${market.id})/home}" class="btn btn-warning">查看更多</a>
                     </div>
                 </div>
+                <hr>
             </div>
+
         </div>
 
         <!-- Recruiting Markets -->
@@ -230,21 +246,25 @@
             </div>
             <div th:if="${!#lists.isEmpty(recruitingMarkets)}">
                 <div th:each="market : ${recruitingMarkets}" class="market-card fade-in">
-                    <img src="../static/images/marketImage6.png" alt="market">
+                    <img th:src="${market.imageUrl != null and !#strings.isEmpty(market.imageUrl) 
+                ? @{${market.imageUrl}} 
+                : @{../static/images/marketImage6.png}}" alt="market">
                     <div>
                         <h4 th:text="${market.title}">市集名稱</h4>
                         <p>時間：<span th:text="${market.startDate}"></span> - <span th:text="${market.endDate}"></span>
                         </p>
                         <p>地點：<span th:text="${market.location}"></span></p>
                         <p th:text="${market.description}" style="white-space: pre-line;"></p>
-                        <button class="btn btn-primary">提出申請</button>
+                        <a th:href="@{/vendor/info/apply(id=${market.id})}" class="btn btn-primary">提出申請</a>
                     </div>
                 </div>
+                <hr>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
+    <br>
     <br>
     <footer>
         <p>© 2025 eView. All Rights Reserved.</p>

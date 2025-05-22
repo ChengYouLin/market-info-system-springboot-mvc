@@ -20,11 +20,11 @@ public class Leftover {
     @Column(name = "amount")
     private int amount = 0;
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "status")
     private String status;
 
-    @Enumerated(EnumType.STRING)
+    //@Enumerated(EnumType.STRING)
     @Column(name = "type")
     private String type;
 
