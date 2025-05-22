@@ -202,7 +202,15 @@
                 
                 <div>
                     <label for="phone">電話</label>
-                    <input type="phone" id="phone" name="phone" placeholder="0900000000" required>
+                    <input type="phone" 
+                            id="phone" 
+                            name="phone" 
+                            placeholder="0900000000" 
+                            pattern="^09\d{8}$"
+                            inputmode="numeric"
+                            minlength="10"
+                            maxlength="10"  
+                            required>
                 </div>
 
                 <div>

@@ -238,6 +238,11 @@
 </head>
 
 <body>
+
+        <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
     <header>
         <div class="header-content">
             <div class="header-left">
@@ -296,16 +301,18 @@
                     <br>
                     <br>
                     <br>
-                    <br>
                     <h5>姓名：<span th:text="${user.name}">UserID</span></h5>
-                    <p>電子郵件：<span th:text="${user.email}"></span></p>
+                    <br>
+                    <p>電子郵件：<span th:text="${user.gmail}"></span></p>
+                    <br>
+                    <p>手機：<span th:text="${user.phone}"></span></p>
                     <br>
                     <br>
                     <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal">編輯個人資訊</button>
                 </div>
                 <div class="profile-img" id="profile-img">
 
-                    <img src="../static/images/profile.png" alt="Profile">
+                    <img th:src="@{/images/profile.png}" alt="Profile">
                 </div>
                 <!-- Favorites -->
                 <div class="info-content" id="favorite-info" style="display: none; width: 100%;">
@@ -319,7 +326,7 @@
                                 <p th:text="${fav.vendorName}">攤商 ID－攤商名字</p>
                                 <p th:text="${fav.marketName}" style="font-size: 14px; color: gray;">市集名稱</p>
                             </div>
-                            <form th:action="@{/unfavorite}" method="post">
+                            <form th:action="@{'/eView/market/' + ${marketId} + '/profile/unfavorite'}" method="post">
                                 <input type="hidden" name="vendorId" th:value="${fav.vendorId}" />
                                 <button class="btn btn-outline-secondary">
                                     <i class="bi bi-heart"></i> 取消收藏
@@ -336,7 +343,7 @@
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form th:action="@{/profile/edit}" method="post">
+                <form th:action="@{'/eView/market/' + ${marketId} + 'profile/edit'}" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title">編輯個人資訊</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>

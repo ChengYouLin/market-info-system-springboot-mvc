@@ -44,7 +44,7 @@ public class RegisterController {
             redirectAttributes.addFlashAttribute("message", "註冊成功，請登入！");
             return "redirect:/eView/login";
         } else {
-            redirectAttributes.addFlashAttribute("message", "註冊失敗，帳號可能已存在");
+            redirectAttributes.addFlashAttribute("message", "註冊失敗，信箱(帳號)可能已經存在");
             return "redirect:/eView/register";
         }
     }
