@@ -38,6 +38,12 @@ public class UserService {
     @Autowired
     private ApplyRepository applyRepository;
 
+    @Autowired
+    private ReserveRepository reserveRepository;
+
+    @Autowired
+    private LeftoverRepository leftoverRepository;
+
     public List<Announcement> findMarketAnnouncement(int marketId) {
         return userQueryRepository.findMarketAnnouncement(marketId);
     }
@@ -86,5 +92,18 @@ public class UserService {
     public void findUpdateHavePoint(String email, int marketId){
         havePointsRespository.updateHavePoint(email, marketId);
     }
+
+    public List<ReservationDTO> findGetReserInfo(String email, int marketId){
+        return reserveRepository.getReserInfo(email, marketId);
+    }
+
+    public List<LeftoverFoodDTO> getfindLeftInfo(int marketId){
+        return leftoverRepository.findLeftInfo(marketId);
+    }
+
+    public void getUpdateLeftFood(String user, int leftoverId, String productName, int quantity){
+        leftoverRepository.updateLeftFood( user, leftoverId, productName, quantity);
+    }
+
 
 }

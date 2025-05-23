@@ -24,7 +24,7 @@ public class ActivityController {
 
         List<DTO> DTO = userService.genFindStatus(marketId);
 
-        if(DTO.getFirst().isActivity() == false){
+        if(DTO.get(0).isActivity() == false){
             redirectAttributes.addFlashAttribute("message", "本活動無提供抽獎！");
             return "redirect:/eView/market/" + marketId + "/home";
         }else if (session.getAttribute("user") == null || session.getAttribute("role") != "u") {
@@ -45,7 +45,7 @@ public class ActivityController {
         return"activity";
     }
 
-    @PostMapping("{id}/activity/submitPoint")
+    @PostMapping("/{id}/activity/submitPoint")
     public String submitPoint(@PathVariable("id") int marketId,
                               @RequestParam("pointCode") String pointCode,
                               HttpSession session,
