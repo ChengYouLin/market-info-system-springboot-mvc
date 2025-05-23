@@ -164,7 +164,6 @@
 
         body {
             margin-top: 80px;
-            background-color: #FFFDF7;
         }
 
         .container-custom {
@@ -274,51 +273,55 @@
 <body>
     <div class="page-container">
 
-        <!-- Header 引入 -->
-        <header>
-            <div class="header-content">
-                <div class="header-left">
-                    <img src="../static/images/logo.png" alt="logo">
-                    <span class="logo-text">藝覽無遺 eView</span>
-                </div>
-                <div class="d-flex align-items-center" style="gap: 10px;">
-                    <form th:action="@{/marketHome}" method="get" style="display:inline;">
-                        <button class="nav-btn">市集資訊</button>
-                    </form>
-                    <form th:action="@{/map}" method="get" style="display:inline;">
-                        <button class="nav-btn">會場地圖</button>
-                    </form>
-                    <form th:action="@{/activity}" method="get" style="display:inline;">
-                        <button class="nav-btn">抽獎集點</button>
-                    </form>
-                    <form th:action="@{/leftfood}" method="get" style="display:inline;">
-                        <button class="nav-btn active">剩食搜尋</button>
-                    </form>
-                    <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
-                        <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
+               <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img th:src="@{/images/logo.png}" alt="logo">
+                <span class="logo-text">藝覽無遺 eView</span>
+            </div>
+            <div class="d-flex align-items-center" style="gap: 10px;">
+                <form th:action="@{/eView/market/{id}/home(id=${marketId})}" method="get" style="display:inline;">
+                    <button class="nav-btn">市集資訊</button>
+                </form>
+                <form th:action="@{/eView/market/{id}/map(id=${marketId})}" method="get" style="display:inline;">
+                    <button class="nav-btn">會場地圖</button>
+                </form>
+                <form th:action="@{/eView/market/{id}/activity(id=${marketId})}" method="get" style="display:inline;">
+                    <button class="nav-btn">抽獎集點</button>
+                </form>
+                <form th:action="@{/eView/market/{id}/leftfood(id=${marketId})}" method="get" style="display:inline;">
+                    <button class="nav-btn active">剩食搜尋</button>
+                </form>
+                <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
+                    <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
+                </button>
+
+                <form th:action="@{/eView/market/{id}/profile(id=${marketId})}" method="get">
+                    <button class="btn btn-link">
+                        <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
-
-                    <form th:action="@{/profile}" method="get">
-                        <button class="btn btn-link">
-                            <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
-                        </button>
-                    </form>
+                </form>
 
 
-                </div>
             </div>
-            <div id="notification-box">
-                <h5>通知</h5>
-                <div th:if="${notices.size()} == 0">目前沒有公告消息</div>
-                <div th:each="notice : ${notices}" style="margin-top: 10px;">
-                    <p><strong>【<span th:text="${notice.marketName}"></span>】</strong> 發布時間: <span
-                            th:text="${notice.time}"></span></p>
-                    <p th:text="${notice.title}"></p>
-                    <p th:text="${notice.content}"></p>
-                    <hr />
-                </div>
+        </div>
+        <div id="notification-box">
+            <h5>通知</h5>
+            <div th:if="${notices.size()} == 0">目前沒有公告消息</div>
+            <div th:each="notice : ${notices}" style="margin-top: 10px;">
+                <p><strong>【<span th:text="${notice.marketName}"></span>】</strong> 發布時間: <span
+                        th:text="${notice.time}"></span></p>
+                <p th:text="${notice.title}"></p>
+                <p th:text="${notice.content}"></p>
+                <hr />
             </div>
-        </header>
+        </div>
+    </header>
+
         <div class="container-custom">
 
             <!-- 預約紀錄 -->

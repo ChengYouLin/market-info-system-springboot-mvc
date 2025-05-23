@@ -32,13 +32,13 @@ public class HomeService {
     private UserRepository userRepository;
 
     public List<MarketDTO> activeMarkets() {
-        return null;
-        //return homeQueryRepository.findActivityMarket();
+//        return null;
+        return homeQueryRepository.findActivityMarket();
     }
 
     public List<MarketDTO> recruitingMarkets() {
-        return null;
-        //return homeQueryRepository.findRecruitingMarkets();
+//        return null;
+        return homeQueryRepository.findRecruitingMarkets();
     }
 
     public boolean validateUser(String email, String password, String role) {

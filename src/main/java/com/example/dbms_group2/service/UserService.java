@@ -1,12 +1,8 @@
 package com.example.dbms_group2.service;
 
-import com.example.dbms_group2.model.DTO.FaoDTO;
-import com.example.dbms_group2.model.DTO.UserDTO;
+import com.example.dbms_group2.model.DTO.*;
 import com.example.dbms_group2.model.entity.Announcement;
-import com.example.dbms_group2.repository.AnnouncementRepository;
-import com.example.dbms_group2.repository.PreferRepository;
-import com.example.dbms_group2.repository.UserQueryRepository;
-import com.example.dbms_group2.repository.UserRepository;
+import com.example.dbms_group2.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -29,25 +25,68 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private MarketRepository marketRepository;
+
+    @Autowired
+    private OpeningRepository openingRepository;
+
+    @Autowired
+    private HavePointsRespository havePointsRespository;
+
+    @Autowired
+    private OrganizerRepository organizerRepository;
+
+    @Autowired
+    private ApplyRepository applyRepository;
+
     public List<Announcement> findMarketAnnouncement(int marketId) {
         return userQueryRepository.findMarketAnnouncement(marketId);
     }
 
-    public List<UserDTO> findGetUserDetail(String email) {
-        return userRepository.getUserDetail(email);
-    }
+//    public List<UserDTO> findGetUserDetail(String email) {
+//        return userRepository.getUserDetail(email);
+//    }
+//
+//    public List<FaoDTO> getFindUserFao(String email){
+//        return preferRepository.findGetFindUserFao(email);
+//    }
+//
+//    public void deleteFao(int preferId){
+//        preferRepository.deleteById(preferId);
+//    }
+//
+//    public void findUpdateUserProfile(String email, String name){
+//        userRepository.updateUserProfile(email,name);
+//    }
 
-    public List<FaoDTO> getFindUserFao(String email){
-        return preferRepository.findGetFindUserFao(email);
-    }
+//    public List<MarketHomeDTO> getFindMarketInfo(int marketId){
+//        return marketRepository.findMarketInfo(marketId);
+//    }
+//
+//    public List<TimeSlotDTO> getFindTimeSlot(int marketId){
+//        return openingRepository.findTimeSlot(marketId);
+//    }
+//
+//    public int getFindTotalPoint(String email, int marketId){
+//        List<PointDTO> p = havePointsRespository.findTotalPoint(email, marketId);
+//        return p.getFirst().getPointCount();
+//    }
 
-    public void deleteFao(int preferId){
-        preferRepository.deleteById(preferId);
-    }
+//    public List<DTO> genFindStatus(int marketId){
+//        return organizerRepository.findStatus(marketId);
+//    }
+//
+//    public String getFindActDes(int marketId){
+//        return marketRepository.findLotteryRuleById(marketId);
+//    }
 
-    public void findUpdateUserProfile(String email, String name){
-        userRepository.updateUserProfile(email,name);
-    }
-
+//    public boolean correctStamp(int marketId, String stamp) {
+//        return applyRepository.checkCorrectStamp.getFirst().getCorrect();
+//    }
+//
+//    public void findUpdateHavePoint(String email, int marketId){
+//        havePointsRespository.updateHavePoint(email, marketId);
+//    }
 
 }
