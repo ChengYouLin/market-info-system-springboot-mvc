@@ -4,6 +4,7 @@ package com.example.dbms_group2.controller;
 import com.example.dbms_group2.model.DTO.DTO;
 import com.example.dbms_group2.model.DTO.LeftoverFoodDTO;
 import com.example.dbms_group2.model.DTO.ReservationDTO;
+import com.example.dbms_group2.model.entity.Announcement;
 import com.example.dbms_group2.service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,24 @@ public class LeftfoodController {
             redirectAttributes.addFlashAttribute("message", "本活動無提供剩食服務！");
             return "redirect:/eView/market/" + marketId + "/home";
         }else{
+
             Object user = session.getAttribute("account");
+            Object role = session.getAttribute("role");
 
-            List<ReservationDTO> reservations = userService.findGetReserInfo((String) user, marketId);
-            List<LeftoverFoodDTO> leftFoods = userService.getfindLeftInfo(marketId);
+            if(user == null || role != "u"){
+                redirectAttributes.addFlashAttribute("message", "您尚未登入！");
+                return "redirect:/eView/login";
+            }else{
+                List<ReservationDTO> reservations = userService.findGetReserInfo((String) user, marketId);
+                List<LeftoverFoodDTO> leftFoods = userService.getfindLeftInfo(marketId);
 
-            model.addAttribute("reservations", reservations);
-            model.addAttribute("leftFoods", leftFoods);
+                model.addAttribute("reservations", reservations);
+                model.addAttribute("leftFoods", leftFoods);
+
+                List<Announcement> notices = userService.findMarketAnnouncement(marketId);
+                model.addAttribute("notices", notices);
+            }
+
         }
 
         return "leftfood"; // Thymeleaf 頁面檔名
