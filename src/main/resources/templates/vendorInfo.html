@@ -471,7 +471,7 @@
 
 
                     <!-- 只有當是招商中時，才顯示「可點擊」 -->
-                    <a th:if="${market.statusCode == '招商中'}" th:href="@{'/eView/vendor/info/apply?=' + ${market.id}}"
+                    <a th:if="${market.statusCode == '招商中'}" th:href="@{'/eView/vendor/info/apply'(id=${market.id})}"
                         class="status-box-clickable bg-invite">開始招商</a>
 
                 </div>
@@ -543,7 +543,7 @@
         function openVendorModal(el) {
             const applyId = el.getAttribute("data-apply-id");
             const data = vendorList.find(v => v.applyId === applyId);
-            
+
             if (!data) {
                 alert("查無此攤商資訊");
                 return;
