@@ -2,6 +2,7 @@ package com.example.dbms_group2.repository;
 
 import com.example.dbms_group2.model.DTO.QrSectionDTO;
 import com.example.dbms_group2.model.DTO.StampDTO;
+import com.example.dbms_group2.model.DTO.VendorApplicationDTO;
 import com.example.dbms_group2.model.DTO.VendorViewDTO;
 import com.example.dbms_group2.model.entity.Apply;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,4 +21,10 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
                    String line, String website, String vendorEmail);
 
     List<QrSectionDTO> getStampInfo(String vendorEmail);
+
+    List<VendorApplicationDTO> findAllMarketApplyStatus(String organizerEmail);
+
+    void approveStatus(int applyId);
+
+    void rejectStatus(int applyId);
 }
