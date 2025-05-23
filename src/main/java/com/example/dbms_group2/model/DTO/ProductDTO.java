@@ -3,9 +3,9 @@ package com.example.dbms_group2.model.DTO;
 public class ProductDTO {
     private String name;
     private String category;
-    private String price;
+    private int price;
 
-    public ProductDTO(String name, String category, String price) {
+    public ProductDTO(String name, String category, int price) {
         this.name = name;
         this.category = category;
         this.price = price;
@@ -27,11 +27,11 @@ public class ProductDTO {
         this.category = category;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 }

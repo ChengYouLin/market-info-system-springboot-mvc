@@ -87,4 +87,13 @@ public class VendorService {
                                      String vendorEmail){
         applyRepository.updateNewApply(marketId, name, description, email, facebook, instagram,line,website,vendorEmail);
     }
+
+    public List<MarketInfoDTO> getFindMarketList(String email){
+        return marketRepository.findMarketList(email);
+    }
+
+    public List<VendorViewDTO> getFindVendorList(String email){
+        return marketRepository.findVendorList( email);
+    }
+
 }
