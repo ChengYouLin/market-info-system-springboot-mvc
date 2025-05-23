@@ -1,6 +1,7 @@
 package com.example.dbms_group2.controller;
 
 
+import com.example.dbms_group2.model.DTO.AnnouncementDTO;
 import com.example.dbms_group2.model.DTO.DTO;
 import com.example.dbms_group2.model.DTO.LeftoverFoodDTO;
 import com.example.dbms_group2.model.DTO.ReservationDTO;
@@ -46,7 +47,7 @@ public class LeftfoodController {
                 model.addAttribute("reservations", reservations);
                 model.addAttribute("leftFoods", leftFoods);
 
-                List<Announcement> notices = userService.findMarketAnnouncement(marketId);
+                List<AnnouncementDTO> notices = userService.findMarketAnnouncement(marketId);
                 model.addAttribute("notices", notices);
             }
 

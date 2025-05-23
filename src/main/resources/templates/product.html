@@ -304,33 +304,35 @@
 </head>
 
 <body>
+            <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
     <header>
         <div class="header-content">
             <div class="header-left">
-                <img src="../static/images/logo.png" alt="logo">
+                <img th:src="@{/images/logo.png}" alt="logo">
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                <form th:action="@{/eView/vendor/info}" method="get" style="display:inline;">
                     <button class="nav-btn">攤位資訊</button>
                 </form>
-                <form th:action="@{/map}" method="get" style="display:inline;">
+                <form th:action="@{/eView/vendor/product}" method="get" style="display:inline;">
                     <button class="nav-btn active">商品上架</button>
                 </form>
-                <form th:action="@{/activity}" method="get" style="display:inline;">
+                <form th:action="@{/eView/vendor/leftfood}" method="get" style="display:inline;">
                     <button class="nav-btn">剩食更新</button>
                 </form>
                 <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
                     <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
                 </button>
 
-                <form th:action="@{/profile}" method="get">
+                <form th:action="@{/eView/vendor/profile}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
                 </form>
-
-
             </div>
         </div>
         <div id="notification-box">
@@ -341,24 +343,18 @@
                         th:text="${notice.time}"></span></p>
                 <p th:text="${notice.title}"></p>
                 <p th:text="${notice.content}"></p>
-                <hr />
+                <hr/>
             </div>
         </div>
     </header>
 
     <div class="main-container">
-        <!-- 成功或錯誤訊息提示 -->
-        <div th:if="${message}" class="mt-3 text-center">
-            <div th:class="'alert alert-' + ${messageType}" role="alert" style="width: 60%; margin: 0 auto;">
-                <span th:text="${message}"></span>
-            </div>
-        </div>
 
         <h2 class="main-title">商品上架</h2>
         <div class="form-wrapper">
             <!-- 左側表單 -->
             <div class="form-left">
-                <form th:action="@{/product/upload}" method="post" th:object="${product}" class="form-fields">
+                <form th:action="@{/eView/vendor/product/upload}" method="post" th:object="${product}" class="form-fields">
                     <div class="form-group">
                         <label class="form-label">商品名稱</label>
                         <input type="text" th:field="*{name}" class="form-control custom-input" placeholder="請輸入商品名稱">
@@ -393,7 +389,7 @@
                     <span th:text="${item.name}">商品名稱</span>
                     <span th:text="${item.category}">類別</span>
                     <span th:text="'$' + ${item.price}">價格</span>
-                    <form th:action="@{/product/delete/{id}(id=${item.id})}" method="post" style="margin-left: 10px;">
+                    <form th:action="@{/eView/vendor/product/delete/{id}(id=${item.id})}" method="post" style="margin-left: 10px;">
                         <button type="submit" class="btn btn-outline-danger btn-sm"><i class="bi bi-x-lg"></i></button>
                     </form>
                 </div>

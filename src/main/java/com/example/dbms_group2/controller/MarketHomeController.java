@@ -1,5 +1,6 @@
 package com.example.dbms_group2.controller;
 
+import com.example.dbms_group2.model.DTO.AnnouncementDTO;
 import com.example.dbms_group2.model.DTO.MarketHomeDTO;
 import com.example.dbms_group2.model.DTO.TimeSlotDTO;
 import com.example.dbms_group2.model.entity.Announcement;
@@ -24,7 +25,7 @@ public class MarketHomeController {
     public String viewMarketHome(@PathVariable("id") int marketId, Model model) {
 
         //鈴鐺的部分
-        List<Announcement> notices = userService.findMarketAnnouncement(marketId);
+        List<AnnouncementDTO> notices = userService.findMarketAnnouncement(marketId);
         model.addAttribute("notices", notices);
 
         List<MarketHomeDTO> marketInfo = userService.getFindMarketInfo(marketId);

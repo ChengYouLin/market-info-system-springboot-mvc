@@ -14,4 +14,5 @@ public class StampDTO {
     public void setCorrect(boolean correct) {
         this.correct = correct;
     }
+
 }

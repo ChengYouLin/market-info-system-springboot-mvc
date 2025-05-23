@@ -1,5 +1,6 @@
 package com.example.dbms_group2.controller;
 
+import com.example.dbms_group2.model.DTO.AnnouncementDTO;
 import com.example.dbms_group2.model.DTO.FaoDTO;
 import com.example.dbms_group2.model.DTO.UserDTO;
 import com.example.dbms_group2.model.entity.Announcement;
@@ -38,7 +39,7 @@ public class ProfileController {
         }
 
         //鈴鐺的部分
-        List<Announcement> notices = userService.findMarketAnnouncement(marketId);
+        List<AnnouncementDTO> notices = userService.findMarketAnnouncement(marketId);
         model.addAttribute("notices", notices);
 
         //個人資訊

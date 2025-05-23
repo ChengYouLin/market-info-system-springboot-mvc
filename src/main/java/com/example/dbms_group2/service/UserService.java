@@ -53,7 +53,7 @@ public class UserService {
     @Autowired
     private AssignmentPointRepository assignmentPointRepository;
 
-    public List<Announcement> findMarketAnnouncement(int marketId) {
+    public List<AnnouncementDTO> findMarketAnnouncement(int marketId) {
         return userQueryRepository.findMarketAnnouncement(marketId);
     }
 
@@ -95,7 +95,7 @@ public class UserService {
     }
 
     public boolean correctStamp(int marketId, String stamp) {
-        return applyRepository.checkCorrectStamp.getFirst().getCorrect();
+        return applyRepository.checkCorrectStamp(marketId, stamp).get(0).isCorrect();
     }
 
     public void findUpdateHavePoint(String email, int marketId){

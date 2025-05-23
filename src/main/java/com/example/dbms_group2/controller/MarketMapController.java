@@ -1,6 +1,7 @@
 package com.example.dbms_group2.controller;
 
 
+import com.example.dbms_group2.model.DTO.AnnouncementDTO;
 import com.example.dbms_group2.model.DTO.FilterVendorDTO;
 import com.example.dbms_group2.model.DTO.VendorViewDTO;
 import com.example.dbms_group2.model.DTO.ZoneDTO;
@@ -35,7 +36,7 @@ public class MarketMapController {
         List<VendorViewDTO> vendorList = userService.getFindVendorView(user, marketId);
 
         //鈴鐺問題
-        List<Announcement> notices = userService.findMarketAnnouncement(marketId);
+        List<AnnouncementDTO> notices = userService.findMarketAnnouncement(marketId);
         model.addAttribute("notices", notices);
 
         model.addAttribute("marketId", marketId);
@@ -75,7 +76,7 @@ public class MarketMapController {
                           @SessionAttribute("account") String user,
                           RedirectAttributes redirectAttributes) {
         //鈴鐺問題
-        List<Announcement> notices = userService.findMarketAnnouncement(marketId);
+        List<AnnouncementDTO> notices = userService.findMarketAnnouncement(marketId);
         model.addAttribute("notices", notices);
 
         int length = selectedCategories.size();
