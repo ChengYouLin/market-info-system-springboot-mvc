@@ -128,7 +128,7 @@ public class UserService {
 
     public boolean checkFindResultRank(String email, int marketId, int vendorId, int score){
         List<ResultRankDTO> result = rankRepository.findResultRank(email, marketId, vendorId);
-        if(result.get(0).isResult() == true){
+        if(result.get(0).isResult()){
             return true;
         }else{
             rankRepository.updateRank(email, marketId, vendorId, score);

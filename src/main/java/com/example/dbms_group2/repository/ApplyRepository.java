@@ -13,4 +13,9 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
     List<StampDTO> checkCorrectStamp(int marketId, String stamp);
 
     List<VendorViewDTO> findVendorView(int marketId, String email);
+
+    void updateNewApply(int marketId, String name, String description,
+                   String email, String facebook, String instagram,
+                   String line, String website, String vendorEmail);
+
 }

@@ -9,6 +9,11 @@ import org.springframework.data.repository.query.Param;
 public interface MarketRepository extends JpaRepository<Market, Long> {
 
     //List<MarketHomeDTO> findMarketInfo(int marketId);
+
     @Query("SELECT m.lotteryRule FROM Market m WHERE m.marketId = :id")
     String findLotteryRuleById(@Param("id") int id);
+
+    String findMarketNameById(@Param("id") int id);
+
+
 }

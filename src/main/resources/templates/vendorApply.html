@@ -216,21 +216,34 @@
 </head>
 
 <body>
+    <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
     <header>
         <div class="header-content">
             <div class="header-left">
-                <img src="../static/images/logo.png" alt="logo">
+                <img th:src="@{/images/logo.png}" alt="logo">
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/marketHome}" method="get"><button class="nav-btn">攤位資訊</button></form>
-                <form th:action="@{/map}" method="get"><button class="nav-btn">商品上架</button></form>
-                <form th:action="@{/activity}" method="get"><button class="nav-btn">剩食更新</button></form>
+                <form th:action="@{/eView/vendor/info}" method="get" style="display:inline;">
+                    <button class="nav-btn active">攤位資訊</button>
+                </form>
+                <form th:action="@{/eView/vendor/product}" method="get" style="display:inline;">
+                    <button class="nav-btn">商品上架</button>
+                </form>
+                <form th:action="@{/eView/vendor/leftfood}" method="get" style="display:inline;">
+                    <button class="nav-btn">剩食更新</button>
+                </form>
                 <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
                     <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
                 </button>
-                <form th:action="@{/profile}" method="get">
-                    <button class="btn btn-link"><i class="bi bi-person-circle" style="font-size: 1.5rem;"></i></button>
+
+                <form th:action="@{/eView/vendor/profile}" method="get">
+                    <button class="btn btn-link">
+                        <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                    </button>
                 </form>
             </div>
         </div>
@@ -251,7 +264,7 @@
         <h2 class="main-title" th:text="'攤位申請資訊－' + ${marketName}">攤位申請資訊－市集名稱</h2>
         <div class="section-wrapper">
             <div class="section-inner">
-                <form th:action="@{/vendor/apply}" th:object="${vendor}" method="post" enctype="multipart/form-data">
+                <form th:action="@{/eView/vendor/info/apply}" th:object="${vendor}" method="post" enctype="multipart/form-data">
                     <div class="form-section">
                         <!-- 左欄 -->
                         <div class="form-column">
@@ -263,7 +276,7 @@
                                 <textarea th:field="*{description}" class="form-control" rows="5"
                                     placeholder="請輸入簡介"></textarea>
 
-                                <label>上傳 LOGO（尺寸必須為 1080*1080 px）</label>
+                                <label>上傳 LOGO（尺寸必須為 1800*800 px）</label>
                                 <div class="upload-box">
                                     <i class="bi bi-cloud-arrow-up"></i>
                                     <p>上傳圖片<br>或將圖片拖曳至此</p>

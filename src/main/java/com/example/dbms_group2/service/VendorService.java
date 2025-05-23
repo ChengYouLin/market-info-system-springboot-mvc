@@ -20,6 +20,11 @@ public class VendorService {
     private LeftoverRepository leftoverRepository;
     @Autowired
     private ReserveRepository reserveRepository;
+    @Autowired
+    private MarketRepository marketRepository;
+    @Autowired
+    private ApplyRepository applyRepository;
+
     public List<ProductVendorDTO> getFindAllProduct(String mail){
         return productRepository.findAllProduct(mail);
     }
@@ -66,5 +71,20 @@ public class VendorService {
 
     public void addLeftover(String name, int quan, String vendorEmail){
         leftoverRepository.addNewLeftover(name, quan, vendorEmail);
+    }
+
+    public String getFindMarketName(int marketId){
+        return marketRepository.findMarketNameById(marketId);
+    }
+
+    public void getUpdateNewApply(int marketId, String name,
+                                     String description,
+                                     String email,
+                                     String facebook,
+                                     String instagram,
+                                     String line,
+                                     String website,
+                                     String vendorEmail){
+        applyRepository.updateNewApply(marketId, name, description, email, facebook, instagram,line,website,vendorEmail);
     }
 }

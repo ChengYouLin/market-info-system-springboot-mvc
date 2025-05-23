@@ -1,5 +1,6 @@
 package com.example.dbms_group2.controller;
 
+import com.example.dbms_group2.model.DTO.AnnouncementDTO;
 import com.example.dbms_group2.model.DTO.LeftoverDTO;
 import com.example.dbms_group2.model.DTO.ProductDTO;
 import com.example.dbms_group2.model.DTO.ProductVendorDTO;
@@ -35,6 +36,10 @@ public class LeftfoodVendorController {
         } else {
             List<LeftoverDTO> leftovers = vendorService.findGetLeftoversByVendor(vendorId);
             List<ProductVendorDTO> productList = vendorService.getFindAllProduct(vendorId);
+
+            //鈴鐺，傳自己的然後去抓
+            List<AnnouncementDTO> notices = vendorService.getFindMarketForVendorAnnouncement((String) user);
+            model.addAttribute("notices", notices);
 
             model.addAttribute("leftovers", leftovers);
             model.addAttribute("productList", productList);
