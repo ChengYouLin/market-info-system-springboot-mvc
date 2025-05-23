@@ -436,13 +436,14 @@
             <div id="qr-section" class="rounded-box" style="display: block;">
                 <h4>
                     <span id="marketSelector" class="selector-box" onclick="openMarketModal()"
-                        th:text="${selectedMarketName != null} ? ${selectedMarketName} : '請點擊選擇市集'">請點擊選擇市集</span>
-                    － 集點活動
+                        th:text="${qrSection.marketName != null} ? ${qrSection.marketName} : '請點擊選擇市集'">
+                        請點擊選擇市集
+                    </span>
                 </h4>
 
                 <div class="mt-4">
-                    <p class="market-info" th:text="'攤位名稱：' + ${boothName}">攤位名稱：不能夠有你</p>
-                    <p class="stamp-code" th:text="'集點代碼：' + ${stampCode}">集點代碼：STMP223456</p>
+                    <p class="market-info" th:text="'攤位名稱：' + ${qrSection.boothName}">攤位名稱：不能夠有你</p>
+                    <p class="stamp-code" th:text="'集點代碼：' + ${qrSection.stampCode}">集點代碼：STMP223456</p>
                     <img th:src="@{/images/QRcode.png}" alt="QR Code" class="qr-image">
                 </div>
             </div>

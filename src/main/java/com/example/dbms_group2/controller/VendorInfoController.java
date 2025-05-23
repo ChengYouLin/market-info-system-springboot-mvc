@@ -1,9 +1,6 @@
 package com.example.dbms_group2.controller;
 
-import com.example.dbms_group2.model.DTO.AnnouncementDTO;
-import com.example.dbms_group2.model.DTO.MarketInfoDTO;
-import com.example.dbms_group2.model.DTO.VendorDetailDTO;
-import com.example.dbms_group2.model.DTO.VendorViewDTO;
+import com.example.dbms_group2.model.DTO.*;
 import com.example.dbms_group2.service.VendorService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,6 +46,9 @@ public class VendorInfoController {
                 model.addAttribute("marketList", marketList);
 
                 List<VendorViewDTO> vendorDetails = vendorService.getFindVendorList((String) user);
+
+                List<QrSectionDTO> qr =vendorService.findGetStampInfo((String) user);
+                model.addAttribute("qrSection", qr);
 
                 ObjectMapper mapper = new ObjectMapper();
                 String vendorListJson = mapper.writeValueAsString(vendorDetails);

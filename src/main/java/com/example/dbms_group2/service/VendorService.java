@@ -96,4 +96,8 @@ public class VendorService {
         return marketRepository.findVendorList( email);
     }
 
+    public List<QrSectionDTO> findGetStampInfo(String email){
+        return applyRepository.getStampInfo(email);
+    }
+
 }
