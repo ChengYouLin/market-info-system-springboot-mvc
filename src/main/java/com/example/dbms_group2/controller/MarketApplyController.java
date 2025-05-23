@@ -34,8 +34,7 @@ public class MarketApplyController {
                 redirectAttributes.addFlashAttribute("message", "您身份不符！");
                 return "redirect:/eView";
             } else {
-                List<VendorApplicationDTO> applications = marketService.getAllApplications();
-                model.addAttribute("applications", applications);
+
                 return "marketApply"; // Thymeleaf 對應的 HTML 名稱
             }
     }
