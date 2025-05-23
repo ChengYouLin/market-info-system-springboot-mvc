@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface ZoneRepository extends JpaRepository<Zone, Long> {
 
-    List<ZoneDTO> findAllZone(int marketId);
+    //可能用不到
+    //List<ZoneDTO> findAllZone(int marketId);
 }

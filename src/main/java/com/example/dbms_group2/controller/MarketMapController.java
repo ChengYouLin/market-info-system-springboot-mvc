@@ -1,6 +1,7 @@
 package com.example.dbms_group2.controller;
 
 
+import com.example.dbms_group2.model.DTO.FilterVendorDTO;
 import com.example.dbms_group2.model.DTO.VendorViewDTO;
 import com.example.dbms_group2.model.DTO.ZoneDTO;
 import com.example.dbms_group2.model.entity.Announcement;
@@ -70,11 +71,20 @@ public class MarketMapController {
     @GetMapping("/{id}/map/filter")
     public String showMap(@PathVariable("id") int marketId,
                           @RequestParam(name = "cate", required = false) List<String> selectedCategories,
-                          Model model) {
+                          Model model,
+                          @SessionAttribute("account") String user,
+                          RedirectAttributes redirectAttributes) {
+        //鈴鐺問題
+        List<Announcement> notices = userService.findMarketAnnouncement(marketId);
+        model.addAttribute("notices", notices);
 
+        int length = selectedCategories.size();
 
+        List<FilterVendorDTO> vendors = userService.getFindFilterVendor(user, marketId, selectedCategories, length);
 
-        model.addAttribute("selectedCategories", selectedCategories);
+        model.addAttribute("marketId", marketId);             // 頁面切換用
+        model.addAttribute("filteredVendors", vendors);
+
         return "testMap2";
     }
 

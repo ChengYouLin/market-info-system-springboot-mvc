@@ -50,6 +50,9 @@ public class UserService {
     @Autowired
     private RankRepository rankRepository;
 
+    @Autowired
+    private AssignmentPointRepository assignmentPointRepository;
+
     public List<Announcement> findMarketAnnouncement(int marketId) {
         return userQueryRepository.findMarketAnnouncement(marketId);
     }
@@ -131,5 +134,9 @@ public class UserService {
             rankRepository.updateRank(email, marketId, vendorId, score);
             return false;
         }
+    }
+
+    public List<FilterVendorDTO> getFindFilterVendor(String email, int marketId, List<String> selectedCategories, int length){
+        return assignmentPointRepository.findFilterVendor(email, marketId, selectedCategories, length);
     }
 }
