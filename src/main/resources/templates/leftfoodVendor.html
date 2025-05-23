@@ -242,33 +242,35 @@
 </head>
 
 <body>
+   <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
     <header>
         <div class="header-content">
             <div class="header-left">
-                <img src="../static/images/logo.png" alt="logo">
+                <img th:src="@{/images/logo.png}" alt="logo">
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                <form th:action="@{/eView/vendor/info}" method="get" style="display:inline;">
                     <button class="nav-btn">攤位資訊</button>
                 </form>
-                <form th:action="@{/map}" method="get" style="display:inline;">
+                <form th:action="@{/eView/vendor/product}" method="get" style="display:inline;">
                     <button class="nav-btn">商品上架</button>
                 </form>
-                <form th:action="@{/activity}" method="get" style="display:inline;">
-                    <button class="nav-btn active">剩食更新</button>
+                <form th:action="@{/eView/vendor/leftfood}" method="get" style="display:inline;">
+                    <button class="nav-btn">剩食更新</button>
                 </form>
                 <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
                     <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
                 </button>
 
-                <form th:action="@{/profile}" method="get">
+                <form th:action="@{/eView/vendor/profile}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
                 </form>
-
-
             </div>
         </div>
         <div id="notification-box">
@@ -292,27 +294,23 @@
             <div class="section-title">新增剩食</div>
 
             <!-- ✅ 自訂排版區塊 -->
-            <div class="flex-container">
+<form th:action="@{/leftover/add}" method="post" class="flex-container">
+    <div class="field-group">
+        <label class="form-label">商品名稱</label>
+        <input type="text" name="productName" id="productNameInput" class="form-control" placeholder="請選擇商品" readonly
+            data-bs-toggle="modal" data-bs-target="#productModal">
+    </div>
 
-                <!-- 商品名稱 -->
-                <div class="field-group">
-                    <label class="form-label">商品名稱</label>
-                    <input type="text" class="form-control" id="productNameInput" placeholder="請選擇商品" readonly
-                        data-bs-toggle="modal" data-bs-target="#productModal">
-                </div>
+    <div class="field-group">
+        <label class="form-label">剩餘份數</label>
+        <input type="number" name="quantity" id="quantityInput" min="0" class="form-control" placeholder="0">
+    </div>
 
-                <!-- 剩餘份數 -->
-                <div class="field-group">
-                    <label class="form-label">剩餘份數</label>
-                    <input type="number" min="0" class="form-control" id="quantityInput" placeholder="0">
-                </div>
+    <div class="field-group align-bottom">
+        <button type="submit" class="btn btn-orange">新增剩食</button>
+    </div>
+</form>
 
-                <!-- 新增按鈕 -->
-                <div class="field-group align-bottom">
-                    <button class="btn btn-orange" onclick="addLeftover()">新增剩食</button>
-                </div>
-
-            </div>
         </div>
 
 
@@ -323,48 +321,61 @@
         </div>
 
         <!-- 🔁 有資料時顯示剩食區塊 -->
-        <div th:each="item : ${leftovers}">
-            <div class="box-outline">
-                <div><b th:text="${item.productName}"></b></div>
-                <div>
-                    <button class="btn btn-danger btn-circle"
-                        th:onclick="'decreaseLeftover(' + ${item.id} + ')'">-</button>
-                    <span class="mx-2">剩餘 <b th:text="${item.leftCount}"></b> 份</span>
-                    <button class="btn btn-danger btn-circle"
-                        th:onclick="'increaseLeftover(' + ${item.id} + ')'">+</button>
-                </div>
-                <div>
-                    <button class="btn btn-danger btn-circle"
-                        th:onclick="'deleteLeftover(' + ${item.id} + ')'">X</button>
-                </div>
-            </div>
+        
+    <!-- 🈳 沒有剩食資料時顯示提示 -->
+    <div th:if="${leftovers == null or #lists.isEmpty(leftovers)}" class="mt-4 text-center text-muted">
+        目前沒有剩餘預約資料。
+    </div>
 
-            <table class="table record-table">
-                <thead>
-                    <tr>
-                        <th>取餐編號</th>
-                        <th>訂購人</th>
-                        <th>份數</th>
-                        <th>最後取餐時間</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="record : ${item.records}">
-                        <td th:text="${record.pickupCode}"></td>
-                        <td th:text="${record.buyer}"></td>
-                        <td th:text="${record.quantity}"></td>
-                        <td th:text="${record.pickupTime}"></td>
-                        <td>
-                            <form th:action="@{/leftover/complete}" method="post">
-                                <input type="hidden" name="recordId" th:value="${record.id}" />
-                                <button type="submit" class="btn btn-success btn-sm">✔</button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+    <!-- 🔁 有資料時顯示剩食區塊 -->
+    <div th:each="item : ${leftovers}">
+        <div class="box-outline">
+            <div><b th:text="${item.productName}"></b></div>
+            <div>
+                <form th:action="@{/leftover/decrease}" method="post" style="display: inline-block">
+                    <input type="hidden" name="leftoverId" th:value="${item.id}" />
+                    <button type="submit" class="btn btn-danger btn-circle">-</button>
+                </form>
+                <span class="mx-2">剩餘 <b th:text="${item.leftCount}"></b> 份</span>
+                <form th:action="@{/leftover/increase}" method="post" style="display: inline-block">
+                    <input type="hidden" name="leftoverId" th:value="${item.id}" />
+                    <button type="submit" class="btn btn-danger btn-circle">+</button>
+                </form>
+            </div>
+            <div>
+                <form th:action="@{/leftover/delete}" method="post" style="display: inline-block">
+                    <input type="hidden" name="leftoverId" th:value="${item.id}" />
+                    <button type="submit" class="btn btn-danger btn-circle">X</button>
+                </form>
+            </div>
         </div>
+
+        <table class="table record-table">
+            <thead>
+                <tr>
+                    <th>取餐編號</th>
+                    <th>訂購人</th>
+                    <th>份數</th>
+                    <th>最後取餐時間</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="record : ${item.records}">
+                    <td th:text="${record.pickupCode}"></td>
+                    <td th:text="${record.buyer}"></td>
+                    <td th:text="${record.quantity}"></td>
+                    <td th:text="${record.pickupTime}"></td>
+                    <td>
+                        <form th:action="@{/leftover/complete}" method="post">
+                            <input type="hidden" name="recordId" th:value="${record.id}" />
+                            <button type="submit" class="btn btn-success btn-sm">✔</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 
 
         <!-- 🔳 Modal: 商品名稱選擇 -->

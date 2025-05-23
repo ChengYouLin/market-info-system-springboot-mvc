@@ -13,4 +13,5 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
 
     List<LeftoverFoodDTO> getLeftoverInfo(String email);
 
+    void deleteThisRecord(int recordId);
 }
