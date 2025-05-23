@@ -11,7 +11,8 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    List<User> findByGmail(String email);
+    @Query("SELECT u FROM User u WHERE u.gmail = :email")
+    List<User> findByGmail(@Param("email") String email);
 
     @Query("SELECT new com.example.dbms_group2.model.DTO.UserDTO(name, gmail, telephone) FROM User " +
             "WHERE gmail = :email")

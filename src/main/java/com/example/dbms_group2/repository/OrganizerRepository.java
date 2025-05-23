@@ -12,7 +12,9 @@ public interface OrganizerRepository extends JpaRepository<Organizer,Long> {
 
     @Query("SELECT o FROM Organizer o WHERE o.gmail = :email")
     List<Organizer> findByGmail(@Param("email") String Email);
-    List<DTO> findStatus(int marketId);
+
+
+//    List<DTO> findStatus(int marketId);
 
 
 }

@@ -32,12 +32,12 @@ public class HomeService {
     private UserRepository userRepository;
 
     public List<MarketDTO> activeMarkets() {
-//        return null;
+        //return null;
         return homeQueryRepository.findActivityMarket();
     }
 
     public List<MarketDTO> recruitingMarkets() {
-//        return null;
+        //return null;
         return homeQueryRepository.findRecruitingMarkets();
     }
 

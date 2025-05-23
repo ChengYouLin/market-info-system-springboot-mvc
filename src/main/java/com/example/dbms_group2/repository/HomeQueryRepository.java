@@ -26,7 +26,7 @@ public  interface HomeQueryRepository extends JpaRepository<Market, Long> {
         JOIN Opening o ON o.market = m
         WHERE CURRENT_TIMESTAMP >= m.recruitEndTime
         GROUP BY m.marketId, m.name, m.description, m.location, m.imageUrl
-        HAVING CURRENT_TIMESTAMP <= MIN(o.date)
+        HAVING CURRENT_TIMESTAMP <= MAX(o.date)
         ORDER BY MAX(o.date)
     """)
     List<MarketDTO> findActivityMarket();
