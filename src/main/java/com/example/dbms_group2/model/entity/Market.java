@@ -55,12 +55,16 @@ public class Market {
     @Column(name = "lottery_title")
     private String lotteryTitle;
 
+    @Column(name = "location")
+    private String location;
+
+    @Column(name = "imageURL")
+    private String imageUrl;
+
     public Market() {
     }
 
-    public Market(int marketId, Organizer organizer, String name, String status, LocalDateTime recruitStartTime,
-                  LocalDateTime recruitEndTime, String description, String banner, String email, String facebook,
-                  String instagram, String line, String website, String lotteryRule, String lotteryTitle) {
+    public Market(int marketId, Organizer organizer, String name, String status, LocalDateTime recruitStartTime, LocalDateTime recruitEndTime, String description, String banner, String email, String facebook, String instagram, String line, String website, String lotteryRule, String lotteryTitle, String location, String imageUrl) {
         this.marketId = marketId;
         this.organizer = organizer;
         this.name = name;
@@ -76,6 +80,8 @@ public class Market {
         this.website = website;
         this.lotteryRule = lotteryRule;
         this.lotteryTitle = lotteryTitle;
+        this.location = location;
+        this.imageUrl = imageUrl;
     }
 
     public int getMarketId() {

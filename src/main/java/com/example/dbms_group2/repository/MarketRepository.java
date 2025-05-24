@@ -12,7 +12,39 @@ import java.util.List;
 
 public interface MarketRepository extends JpaRepository<Market, Long> {
 
-    //List<MarketHomeDTO> findMarketInfo(int marketId);
+
+    @Query(value = """
+            WITH ranked_schedules AS (  SELECT 
+                    s.*,
+                    m.market_id,
+                    m.name, m.description, m.location, m.imageUrl,
+                    m.email AS gmail,
+                    instagram, facebook, website, line,
+                    ROW_NUMBER() OVER (PARTITION BY m.market_id ORDER BY s.schedule_id) AS rn
+                FROM schedule s
+                JOIN organizer o ON s.organizer_id = o.organizer_id
+                JOIN market m ON o.organizer_id = m.organizer_id
+            )
+            SELECT 
+                market_id,
+                MAX(name) AS name,
+                MAX(description) AS description,
+                MAX(location) AS location,
+                MAX(imageUrl) AS imageUrl,
+                MAX(CASE WHEN rn = 1 THEN schedule_picture END) AS schedule_url_one,
+                MAX(CASE WHEN rn = 2 THEN schedule_picture END) AS schedule_url_two,
+                MAX(CASE WHEN rn = 3 THEN schedule_picture END) AS schedule_url_three,
+                MAX(gmail) AS gmail,
+                MAX(instagram) AS instagram,
+                MAX(facebook) AS facebook,
+                MAX(website) AS website,
+                MAX(line) AS line
+            FROM ranked_schedules
+            WHERE market_id = 1
+            GROUP BY market_id;"""
+            , nativeQuery = true)
+    List<MarketHomeDTO> findMarketInfo(@Param("marketId") int marketId);
+
 
     @Query("SELECT m.lotteryRule FROM Market m WHERE m.marketId = :id")
     String findLotteryRuleById(@Param("id") int id);
@@ -56,7 +88,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
             String line,
             String website,
             String specialId
-            );
+    );
 
     void deleteMarketPeriod(String email);
 

@@ -58,7 +58,7 @@ public class UserService {
     }
 
     public List<UserDTO> findGetUserDetail(String email) {
-        return userQueryRepository.getUserDetail(email);
+        return userRepository.getUserDetail(email);
     }
 
     public List<FaoDTO> getFindUserFao(String email){
