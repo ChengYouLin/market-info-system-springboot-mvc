@@ -61,6 +61,7 @@ public class Market {
     @Column(name = "imageURL")
     private String imageUrl;
 
+
     public Market() {
     }
 
@@ -81,6 +82,22 @@ public class Market {
         this.lotteryRule = lotteryRule;
         this.lotteryTitle = lotteryTitle;
         this.location = location;
+        this.imageUrl = imageUrl;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 

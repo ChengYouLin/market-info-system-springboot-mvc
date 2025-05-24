@@ -83,7 +83,7 @@ public class UserService {
 
     public int getFindTotalPoint(String email, int marketId){
         List<PointDTO> p = havePointsRespository.findTotalPoint(email, marketId);
-        return p.getFirst().getPointCount();
+        return p.get(0).getPointCount();
     }
 
     public List<DTO> genFindStatus(int marketId){
@@ -115,7 +115,7 @@ public class UserService {
     }
 
     public List<VendorViewDTO> getFindVendorView(String email, int marketId){
-        return ApplyRepository.findVendorView(marketId, email);
+        return applyRepository.findVendorView(marketId, email);
     }
 
     public List<ZoneDTO> getFindAllZone(int marketId){

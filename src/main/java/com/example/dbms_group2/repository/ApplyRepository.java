@@ -93,11 +93,28 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
                         String line, String website, String vendorEmail);
 
 
+    @Query("""
+                SELECT new com.example.dbms_group2.model.DTO.QrSectionDTO(m.name, a.name, a.stamp)
+                FROM Apply a
+                JOIN a.market m
+                WHERE a.vendor.vendorId = (
+                    SELECT v.vendorId FROM Vendor v WHERE v.gmail = :vendorEmail
+                )
+                AND a.status = '已通過'
+            """)
     List<QrSectionDTO> getStampInfo(String vendorEmail);
 
     List<VendorApplicationDTO> findAllMarketApplyStatus(String organizerEmail);
 
+    @Modifying
+    @Query(value = """
+            UPDATE apply SET status = '已通過', stamp = :stamp WHERE apply_id = :applyId"""
+            , nativeQuery = true)
     void approveStatus(int applyId, String stamp);
 
+    @Modifying
+    @Query(value = """
+UPDATE apply SET status = '未通過' WHERE apply_id = :applyId"""
+            , nativeQuery = true)
     void rejectStatus(int applyId);
 }
