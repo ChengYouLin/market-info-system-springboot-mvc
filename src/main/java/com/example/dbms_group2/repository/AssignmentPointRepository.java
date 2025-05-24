@@ -9,5 +9,5 @@ import java.util.List;
 public interface AssignmentPointRepository extends JpaRepository<AssignmentPoint, Long> {
 
 
-    List<FilterVendorDTO> findFilterVendor(String email, int marketId, List<String> selectedCategories, int length);
+    //List<FilterVendorDTO> findFilterVendor(String email, int marketId, List<String> selectedCategories, int length);
 }

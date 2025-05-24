@@ -104,7 +104,7 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
             """)
     List<QrSectionDTO> getStampInfo(String vendorEmail);
 
-    List<VendorApplicationDTO> findAllMarketApplyStatus(String organizerEmail);
+    //List<VendorApplicationDTO> findAllMarketApplyStatus(String organizerEmail);
 
     @Modifying
     @Query(value = """

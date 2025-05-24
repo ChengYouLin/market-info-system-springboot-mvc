@@ -54,7 +54,7 @@ public interface LeftoverRepository extends JpaRepository<Leftover, Long> {
             """, nativeQuery = true)
     void updateLeftFood(@Param("user") String user, @Param("leftoverId") int leftoverId, @Param("productName") String productName, @Param("quantity") int quantity);
 
-    List<LeftoverDTO> getLeftoversByVendor(String vendorEmail);
+    //List<LeftoverDTO> getLeftoversByVendor(String vendorEmail);
 
     @Modifying
     @Transactional

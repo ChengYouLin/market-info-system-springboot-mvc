@@ -29,46 +29,6 @@ public class MarketHomeDTO {
         this.line = line;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getInstagram() {
-        return instagram;
-    }
-
-    public void setInstagram(String instagram) {
-        this.instagram = instagram;
-    }
-
-    public String getFacebook() {
-        return facebook;
-    }
-
-    public void setFacebook(String facebook) {
-        this.facebook = facebook;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
-    public String getLine() {
-        return line;
-    }
-
-    public void setLine(String line) {
-        this.line = line;
-    }
-
     public String getTitle() {
         return title;
     }
@@ -123,5 +83,45 @@ public class MarketHomeDTO {
 
     public void setSchedule3(String schedule3) {
         this.schedule3 = schedule3;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getInstagram() {
+        return instagram;
+    }
+
+    public void setInstagram(String instagram) {
+        this.instagram = instagram;
+    }
+
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getLine() {
+        return line;
+    }
+
+    public void setLine(String line) {
+        this.line = line;
     }
 }

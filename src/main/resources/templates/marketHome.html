@@ -241,8 +241,10 @@
 -->
 
     <div style="margin-top: 100px; text-align: center;">
-        <img th:src="${market.imageUrl != null and !#strings.isEmpty(market.imageUrl) ? market.imageUrl : '/images/marketImage2.png'}"
-            class="d-block w-100" alt="市集圖片">
+<img th:src="@{${market.imageUrl != null and !#strings.isEmpty(market.imageUrl) ? market.imageUrl : '/images/marketImage2.png'}}"
+     class="d-block w-100" alt="市集圖片">
+
+
     </div>
 
     <br>
@@ -254,7 +256,6 @@
                     th:text="${market.title}"></span></div>
             <div class="section-content">
                 <br>
-                <p>活動日期：<span th:text="${market.date}"></span></p>
                 <!-- 營業時段 -->
                 <p>營業時段：</p>
                 <ul>
@@ -270,12 +271,10 @@
             <h2 class="section-title mt-4"><i class="bi bi-calendar-event-fill"></i>節目表：</h2>
             <!-- 節目表圖片：從 DTO 裡抓取，如果為空則顯示預設圖 -->
             <div class="schedule-row">
-                <img th:src="${market.schedule1 != null and !#strings.isEmpty(market.schedule1) ? market.schedule1 : '/images/schedule1.png'}"
-                    alt="schedule1">
-                <img th:src="${market.schedule2 != null and !#strings.isEmpty(market.schedule2) ? market.schedule2 : '/images/schedule2.png'}"
-                    alt="schedule2">
-                <img th:src="${market.schedule3 != null and !#strings.isEmpty(market.schedule3) ? market.schedule3 : '/images/schedule3.png'}"
-                    alt="schedule3">
+<img th:src="@{${market.schedule1 != null and !#strings.isEmpty(market.schedule1) ? market.schedule1 : '/images/schedule1.png'}}" alt="schedule1">
+<img th:src="@{${market.schedule2 != null and !#strings.isEmpty(market.schedule2) ? market.schedule2 : '/images/schedule2.png'}}" alt="schedule2">
+<img th:src="@{${market.schedule3 != null and !#strings.isEmpty(market.schedule3) ? market.schedule3 : '/images/schedule3.png'}}" alt="schedule3">
+
             </div>
 
 

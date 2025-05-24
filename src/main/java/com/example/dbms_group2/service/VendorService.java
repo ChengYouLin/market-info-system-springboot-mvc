@@ -50,7 +50,8 @@ public class VendorService {
     }
 
     public List<LeftoverDTO> findGetLeftoversByVendor(String vendorEmail){
-        return leftoverRepository.getLeftoversByVendor(vendorEmail);
+        return null;
+        //return leftoverRepository.getLeftoversByVendor(vendorEmail);
     }
 
     public void changeQuantity(int leftfoodId){
@@ -74,7 +75,7 @@ public class VendorService {
     }
 
     public String getFindMarketName(int marketId){
-        return marketRepository.findMarketNameById(marketId);
+        return marketRepository.findNameByMarketId(marketId);
     }
 
     public void getUpdateNewApply(int marketId, String name,
@@ -89,11 +90,13 @@ public class VendorService {
     }
 
     public List<MarketInfoDTO> getFindMarketList(String email){
-        return marketRepository.findMarketList(email);
+        return null;
+        //return marketRepository.findMarketList(email);
     }
 
     public List<VendorViewDTO> getFindVendorList(String email){
-        return marketRepository.findVendorList( email);
+        return null;
+        //return marketRepository.findVendorList( email);
     }
 
     public List<QrSectionDTO> findGetStampInfo(String email){

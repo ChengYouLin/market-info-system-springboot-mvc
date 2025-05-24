@@ -28,14 +28,13 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                 JOIN market m ON o.organizer_id = m.organizer_id
             )
             SELECT 
-                market_id,
                 MAX(name) AS name,
                 MAX(description) AS description,
                 MAX(location) AS location,
                 MAX(imageUrl) AS imageUrl,
-                MAX(CASE WHEN rn = 1 THEN schedule_picture END) AS schedule_url_one,
-                MAX(CASE WHEN rn = 2 THEN schedule_picture END) AS schedule_url_two,
-                MAX(CASE WHEN rn = 3 THEN schedule_picture END) AS schedule_url_three,
+                MAX(CASE WHEN rn = 1 THEN schedule_picture END) AS schedule1,
+                MAX(CASE WHEN rn = 2 THEN schedule_picture END) AS schedule2,
+                MAX(CASE WHEN rn = 3 THEN schedule_picture END) AS schedule3,
                 MAX(gmail) AS gmail,
                 MAX(instagram) AS instagram,
                 MAX(facebook) AS facebook,
@@ -51,13 +50,14 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     @Query("SELECT m.lotteryRule FROM Market m WHERE m.marketId = :id")
     String findLotteryRuleById(@Param("id") int id);
 
-    String findMarketNameById(@Param("id") int id);
 
-    List<MarketInfoDTO> findMarketList(String email);
+    String findNameByMarketId(int marketId);
 
-    List<VendorViewDTO> findVendorList(String email);
+    //List<MarketInfoDTO> findMarketList(String email);
 
-    List<LotteryDTO> lotterySetting(String email);
+    //List<VendorViewDTO> findVendorList(String email);
+
+    //List<LotteryDTO> lotterySetting(String email);
 
     @Query(value = """
                 SELECT u.name, u.gmail, u.telephone
@@ -83,7 +83,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
             , nativeQuery = true)
     void updateActivityInfo(String title, String rule, String email);
 
-    List<RewardDTO> lotteryAllInfo(String email);
+    //List<RewardDTO> lotteryAllInfo(String email);
 
     @Query(value =
             """
@@ -164,22 +164,22 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
             """, nativeQuery = true)
     void setMarkAsCheckedIn(int vendorId, String email);
 
-    List<MarketFormDTO> marketSettings(String mail);
+    //List<MarketFormDTO> marketSettings(String mail);
 
-    void updateSaveMarketSettings(
-            String marketName,
-            String location,
-            LocalDate recruitStartDate,
-            LocalTime recruitStartTime,
-            LocalDate recruitEndDate,
-            LocalTime recruitEndTime,
-            String email,
-            String facebook,
-            String instagram,
-            String line,
-            String website,
-            String specialId
-    );
+//    void updateSaveMarketSettings(
+//            String marketName,
+//            String location,
+//            LocalDate recruitStartDate,
+//            LocalTime recruitStartTime,
+//            LocalDate recruitEndDate,
+//            LocalTime recruitEndTime,
+//            String email,
+//            String facebook,
+//            String instagram,
+//            String line,
+//            String website,
+//            String specialId
+//    );
 
     @Modifying
     @Transactional

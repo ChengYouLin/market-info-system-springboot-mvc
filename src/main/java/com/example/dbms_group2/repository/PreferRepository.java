@@ -21,7 +21,7 @@ public interface PreferRepository extends JpaRepository<Prefer, Long> {
     List<FaoDTO> findGetFindUserFao(@Param("email") String email);
 
 
-    void deleteById(int preferId);
+    void deleteByPreferId(int preferId);
 
-    void updatePrefer(String email, int marketId, int vendorId);
+    //void updatePrefer(String email, int marketId, int vendorId);
 }
