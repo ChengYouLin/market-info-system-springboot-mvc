@@ -1,8 +1,6 @@
 package com.example.dbms_group2.repository;
 
-import com.example.dbms_group2.model.DTO.MarketHomeDTO;
-import com.example.dbms_group2.model.DTO.MarketInfoDTO;
-import com.example.dbms_group2.model.DTO.VendorViewDTO;
+import com.example.dbms_group2.model.DTO.*;
 import com.example.dbms_group2.model.entity.Market;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -22,4 +20,12 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     List<MarketInfoDTO> findMarketList(String email);
 
     List<VendorViewDTO> findVendorList(String email);
+
+    List<LotteryDTO> lotterySetting(String email);
+
+    List<UserDTO> allParticipants(String email);
+
+    void updateActivityInfo(String title, String rule, String email);
+
+    List<RewardDTO> lotteryAllInfo(String email);
 }

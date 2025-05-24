@@ -180,27 +180,30 @@
     </script>
 </head>
 <body>
-        <header>
+            <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+    <header>
         <div class="header-content">
             <div class="header-left">
-                <img src="../static/images/logo.png" alt="logo">
+                <img th:src="@{/images/logo.png}" alt="logo">
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                <form th:action="@{/eView/organizer/config}" method="get" style="display:inline;">
                     <button class="nav-btn">活動設定</button>
                 </form>
-                <form th:action="@{/map}" method="get" style="display:inline;">
+                <form th:action="@{/eView/oranizer/map}" method="get" style="display:inline;">
                     <button class="nav-btn">會場佈置</button>
                 </form>
-                <form th:action="@{/activity}" method="get" style="display:inline;">
+                <form th:action="@{/eView/oranizer/activity}" method="get" style="display:inline;">
                     <button class="nav-btn active">抽獎系統</button>
                 </form>
-                 <form th:action="@{/apply}" method="get" style="display:inline;">
+                <form th:action="@{/eView/oranizer/review}" method="get" style="display:inline;">
                     <button class="nav-btn">招商狀況</button>
                 </form>
 
-                <form th:action="@{/profile}" method="get">
+                <form th:action="@{/eView/organizer/profile}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
@@ -208,6 +211,7 @@
             </div>
         </div>
     </header>
+
 <div class="main-wrapper">
     <div class="left-panel">
         <button id="infoBtn" class="active" onclick="switchTab('info')">資訊設定</button>
@@ -216,7 +220,7 @@
     <div class="right-panel">
         <!-- 資訊設定頁面 -->
         <div id="infoSetting">
-            <form th:action="@{/lottery/save}" method="post">
+            <form th:action="@{/eView/oranizer/activity/save}" method="post">
                 <div class="form-group">
                     <label>抽獎主題</label>
                     <input type="text" name="title" class="form-control" th:value="${lottery?.title}">
@@ -248,7 +252,7 @@
             <ul>
                 <li th:each="user : ${lotteryUsers}" th:text="${user.name}"></li>
             </ul>
-            <form th:action="@{/lottery/draw}" method="post">
+            <form th:action="@{/eView/organizer/activity/draw}" method="post">
                 <button type="submit" class="btn btn-danger">進行抽獎</button>
             </form>
             <div th:if="${drawResults != null}" class="mt-4">

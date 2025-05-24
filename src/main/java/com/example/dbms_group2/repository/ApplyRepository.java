@@ -24,7 +24,7 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
 
     List<VendorApplicationDTO> findAllMarketApplyStatus(String organizerEmail);
 
-    void approveStatus(int applyId);
+    void approveStatus(int applyId, String stamp);
 
     void rejectStatus(int applyId);
 }

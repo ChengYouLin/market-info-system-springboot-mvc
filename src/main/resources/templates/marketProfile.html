@@ -203,6 +203,9 @@
     </style>
 </head>
 <body>
+            <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
     <header>
         <div class="header-content">
             <div class="header-left">
@@ -264,14 +267,14 @@
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/profile/edit}" method="post">
+            <form th:action="@{/eView/organizer/profile/edit}" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title">編輯個人資訊</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <label>姓名</label>
-                    <input class="form-control" type="text" name="name" th:value="${user.name}" required>
+                    <input class="form-control" typme="text" name="name" th:value="${user.name}" required>
                     <label class="mt-2">電子郵件</label>
                     <input class="form-control" type="email" name="email" th:value="${user.email}" required>
                 </div>
