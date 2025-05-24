@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface PreferRepository extends JpaRepository<Prefer, Long> {
     @Query("SELECT new com.example.dbms_group2.model.DTO.FaoDTO(" +
-            "v.name, m.name, v.vendorId) " +
+            "a.name, m.name, v.vendorId) " +
             "FROM Prefer p " +
             "JOIN p.apply a " +
             "JOIN a.market m " +
@@ -21,4 +21,8 @@ public interface PreferRepository extends JpaRepository<Prefer, Long> {
 
     @Query("DELETE FROM Prefer p WHERE p.preferId = :preferId")
     void deleteById(@Param("preferId") int preferId);
+
+    // List<FaoDTO> findGetFindUserFao(String email);
+
+//    void updatePrefer(String email, int marketId, int vendorId);
 }

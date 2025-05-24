@@ -21,16 +21,4 @@ public interface UserQueryRepository extends JpaRepository<Announcement, Long> {
         ORDER BY a.updateTime DESC
     """)
     List<AnnouncementDTO> findMarketAnnouncements(@Param("marketId") int marketId);
-
-    @Query("""
-        SELECT new com.example.dbms_group2.model.DTO.AnnouncementDTO(
-            m.name, a.updateTime, a.title, a.content
-        )
-        FROM Market m
-        JOIN m.organizer o
-        JOIN Announcement a ON a.organizer = o
-        WHERE o.organizerId = :organizerId
-        ORDER BY a.updateTime DESC
-    """)
-    List<Announcement> findMarketAnnouncement(int organizerId);
 }

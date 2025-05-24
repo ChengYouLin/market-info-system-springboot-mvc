@@ -389,6 +389,30 @@
             color: white;
             border-color: #ff7043;
         }
+
+        .bg-color-0 {
+            background-color: #FFE0E0;
+        }
+
+        /* 淺紅 */
+        .bg-color-1 {
+            background-color: #FFF4CC;
+        }
+
+        /* 淺橙黃 */
+        .bg-color-2 {
+            background-color: #E1F9E2;
+        }
+
+        /* 淺綠 */
+        .bg-color-3 {
+            background-color: #D6EEFF;
+        }
+
+        /* 淺藍 */
+        .bg-color-4 {
+            background-color: #F0E6FF;
+        }
     </style>
 </head>
 
@@ -442,9 +466,10 @@
         </div>
     </header>
 
-<script th:inline="javascript">
-    let vendorList = /*[[${vendorList}]]*/ [];
-</script>
+    <script th:inline="javascript">
+        let vendorList = /*[[${vendorList}]]*/[];
+
+    </script>
 
     <div class="main-wrapper">
         <!-- ⛳ 標題與篩選器 -->
@@ -465,31 +490,31 @@
             <div class="map-label" style="top: 435px; right: 290px;">中正圖書館</div>
 
             <!-- 第一排：A1 ~ C2 -->
-            <div class="booth-btn" onclick="openVendorModal('1')" style="top: 80px; left: 50px;">1</div>
-            <div class="booth-btn" onclick="openVendorModal('2')" style="top: 80px; left: 170px;">2</div>
-            <div class="booth-btn" onclick="openVendorModal('3')" style="top: 80px; left: 290px;">3</div>
-            <div class="booth-btn" onclick="openVendorModal('4')" style="top: 80px; left: 410px;">4</div>
-            <div class="booth-btn" onclick="openVendorModal('5')" style="top: 80px; left: 530px;">5</div>
+            <div class="booth-btn" onclick="openVendorModal(1)" style="top: 80px; left: 50px;">1</div>
+            <div class="booth-btn" onclick="openVendorModal(2)" style="top: 80px; left: 170px;">2</div>
+            <div class="booth-btn" onclick="openVendorModal(3)" style="top: 80px; left: 290px;">3</div>
+            <div class="booth-btn" onclick="openVendorModal(4)" style="top: 80px; left: 410px;">4</div>
+            <div class="booth-btn" onclick="openVendorModal(5)" style="top: 80px; left: 530px;">5</div>
 
-            <div class="booth-btn" onclick="openVendorModal('10')" style="top: 80px; right: 50px;">10</div>
-            <div class="booth-btn" onclick="openVendorModal('9')" style="top: 80px; right: 170px;">9</div>
-            <div class="booth-btn" onclick="openVendorModal('8')" style="top: 80px; right: 290px;">8</div>
-            <div class="booth-btn" onclick="openVendorModal('7')" style="top: 80px; right: 410px;">7</div>
-            <div class="booth-btn" onclick="openVendorModal('6')" style="top: 80px; right: 530px;">6</div>
+            <div class="booth-btn" onclick="openVendorModal(10)" style="top: 80px; right: 50px;">10</div>
+            <div class="booth-btn" onclick="openVendorModal(9)" style="top: 80px; right: 170px;">9</div>
+            <div class="booth-btn" onclick="openVendorModal(8)" style="top: 80px; right: 290px;">8</div>
+            <div class="booth-btn" onclick="openVendorModal(7)" style="top: 80px; right: 410px;">7</div>
+            <div class="booth-btn" onclick="openVendorModal(6)" style="top: 80px; right: 530px;">6</div>
 
 
             <!-- 第二排：E3 ~ C3 -->
-            <div class="booth-btn" onclick="openVendorModal('11')" style="top: 290px; left: 50px;">11</div>
-            <div class="booth-btn" onclick="openVendorModal('12')" style="top: 290px; left: 170px;">12</div>
-            <div class="booth-btn" onclick="openVendorModal('13')" style="top: 290px; left: 290px;">13</div>
-            <div class="booth-btn" onclick="openVendorModal('14')" style="top: 290px; left: 410px;">14</div>
-            <div class="booth-btn" onclick="openVendorModal('15')" style="top: 290px; left: 530px;">15</div>
+            <div class="booth-btn" onclick="openVendorModal(11)" style="top: 290px; left: 50px;">11</div>
+            <div class="booth-btn" onclick="openVendorModal(12)" style="top: 290px; left: 170px;">12</div>
+            <div class="booth-btn" onclick="openVendorModal(13)" style="top: 290px; left: 290px;">13</div>
+            <div class="booth-btn" onclick="openVendorModal(14)" style="top: 290px; left: 410px;">14</div>
+            <div class="booth-btn" onclick="openVendorModal(15)" style="top: 290px; left: 530px;">15</div>
 
-            <div class="booth-btn" onclick="openVendorModal('20')" style="top: 290px; right: 50px;">20</div>
-            <div class="booth-btn" onclick="openVendorModal('19')" style="top: 290px; right: 170px;">19</div>
-            <div class="booth-btn" onclick="openVendorModal('18')" style="top: 290px; right: 290px;">18</div>
-            <div class="booth-btn" onclick="openVendorModal('17')" style="top: 290px; right: 410px;">17</div>
-            <div class="booth-btn" onclick="openVendorModal('16')" style="top: 290px; right: 530px;">16</div>
+            <div class="booth-btn" onclick="openVendorModal(20)" style="top: 290px; right: 50px;">20</div>
+            <div class="booth-btn" onclick="openVendorModal(19)" style="top: 290px; right: 170px;">19</div>
+            <div class="booth-btn" onclick="openVendorModal(18)" style="top: 290px; right: 290px;">18</div>
+            <div class="booth-btn" onclick="openVendorModal(17)" style="top: 290px; right: 410px;">17</div>
+            <div class="booth-btn" onclick="openVendorModal(16)" style="top: 290px; right: 530px;">16</div>
         </div>
 
 
@@ -513,133 +538,73 @@
         </div>
     </div>
 
-    <style>
-        .bg-color-0 {
-            background-color: #FFE0E0;
-        }
-
-        /* 淺紅 */
-        .bg-color-1 {
-            background-color: #FFF4CC;
-        }
-
-        /* 淺橙黃 */
-        .bg-color-2 {
-            background-color: #E1F9E2;
-        }
-
-        /* 淺綠 */
-        .bg-color-3 {
-            background-color: #D6EEFF;
-        }
-
-        /* 淺藍 */
-        .bg-color-4 {
-            background-color: #F0E6FF;
-        }
-
-        /* 淺紫 */
-    </style>
-
-
-
-    <!-- 🔲 背景遮罩 -->
-    <div id="modalOverlay" class="modal-overlay" onclick="closeModals()"></div>
 
     <!-- 🏪 攤商詳細資訊 Modal -->
-    <div id="vendorModal" class="modal-box">
+    <div id="vendorModal" class="modal-box" style="display: none;">
         <div class="modal-content" onclick="event.stopPropagation()">
-            <!-- ✖ 關閉按鈕 -->
             <span class="close-btn" onclick="closeModals()">&times;</span>
 
-            <!-- 📦 外層容器：置中 + 寬度 75% -->
             <div class="modal-header justify-content-center">
-
                 <!-- 💖 收藏按鈕 -->
                 <div style="position: absolute; left: 20px; top: 0px;">
-                    <form th:action="@{/vendor/toggleFavorite}" method="post">
-                        <input type="hidden" name="vendorId" th:value="${vendor.id}" />
+<form th:action="@{/eView/market/{id}/map/toggleFavorite(id=${marketId})}" method="post">
+                        <input type="hidden" name="vendorId" id="favoriteVendorId" />
                         <button type="submit" class="btn btn-link p-0" style="border: none; background: none;">
-                            <i
-                                th:class="${vendor.favorited != null and vendor.favorited} ? 'bi bi-heart-fill fs-1 text-danger' : 'bi bi-heart fs-1'"></i>
+                            <i id="vendorFavoriteIcon" class="bi fs-1"></i>
                         </button>
                     </form>
                 </div>
 
                 <div style="width: 75%; display: flex; gap: 20px; position: relative; align-items: flex-start;">
-
                     <!-- 📷 攤商圖片 -->
-                    <img th:src="@{/images/vendor.png}" class="vendor-img" style="width: 80px; height: 80px;" />
+<img id="vendorModalImage" th:src="@{/images/vendor.png}" class="vendor-img" style="width: 80px; height: 80px;" />
+                        style="width: 80px; height: 80px;" />
 
                     <!-- 🧾 攤商資訊 -->
                     <div class="vendor-info" style="flex-grow: 1;">
-                        <!-- 攤商名稱 -->
-                        <h4 th:text="${vendor.boothCode + ' – ' + vendor.name}">A1 – 攤商名字</h4>
+                        <h4><span id="vendorModalBoothCode"></span> – <span id="vendorModalName"></span></h4>
+                        <p id="vendorModalDescription"></p>
 
-                        <!-- 攤商簡介 -->
-                        <p th:text="${vendor.description}">這是簡介文字...</p>
-
-                        <!-- 聯絡方式 -->
                         <h6>聯絡方式</h6>
                         <div>
-                            <a th:if="${vendor.facebook != null}" th:href="${vendor.facebook}"
-                                target="_blank">Facebook</a>
-                            <a th:if="${vendor.instagram != null}" th:href="${vendor.instagram}"
-                                target="_blank">Instagram</a>
-                            <a th:if="${vendor.line != null}" th:href="${vendor.line}" target="_blank">LINE</a>
-                            <a th:if="${vendor.website != null}" th:href="${vendor.website}" target="_blank">網站</a>
+                            <a id="vendorLink_facebook" href="#" target="_blank">Facebook</a>
+                            <a id="vendorLink_instagram" href="#" target="_blank">Instagram</a>
+                            <a id="vendorLink_line" href="#" target="_blank">LINE</a>
+                            <a id="vendorLink_website" href="#" target="_blank">網站</a>
                         </div>
 
-                        <!-- ⭐ 評分 -->
                         <div class="rating mt-2">
-                            <span th:text="${vendor.rating + ' / 5'}">4.3 / 5</span>
+                            <span id="vendorModalRating">4.3 / 5</span>
                             <button type="button" class="btn btn-sm btn-warning" onclick="openRating()">評分</button>
                         </div>
-
                     </div>
                 </div>
             </div>
 
+            <hr>
+
+            <div id="productSection">
+                <h5><strong>商品品項</strong></h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>名稱</th>
+                            <th>類別</th>
+                            <th>價錢</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vendorProductBody"></tbody>
+                </table>
+            </div>
         </div>
-
-        <hr>
-
-        <!-- 若 productList 為空，顯示空白（你也可以改成顯示"暫無資料"） -->
-        <div th:if="${vendor.productList == null or #lists.isEmpty(vendor.productList)}">
-            <p>　</p> <!-- 空白占位，也可改顯示"暫無資料" -->
-        </div>
-
-        <!-- 若 productList 有資料，顯示表格 -->
-        <div th:if="${vendor.productList != null and !#lists.isEmpty(vendor.productList)}">
-            <h5><strong>商品品項</strong></h5>
-            <table class="table">
-
-                <thead>
-                    <tr>
-                        <th>名稱</th>
-                        <th>類別</th>
-                        <th>價錢</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="product : ${vendor.productList}">
-                        <td th:text="${product.name}">Product Name</td>
-                        <td th:text="${product.category}">Category</td>
-                        <td th:text="${product.price}">Price</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
     </div>
 
     <!-- ⭐ 評分彈窗 -->
     <div id="ratingModal" class="modal-box small" style="display: none;">
         <div class="modal-content" onclick="event.stopPropagation()">
             <p class="text-center">點選星星來評分</p>
-            <form th:action="@{/vendor/submitRating}" method="post" class="text-center">
-                <input type="hidden" name="vendorId" th:value="${vendor.id}" />
-
+<form th:action="@{/eView/market/{id}/map/submitRating(id=${marketId})}" method="post" class="text-center">
+                <input type="hidden" name="vendorId" id="ratingVendorId" />
                 <div class="star-rating">
                     <input type="radio" id="star5" name="score" value="5" /><label for="star5"><i
                             class="bi bi-star-fill"></i></label>
@@ -652,7 +617,6 @@
                     <input type="radio" id="star1" name="score" value="1" /><label for="star1"><i
                             class="bi bi-star-fill"></i></label>
                 </div>
-
                 <div class="mt-3">
                     <button type="button" class="btn btn-secondary" onclick="closeRating()">取消</button>
                     <button type="submit" class="btn btn-danger">送出</button>
@@ -691,7 +655,7 @@
     <!-- 篩選器遮罩與彈窗 -->
     <div id="filterOverlay" class="modal-overlay" onclick="closeFilter()"></div>
 
-    <form id="filterModal" th:action="@{/map/filter}" method="post" class="modal-box" onclick="event.stopPropagation()">
+    <form id="filterModal" th:action="@{/eView/market/{id}/map/filter(id=${marketId})}"method="post" class="modal-box" onclick="event.stopPropagation()">
         <div class="modal-content">
             <h4 class="text-center fw-bold">商品類型篩選（可複選）</h4>
 
@@ -775,28 +739,18 @@
             </div>
         </div>
     </form>
+
     <script>
 
-
-        function openRating() {
-            document.getElementById("ratingModal").style.display = "block";
-        }
-
-        let selectedScore = 0;
-
-
-
-        function openVendorModal(vendorId) {
-            document.getElementById('vendorModal').style.display = 'block';
-            document.getElementById('modalOverlay').style.display = 'block';
-        }
-
-        function closeModals() {
-            document.getElementById('vendorModal').style.display = 'none';
-            document.getElementById('ratingModal').style.display = 'none';
-            document.getElementById('modalOverlay').style.display = 'none';
-        }
-
+        window.addEventListener('DOMContentLoaded', () => {
+            vendorList.forEach(vendor => {
+                if (!vendor || !vendor.zoneIndex || !vendor.boothId) return;
+                const booth = document.querySelector(`.booth-btn[onclick="openVendorModal('${vendor.boothId}')"]`);
+                if (booth) {
+                    booth.classList.add(`bg-color-${vendor.zoneIndex % 5}`);
+                }
+            });
+        });
         function toggleFavorite(el, vendorId) {
             el.classList.toggle("active");
             fetch("/favorite", {
@@ -829,33 +783,6 @@
             });
         }
 
-        function submitRating() {
-            if (selectedScore === 0) {
-                alert("請選擇評分！");
-                return;
-            }
-
-            const vendorId = document.getElementById('vendorModal').getAttribute('data-vendor-id');
-
-            fetch("/rate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ vendorId, score: selectedScore })
-            })
-                .then(res => {
-                    if (!res.ok) throw new Error("送出失敗！");
-                    return res.text(); // 可改成 .json() 看你的回傳
-                })
-                .then(msg => {
-                    alert("評分成功：" + msg);
-                    closeRating();
-                })
-                .catch(err => {
-                    alert("發生錯誤：" + err.message);
-                });
-        }
-
-
         function showFilter() {
             document.getElementById('filterModal').style.display = 'block';
             document.getElementById('filterOverlay').style.display = 'block';
@@ -870,7 +797,71 @@
                 box.style.display = 'none';
             }
         }
+
+        function openVendorModal(boothId) {
+            const vendor = vendorList[boothId - 1];
+            if (!vendor) return;
+
+            // 填基本資訊
+            document.getElementById("vendorModalBoothCode").textContent = vendor.boothCode;
+            document.getElementById("vendorModalName").textContent = vendor.name;
+            document.getElementById("vendorModalDescription").textContent = vendor.description;
+            document.getElementById("vendorModalRating").textContent = vendor.rating + " / 5";
+
+            // 填圖片
+            document.getElementById("vendorModalImage").src = vendor.imageUrl || "/images/vendor.png";
+
+            // 填連結
+            ["facebook", "instagram", "line", "website"].forEach(type => {
+                const link = document.getElementById("vendorLink_" + type);
+                if (vendor[type]) {
+                    link.href = vendor[type];
+                    link.style.display = 'inline';
+                } else {
+                    link.style.display = 'none';
+                }
+            });
+
+            // 填收藏按鈕
+            document.getElementById("favoriteVendorId").value = vendor.id;
+            const icon = document.getElementById("vendorFavoriteIcon");
+            icon.className = vendor.favorited ? "bi bi-heart-fill fs-1 text-danger" : "bi bi-heart fs-1";
+
+            // 填商品
+            const tbody = document.getElementById("vendorProductBody");
+            tbody.innerHTML = "";
+            if (vendor.productList && vendor.productList.length > 0) {
+                vendor.productList.forEach(p => {
+                    tbody.insertAdjacentHTML('beforeend', `<tr><td>${p.name}</td><td>${p.category}</td><td>${p.price}</td></tr>`);
+                });
+                document.getElementById("productSection").style.display = "block";
+            } else {
+                document.getElementById("productSection").style.display = "none";
+            }
+
+            // 開啟 modal
+            document.getElementById("vendorModal").style.display = "block";
+            document.getElementById("modalOverlay").style.display = "block";
+
+            // 更新評分的 vendorId
+            document.getElementById("ratingVendorId").value = vendor.id;
+        }
+
+        function closeModals() {
+            document.getElementById("vendorModal").style.display = "none";
+            document.getElementById("ratingModal").style.display = "none";
+            document.getElementById("modalOverlay").style.display = "none";
+        }
+
+        function openRating() {
+            document.getElementById("ratingModal").style.display = "block";
+        }
+
+        function closeRating() {
+            document.getElementById("ratingModal").style.display = "none";
+        }
     </script>
+
     <br>
     </div>
     <footer>

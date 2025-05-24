@@ -24,7 +24,7 @@ public class HavePoints {
     public HavePoints() {
     }
 
-    public HavePoints(int havePointsId, User user, Market market, int points) {
+    public HavePoints(int havePointsId, User user, Market market, int points){
         this.havePointsId = havePointsId;
     }
 

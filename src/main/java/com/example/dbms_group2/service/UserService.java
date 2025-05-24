@@ -24,6 +24,30 @@ public class UserService {
 //
     @Autowired
     private UserRepository userRepository;
+//<<<<<<< HEAD
+////
+//    @Autowired
+//    private MarketRepository marketRepository;
+//
+//    @Autowired
+//    private OpeningRepository openingRepository;
+//
+//    @Autowired
+//    private HavePointsRespository havePointsRespository;
+//
+//    @Autowired
+//    private OrganizerRepository organizerRepository;
+//
+//    @Autowired
+//    private ApplyRepository applyRepository;
+//
+//    @Autowired
+//    private ReserveRepository reserveRepository;
+//
+//    @Autowired
+//    private LeftoverRepository leftoverRepository;
+//
+//=======
 //
 //    @Autowired
 //    private MarketRepository marketRepository;
@@ -46,7 +70,14 @@ public class UserService {
 //    @Autowired
 //    private LeftoverRepository leftoverRepository;
 //
-    public List<Announcement> findMarketAnnouncement(int marketId) {
+//    @Autowired
+//    private ZoneRepository zoneRepository;
+//
+//    @Autowired
+//    private RankRepository rankRepository;
+//
+//>>>>>>> origin/feature/cyLin/user
+    public List<AnnouncementDTO> findMarketAnnouncement(int marketId) {
         return userQueryRepository.findMarketAnnouncement(marketId);
     }
 
@@ -107,5 +138,25 @@ public class UserService {
 //        leftoverRepository.updateLeftFood( user, leftoverId, productName, quantity);
 //    }
 
-
+//    public List<VendorViewDTO> getFindVendorView(String email, int marketId){
+//        return ApplyRepository.findVendorView(marketId, email);
+//    }
+//
+//    public List<ZoneDTO> getFindAllZone(int marketId){
+//        return zoneRepository.findAllZone(marketId);
+//    }
+//
+//    public void getUpdatePrefer(String user, int marketId, int vendorId){
+//        preferRepository.updatePrefer(user, marketId , vendorId);
+//    }
+//
+//    public boolean checkFindResultRank(String email, int marketId, int vendorId, int score){
+//        List<ResultRankDTO> result = rankRepository.findResultRank(email, marketId, vendorId);
+//        if(result.get(0).isResult() == true){
+//            return true;
+//        }else{
+//            rankRepository.updateRank(email, marketId, vendorId, score);
+//            return false;
+//        }
+//    }
 }
