@@ -1,9 +1,6 @@
 package com.example.dbms_group2.controller;
 
-import com.example.dbms_group2.model.DTO.DrawResultDTO;
-import com.example.dbms_group2.model.DTO.LotteryDTO;
-import com.example.dbms_group2.model.DTO.RewardDTO;
-import com.example.dbms_group2.model.DTO.UserDTO;
+import com.example.dbms_group2.model.DTO.*;
 import com.example.dbms_group2.service.MarketService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,6 +43,7 @@ public class MarketActivityController {
             model.addAttribute("lottery", lottery.get(0));
             model.addAttribute("lotteryUsers", users);
             model.addAttribute("drawResults", results);
+
             return "marketActivity";
         }
         redirectAttributes.addFlashAttribute("message", "您沒有開通活動抽獎功能！");

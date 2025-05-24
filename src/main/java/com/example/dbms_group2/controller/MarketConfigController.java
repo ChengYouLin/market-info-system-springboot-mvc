@@ -37,8 +37,11 @@ public class MarketConfigController {
             return "redirect:/eView";
         } else {
 
+            List<NoticeDTO> notices = marketService.getAllNotice((String) user);
+            model.addAttribute("notices", notices);
             List<MarketFormDTO> market = marketService.getMarketSettings((String) user);  // 從資料庫取得目前設定
             model.addAttribute("market", market.get(0));
+
             return "marketConfig"; // Thymeleaf 頁面名稱
         }
     }

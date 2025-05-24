@@ -187,4 +187,8 @@ public class MarketService {
     public List<DTO> getFindStatus(String email){
         return organizerRepository.findTheStatus(email);
     }
+
+    public List<NoticeDTO> getAllNotice(String email){
+        return marketRepository.allNotice(email);
+    }
 }

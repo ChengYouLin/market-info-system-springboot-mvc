@@ -67,4 +67,6 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
             LocalTime endTime,
             String email
     );
+
+    List<NoticeDTO> allNotice(String email);
 }

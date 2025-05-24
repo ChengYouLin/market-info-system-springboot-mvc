@@ -260,7 +260,7 @@
                 <ul>
                     <li th:each="result : ${drawResults}" th:text="${result.userName} + ' - ' + ${result.rewardName}"></li>
                 </ul>
-                <form th:action="@{/lottery/announce}" method="post">
+                <form th:action="@{/eView/organizer/activity/save}" method="post">
                     <button type="submit" class="btn btn-success">建立中獎公告</button>
                 </form>
             </div>
