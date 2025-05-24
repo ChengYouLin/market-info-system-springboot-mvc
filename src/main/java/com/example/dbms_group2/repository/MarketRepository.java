@@ -28,4 +28,14 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     void updateActivityInfo(String title, String rule, String email);
 
     List<RewardDTO> lotteryAllInfo(String email);
+
+    boolean checkInAllowedToday(String email);
+
+    List<CateDTO> availableCategories(String email);
+
+    List<VendorApproveDTO> vendorsForMarket(String email);
+
+    void setAssignVendorToBooth(int mapId, int vendorId, String cate, String marketEmail);
+
+    void setMarkAsCheckedIn(int vendorId, String email);
 }

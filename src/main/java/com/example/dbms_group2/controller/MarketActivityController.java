@@ -82,14 +82,12 @@ public class MarketActivityController {
             redirectAttributes.addFlashAttribute("message", "無法重複進行抽獎，請確認畫面中的中獎名單！");
             model.addAttribute("drawResults", results);
 
-
         }
+        return "redirect:/eView/organizer/activity";
+    }
 
-
-        model.addAttribute("lottery", marketService.getLotterySetting());
-        model.addAttribute("lotteryUsers", marketService.getAllParticipants());
-
-
+    @PostMapping("/lottery/announce")
+    public String announceWinners() {
         return "redirect:/eView/organizer/activity";
     }
 

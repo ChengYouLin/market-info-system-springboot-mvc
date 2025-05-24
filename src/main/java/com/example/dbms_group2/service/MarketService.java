@@ -112,4 +112,35 @@ public class MarketService {
             lotteryRepository.updateLotteryResult(userDTOList.get(resultList.get(i)).getGmail(), email, rewardDTOList.get(i).getName());
         }
     }
+
+    public boolean isCheckInAllowedToday(String mail){
+        return marketRepository.checkInAllowedToday(mail);
+    }
+
+    public List<CateDTO> getAvailableCategories(String email){
+        return marketRepository.availableCategories(email);
+    }
+
+    public List<VendorApproveDTO> getVendorsForMarket(String email){
+        return marketRepository.vendorsForMarket(email);
+    }
+
+    public List<VendorApproveDTO> getAvailableVendors(List<VendorApproveDTO> all){
+
+        List<VendorApproveDTO> result = new ArrayList<>();
+        for(VendorApproveDTO vendorApproveDTO : all){
+            if(vendorApproveDTO.getBoothCode().isEmpty() == true){
+                result.add(vendorApproveDTO);
+            }
+        }
+        return result;
+    }
+
+    public void assignVendorToBooth(int mapId, int vendorId, String cate, String email){
+        marketRepository.setAssignVendorToBooth(mapId, vendorId, cate, email);
+    }
+
+    public void markAsCheckedIn(int vendorId, String email){
+        marketRepository.setMarkAsCheckedIn(vendorId, email);
+    }
 }
