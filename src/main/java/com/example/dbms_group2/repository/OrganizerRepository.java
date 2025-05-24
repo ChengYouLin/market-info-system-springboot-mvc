@@ -17,4 +17,6 @@ public interface OrganizerRepository extends JpaRepository<Organizer,Long> {
 
     void findUpdateOrganizerProfile(String name, String email);
 
+    List<DTO> findTheStatus(String email);
+
 }

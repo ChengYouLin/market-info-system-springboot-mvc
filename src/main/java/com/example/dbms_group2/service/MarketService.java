@@ -15,6 +15,7 @@ import java.util.*;
 public class MarketService {
 
     @Autowired
+
     private ApplyRepository applyRepository;
 
     @Autowired
@@ -25,6 +26,8 @@ public class MarketService {
     private PrizeRepository prizeRepository;
     @Autowired
     private LotteryRepository lotteryRepository;
+    @Autowired
+    private AnnouncementRepository announcementRepository;
 
 
     public List<VendorApplicationDTO> getFindAllMarketApplyStatus(String email){
@@ -75,7 +78,7 @@ public class MarketService {
 
         int size = rewardNames.size();
 
-            prizeRepository.deleteReward(email);
+        prizeRepository.deleteReward(email);
         for(int i = 0; i < size; i++){
             prizeRepository.updateReward(rewardNames.get(i), rewardCounts.get(i), email);
         }
@@ -167,5 +170,21 @@ public class MarketService {
                     email
             );
         }
+    }
+
+    public void createNotice(NoticeDTO noticeDTO, String email){
+        announcementRepository.create(noticeDTO.getTitle(),
+                noticeDTO.getContent(), noticeDTO.getTarget(), email);
+    }
+
+    public void updateNotice(NoticeDTO noticeDTO, String email){
+        announcementRepository.update(noticeDTO.getId(), noticeDTO.getTitle(), noticeDTO.getContent(), noticeDTO.getTarget(), email);
+
+    }
+    public void deleteNotice(int id, String email){
+        announcementRepository.delete(id);
+    }
+    public List<DTO> getFindStatus(String email){
+        return organizerRepository.findTheStatus(email);
     }
 }

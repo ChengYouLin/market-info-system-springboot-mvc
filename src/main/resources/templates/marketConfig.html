@@ -582,20 +582,21 @@
                             </small>
                         </h5>
                         <p th:text="${notice.content}">這裡是公告內文內容</p>
-                        <div class="text-end">
-<form th:action="@{/eView/organizer/config/delete}" method="post">
-    <input type="hidden" name="id" th:value="${notice.id}">
-    <button class="btn btn-secondary" type="submit">刪除</button>
-</form>
+<div class="text-end d-flex gap-2 justify-content-end align-items-center">
+    <form th:action="@{/eView/organizer/config/delete}" method="post" class="m-0 p-0">
+        <input type="hidden" name="id" th:value="${notice.id}">
+        <button class="btn btn-secondary" type="submit">刪除</button>
+    </form>
 
-                            <button class="btn btn-warning" th:attr="data-title=${notice.title}, 
-             data-content=${notice.content},
-             data-target=${notice.target}, 
-             data-id=${notice.id}" onclick="handleEditNotice(this)">
-                                編輯
-                            </button>
-
-                        </div>
+    <button class="btn btn-warning"
+        th:attr="data-title=${notice.title},
+                 data-content=${notice.content},
+                 data-target=${notice.target},
+                 data-id=${notice.id}"
+        onclick="handleEditNotice(this)">
+        編輯
+    </button>
+</div>
                     </div>
                 </div>
 

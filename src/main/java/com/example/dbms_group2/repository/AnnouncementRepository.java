@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface AnnouncementRepository extends JpaRepository<Announcement, Long> {
 
-
+    void create(String title, String content, String target, String email);
     //Query
+    void update(int id, String title, String content, String target, String email);
+
+    void delete(int id);
 }

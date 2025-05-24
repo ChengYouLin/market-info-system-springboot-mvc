@@ -78,13 +78,16 @@ public class MarketConfigController {
     }
 
     @PostMapping("/edit")
-    public String editNotice(@ModelAttribute NoticeDTO notice) {
+    public String editNotice(@ModelAttribute NoticeDTO notice,
+                             HttpSession session) {
+        String mail = (String) session.getAttribute("account");
         marketService.updateNotice(notice, mail);
         return "redirect:/eView/organizer/config"; // 或其他回首頁位置
     }
 
     @PostMapping("/delete")
-    public String deleteNotice(@RequestParam("id") int id) {
+    public String deleteNotice(@RequestParam("id") int id, HttpSession session) {
+        String mail = (String) session.getAttribute("account");
         marketService.deleteNotice(id, mail);
         return "redirect:/eView/organizer/config"; // 或其他回首頁位置
     }

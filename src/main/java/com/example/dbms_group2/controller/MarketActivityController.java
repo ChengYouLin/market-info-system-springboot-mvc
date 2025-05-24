@@ -38,7 +38,7 @@ public class MarketActivityController {
         } else if (role != "o") {
             redirectAttributes.addFlashAttribute("message", "您身份不符！");
             return "redirect:/eView";
-        } else {
+        } else if (marketService.getFindStatus((String) user).get(0).isActivity() == true) {
 
             List<LotteryDTO> lottery = marketService.getLotterySetting((String) user);
             List<UserDTO> users = marketService.getAllParticipants((String) user);
@@ -48,6 +48,8 @@ public class MarketActivityController {
             model.addAttribute("drawResults", results);
             return "marketActivity";
         }
+        redirectAttributes.addFlashAttribute("message", "您沒有開通活動抽獎功能！");
+        return "redirect:/eView/organizer/config";
     }
 
     @PostMapping("/activity/save")
@@ -60,6 +62,7 @@ public class MarketActivityController {
 
         Object user = session.getAttribute("account");
         marketService.getUpdateReward(rewardNames, rewardCounts,(String)user);
+        marketService.getUpdateActivityInfo(title,rule,(String)user);
 
         return "redirect:/eView/organizer/activity";
     }
