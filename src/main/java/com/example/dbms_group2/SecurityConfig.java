@@ -12,15 +12,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/eView/**",
-                                "/loginBtn",
-                                "/register",
-                                "/css/**",
-                                "/js/**",
-                                "/images/**"
-                        ).permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll() // 🔓 所有請求都放行
                 )
                 .logout(logout -> logout.disable()) // 不用 Spring 的 logout
                 .httpBasic(httpBasic -> httpBasic.disable()) // 禁用 basic auth 視窗

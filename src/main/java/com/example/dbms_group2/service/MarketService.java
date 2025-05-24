@@ -31,7 +31,8 @@ public class MarketService {
 
 
     public List<VendorApplicationDTO> getFindAllMarketApplyStatus(String email){
-        return applyRepository.findAllMarketApplyStatus(email);
+        return null;
+        //return applyRepository.findAllMarketApplyStatus(email);
     }
 
     public void approve(int id){
@@ -67,7 +68,8 @@ public class MarketService {
     }
 
     public List<LotteryDTO> getLotterySetting(String email){
-        return marketRepository.lotterySetting(email);
+        return null;
+        //return marketRepository.lotterySetting(email);
     }
 
     public List<UserDTO> getAllParticipants(String email){
@@ -99,23 +101,27 @@ public class MarketService {
         totalUser = userDTOList.size();
 
         int totalRewardCount = 0;
-        List<RewardDTO> rewardDTOList = marketRepository.lotteryAllInfo(email);
-        for(RewardDTO rewardDTO : rewardDTOList){
-            totalRewardCount = totalRewardCount + rewardDTO.getCount();
+        List<RewardDTO> rewardDTOList = null;
+        //List<RewardDTO> rewardDTOList = marketRepository.lotteryAllInfo(email);
+        if(rewardDTOList != null){
+            for(RewardDTO rewardDTO : rewardDTOList){
+                totalRewardCount = totalRewardCount + rewardDTO.getCount();
+            }
+
+            Set<Integer> resultSet = new HashSet<>();
+            Random rand = new Random();
+
+            while (resultSet.size() < totalRewardCount) {
+                int num = rand.nextInt(totalUser); // 0 到 total-1
+                resultSet.add(num);            // 不重複自動處理
+            }
+            List<Integer> resultList = new ArrayList<>(resultSet);
+
+            for(int i = 0; i < totalRewardCount ; i++ ){
+                lotteryRepository.updateLotteryResult(userDTOList.get(resultList.get(i)).getGmail(), email, rewardDTOList.get(i).getName());
+            }
         }
 
-        Set<Integer> resultSet = new HashSet<>();
-        Random rand = new Random();
-
-        while (resultSet.size() < totalRewardCount) {
-            int num = rand.nextInt(totalUser); // 0 到 total-1
-            resultSet.add(num);            // 不重複自動處理
-        }
-        List<Integer> resultList = new ArrayList<>(resultSet);
-
-        for(int i = 0; i < totalRewardCount ; i++ ){
-            lotteryRepository.updateLotteryResult(userDTOList.get(resultList.get(i)).getGmail(), email, rewardDTOList.get(i).getName());
-        }
     }
 
     public boolean isCheckInAllowedToday(String mail){
@@ -150,12 +156,13 @@ public class MarketService {
     }
 
     public List<MarketFormDTO> getMarketSettings(String mail){
-        return marketRepository.marketSettings(mail);
+        return null;
+        //return marketRepository.marketSettings(mail);
     }
 
 
     public void saveMarketSettings(String marketName, String location, LocalDate recruitStartDate, LocalTime recruitStartTime, LocalDate recruitEndDate, LocalTime recruitEndTime, String email, String facebook, String instagram, String line, String website, String specialId) {
-        marketRepository.updateSaveMarketSettings(marketName, location,recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram, line, website, specialId);
+        //marketRepository.updateSaveMarketSettings(marketName, location,recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram, line, website, specialId);
     }
 
     public void saveMarketSettingsPeriod(List<EventPeriodDTO> eventPeriodDTOS, String email){

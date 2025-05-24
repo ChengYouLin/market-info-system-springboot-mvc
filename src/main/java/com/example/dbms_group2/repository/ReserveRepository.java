@@ -25,7 +25,7 @@ public interface ReserveRepository extends JpaRepository<Reserve, Long> {
             """)
     List<ReservationDTO> getReserInfo(String email, int marketId);
 
-    List<LeftoverFoodDTO> getLeftoverInfo(String email);
+    //List<LeftoverFoodDTO> getLeftoverInfo(String email);
 
     @Modifying
     @Query("""

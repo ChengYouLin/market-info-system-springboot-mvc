@@ -8,7 +8,7 @@ public class VendorDetailDTO {
     private List<LinkDTO> links;          // 社群連結清單
     private List<ProductDTO> products;    // 商品清單
 
-    public VendorDetailDTO(String title, String description, List<LinkDTO> links, List<ProductDTO> products) {
+    public VendorDetailDTO(String title, String description, List<LinkDTO> links, List<ProductDTO> products, applyId) {
         this.title = title;
         this.description = description;
         this.links = links;

@@ -242,7 +242,7 @@
                         </p>
                         <p>地點：<span th:text="${market.location}"></span></p>
                         <p th:text="${market.description}" style="white-space: pre-line;"></p>
-                        <a th:href="@{/eView/market/{id}(id=${market.id})/home}" class="btn btn-warning">查看更多</a>
+<a th:href="@{'/eView/market/' + ${market.id} + '/home'}" class="btn btn-warning">查看更多</a>
                     </div>
                 </div>
                 <hr>

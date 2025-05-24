@@ -1,9 +1,6 @@
 package com.example.dbms_group2.repository;
 
-import com.example.dbms_group2.model.DTO.QrSectionDTO;
-import com.example.dbms_group2.model.DTO.StampDTO;
-import com.example.dbms_group2.model.DTO.VendorApplicationDTO;
-import com.example.dbms_group2.model.DTO.VendorViewDTO;
+import com.example.dbms_group2.model.DTO.*;
 import com.example.dbms_group2.model.entity.Apply;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -93,11 +90,57 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
                         String line, String website, String vendorEmail);
 
 
+    @Query("""
+                SELECT new com.example.dbms_group2.model.DTO.QrSectionDTO(m.name, a.name, a.stamp)
+                FROM Apply a
+                JOIN a.market m
+                WHERE a.vendor.vendorId = (
+                    SELECT v.vendorId FROM Vendor v WHERE v.gmail = :vendorEmail
+                )
+                AND a.status = '已通過'
+            """)
     List<QrSectionDTO> getStampInfo(String vendorEmail);
 
-    List<VendorApplicationDTO> findAllMarketApplyStatus(String organizerEmail);
+    @Query(value = """
+        SELECT app.apply_id AS applyId,
+               app.date AS date,
+               app.email AS email,
+               app.name AS name,
+               app.status AS status,
+               a.num AS num,
+               app.description AS description,
+               app.facebook AS facebook,
+               app.instagram AS instagram,
+               app.line AS line,
+               app.website AS website
+        FROM apply app
+        LEFT JOIN assignment_point a ON a.apply_id = app.apply_id
+        JOIN market m ON m.market_id = app.market_id
+        JOIN organizer org ON org.organizer_id = m.organizer_id
+        WHERE org.gmail = :email
+        """, nativeQuery = true)
+    List<VendorApplicationInsideDTO> findAllMarketApplyStatusInside(String organizerEmail);
 
+    @Query(value = """
+    SELECT p.name AS name, p.type AS type, p.price AS price
+    FROM product p
+    JOIN vendor v ON v.vendor_id = p.vendor_id
+    JOIN apply app ON app.vendor_id = v.vendor_id
+    JOIN market m ON m.market_id = app.market_id
+    JOIN organizer org ON org.organizer_id = m.organizer_id
+    WHERE org.gmail = :organizerEmail AND app.apply_id = :applyId
+    """, nativeQuery = true)
+    List<ProductDTO> findAllMarketApplyStatusProduct(String organizerEmail, long applyId);
+
+    @Modifying
+    @Query(value = """
+            UPDATE apply SET status = '已通過', stamp = :stamp WHERE apply_id = :applyId"""
+            , nativeQuery = true)
     void approveStatus(int applyId, String stamp);
 
+    @Modifying
+    @Query(value = """
+    UPDATE apply SET status = '未通過' WHERE apply_id = :applyId"""
+            , nativeQuery = true)
     void rejectStatus(int applyId);
 }

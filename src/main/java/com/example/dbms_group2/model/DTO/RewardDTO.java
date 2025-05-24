@@ -5,7 +5,6 @@ public class RewardDTO {
     private int count;     // 數量
 
     public RewardDTO(String name, int count) {
-
         this.name = name;
         this.count = count;
     }

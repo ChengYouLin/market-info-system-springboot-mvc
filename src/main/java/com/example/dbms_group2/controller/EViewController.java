@@ -20,6 +20,7 @@ public class EViewController {
         List<MarketDTO> activeMarkets = homeService.activeMarkets();
         List<MarketDTO> recruitingMarkets = homeService.recruitingMarkets();
         model.addAttribute("activeMarkets", activeMarkets);
+        System.out.println("activeMarkets: " + activeMarkets.get(0).getId());
         model.addAttribute("recruitingMarkets", recruitingMarkets);
         System.out.println("主畫面成功載入");
         return "eView";

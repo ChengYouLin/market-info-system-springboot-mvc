@@ -3,7 +3,7 @@ package com.example.dbms_group2.model.DTO;
 import java.time.LocalDate;
 import java.util.List;
 
-public class VendorApplicationDTO {
+public class VendorApplicationInsideDTO {
 
     private long id;                    // 申請 ID（用於辨識與表單提交）
     private LocalDate date;            // 申請日期
@@ -16,9 +16,8 @@ public class VendorApplicationDTO {
     private String instagram;          // Instagram 連結
     private String line;               // LINE 連結
     private String website;            // 官方網站連結
-    private List<ProductDTO> products; // 攤商販售的商品清單
 
-    public VendorApplicationDTO(long id, LocalDate date, String email, String name, String status, String boothCode, String description, String facebook, String instagram, String line, String website, List<ProductDTO> products) {
+    public VendorApplicationInsideDTO(long id, LocalDate date, String email, String name, String status, String boothCode, String description, String facebook, String instagram, String line, String website) {
         this.id = id;
         this.date = date;
         this.email = email;
@@ -30,7 +29,6 @@ public class VendorApplicationDTO {
         this.instagram = instagram;
         this.line = line;
         this.website = website;
-        this.products = products;
     }
 
     public long getId() {
@@ -119,13 +117,5 @@ public class VendorApplicationDTO {
 
     public void setWebsite(String website) {
         this.website = website;
-    }
-
-    public List<ProductDTO> getProducts() {
-        return products;
-    }
-
-    public void setProducts(List<ProductDTO> products) {
-        this.products = products;
     }
 }

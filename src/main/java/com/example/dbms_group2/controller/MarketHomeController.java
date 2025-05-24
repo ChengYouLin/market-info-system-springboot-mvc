@@ -24,13 +24,16 @@ public class MarketHomeController {
     @GetMapping("/{id}/home")
     public String viewMarketHome(@PathVariable("id") int marketId, Model model) {
 
+        System.out.println("here!");
         //鈴鐺的部分
         List<AnnouncementDTO> notices = userService.findMarketAnnouncement(marketId);
         model.addAttribute("notices", notices);
 
+        System.out.println("here2!");
         List<MarketHomeDTO> marketInfo = userService.getFindMarketInfo(marketId);
-        model.addAttribute("market", marketInfo);
+        model.addAttribute("market", marketInfo.get(0));
 
+        System.out.println("here3!");
         List<TimeSlotDTO> infoTime = userService.getFindTimeSlot(marketId);
         model.addAttribute("slot", infoTime);
 

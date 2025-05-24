@@ -66,7 +66,7 @@ public class UserService {
     }
 
     public void deleteFao(int preferId){
-        preferRepository.deleteById(preferId);
+        preferRepository.deleteByPreferId(preferId);
     }
 
     public void findUpdateUserProfile(String email, String name){
@@ -83,7 +83,7 @@ public class UserService {
 
     public int getFindTotalPoint(String email, int marketId){
         List<PointDTO> p = havePointsRespository.findTotalPoint(email, marketId);
-        return p.getFirst().getPointCount();
+        return p.get(0).getPointCount();
     }
 
     public List<DTO> genFindStatus(int marketId){
@@ -115,15 +115,16 @@ public class UserService {
     }
 
     public List<VendorViewDTO> getFindVendorView(String email, int marketId){
-        return ApplyRepository.findVendorView(marketId, email);
+        return applyRepository.findVendorView(marketId, email);
     }
 
     public List<ZoneDTO> getFindAllZone(int marketId){
-        return zoneRepository.findAllZone(marketId);
+        return null;
+        //return zoneRepository.findAllZone(marketId);
     }
 
     public void getUpdatePrefer(String user, int marketId, int vendorId){
-        preferRepository.updatePrefer(user, marketId , vendorId);
+        //preferRepository.updatePrefer(user, marketId , vendorId);
     }
 
     public boolean checkFindResultRank(String email, int marketId, int vendorId, int score){
@@ -137,6 +138,7 @@ public class UserService {
     }
 
     public List<FilterVendorDTO> getFindFilterVendor(String email, int marketId, List<String> selectedCategories, int length){
-        return assignmentPointRepository.findFilterVendor(email, marketId, selectedCategories, length);
+        return null;
+        //return assignmentPointRepository.findFilterVendor(email, marketId, selectedCategories, length);
     }
 }

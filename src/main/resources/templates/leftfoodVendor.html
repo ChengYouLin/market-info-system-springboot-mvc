@@ -294,7 +294,7 @@
             <div class="section-title">新增剩食</div>
 
             <!-- ✅ 自訂排版區塊 -->
-            <form th:action="@{/leftover/add}" method="post" class="flex-container">
+            <form th:action="@{/eView/vendor/leftover/add}" method="post" class="flex-container">
                 <div class="field-group">
                     <label class="form-label">商品名稱</label>
                     <input type="text" name="productName" id="productNameInput" class="form-control" placeholder="請選擇商品"
@@ -333,18 +333,18 @@
             <div class="box-outline">
                 <div><b th:text="${item.productName}"></b></div>
                 <div>
-                    <form th:action="@{/leftover/decrease}" method="post" style="display: inline-block">
+                    <form th:action="@{/eView/vendor/leftover/decrease}" method="post" style="display: inline-block">
                         <input type="hidden" name="leftoverId" th:value="${item.id}" />
                         <button type="submit" class="btn btn-danger btn-circle">-</button>
                     </form>
                     <span class="mx-2">剩餘 <b th:text="${item.leftCount}"></b> 份</span>
-                    <form th:action="@{/leftover/increase}" method="post" style="display: inline-block">
+                    <form th:action="@{/eView/vendor/leftover/increase}" method="post" style="display: inline-block">
                         <input type="hidden" name="leftoverId" th:value="${item.id}" />
                         <button type="submit" class="btn btn-danger btn-circle">+</button>
                     </form>
                 </div>
                 <div>
-                    <form th:action="@{/leftover/delete}" method="post" style="display: inline-block">
+                    <form th:action="@{/eView/vendor/leftover/delete}" method="post" style="display: inline-block">
                         <input type="hidden" name="leftoverId" th:value="${item.id}" />
                         <button type="submit" class="btn btn-danger btn-circle">X</button>
                     </form>

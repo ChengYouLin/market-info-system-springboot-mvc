@@ -23,12 +23,12 @@ public class Reserve {
     private int amount;
 
     @Column(name = "last_time")
-    private LocalTime lastTime;
+    private LocalDateTime lastTime;
 
     public Reserve() {
     }
 
-    public Reserve(int reserveId, Leftover leftover, User user, int amount, LocalTime lastTime) {
+    public Reserve(int reserveId, Leftover leftover, User user, int amount, LocalDateTime lastTime) {
         this.reserveId = reserveId;
         this.leftover = leftover;
         this.user = user;
@@ -68,11 +68,11 @@ public class Reserve {
         this.amount = amount;
     }
 
-    public LocalTime getLastTime() {
+    public LocalDateTime getLastTime() {
         return lastTime;
     }
 
-    public void setLastTime(LocalTime lastTime) {
+    public void setLastTime(LocalDateTime lastTime) {
         this.lastTime = lastTime;
     }
 }

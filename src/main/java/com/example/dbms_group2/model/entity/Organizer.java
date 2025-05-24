@@ -29,10 +29,16 @@ public class Organizer {
     @Column(name = "map_version")
     private boolean mapVersion;
 
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "telephone")
+    private String telephone;
+
     public Organizer() {
     }
 
-    public Organizer(int organizerId, String gmail, String password, boolean lottery, boolean product, boolean leftover, boolean mapVersion) {
+    public Organizer(int organizerId, String gmail, String password, boolean lottery, boolean product, boolean leftover, boolean mapVersion, String name, String telephone) {
         this.organizerId = organizerId;
         this.gmail = gmail;
         this.password = password;
@@ -40,6 +46,24 @@ public class Organizer {
         this.product = product;
         this.leftover = leftover;
         this.mapVersion = mapVersion;
+        this.name = name;
+        this.telephone = telephone;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getTelephone() {
+        return telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
     }
 
     public int getOrganizerId() {
