@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @Service
@@ -142,5 +144,28 @@ public class MarketService {
 
     public void markAsCheckedIn(int vendorId, String email){
         marketRepository.setMarkAsCheckedIn(vendorId, email);
+    }
+
+    public List<MarketFormDTO> getMarketSettings(String mail){
+        return marketRepository.marketSettings(mail);
+    }
+
+
+    public void saveMarketSettings(String marketName, String location, LocalDate recruitStartDate, LocalTime recruitStartTime, LocalDate recruitEndDate, LocalTime recruitEndTime, String email, String facebook, String instagram, String line, String website, String specialId) {
+        marketRepository.updateSaveMarketSettings(marketName, location,recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram, line, website, specialId);
+    }
+
+    public void saveMarketSettingsPeriod(List<EventPeriodDTO> eventPeriodDTOS, String email){
+        marketRepository.deleteMarketPeriod(email);
+
+        for(EventPeriodDTO eventPeriodDTO : eventPeriodDTOS){
+            marketRepository.updateSaveMarketSettingsPeriod(
+                    eventPeriodDTO.getStartDate(),
+                    eventPeriodDTO.getStartTime(),
+                    eventPeriodDTO.getEndDate(),
+                    eventPeriodDTO.getEndTime(),
+                    email
+            );
+        }
     }
 }

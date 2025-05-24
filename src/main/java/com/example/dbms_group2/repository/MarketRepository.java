@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 public interface MarketRepository extends JpaRepository<Market, Long> {
@@ -38,4 +40,31 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     void setAssignVendorToBooth(int mapId, int vendorId, String cate, String marketEmail);
 
     void setMarkAsCheckedIn(int vendorId, String email);
+
+    List<MarketFormDTO> marketSettings(String mail);
+
+    void updateSaveMarketSettings(
+            String marketName,
+            String location,
+            LocalDate recruitStartDate,
+            LocalTime recruitStartTime,
+            LocalDate recruitEndDate,
+            LocalTime recruitEndTime,
+            String email,
+            String facebook,
+            String instagram,
+            String line,
+            String website,
+            String specialId
+            );
+
+    void deleteMarketPeriod(String email);
+
+    void updateSaveMarketSettingsPeriod(
+            LocalDate startDate,
+            LocalTime startTime,
+            LocalDate endDate,
+            LocalTime endTime,
+            String email
+    );
 }
