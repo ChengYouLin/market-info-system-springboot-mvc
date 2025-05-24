@@ -1,5 +1,6 @@
 package com.example.dbms_group2.controller;
 
+import com.example.dbms_group2.model.DTO.AnnouncementDTO;
 import com.example.dbms_group2.model.DTO.MarketHomeDTO;
 import com.example.dbms_group2.model.DTO.TimeSlotDTO;
 import com.example.dbms_group2.model.entity.Announcement;
@@ -20,20 +21,20 @@ public class MarketHomeController {
     @Autowired
     private UserService userService;
 
-//    @GetMapping("/{id}/home")
-//    public String viewMarketHome(@PathVariable("id") int marketId, Model model) {
-////
-//        //鈴鐺的部分
-//        List<Announcement> notices = userService.findMarketAnnouncement(marketId);
-//        model.addAttribute("notices", notices);
-//
-//        List<MarketHomeDTO> marketInfo = userService.getFindMarketInfo(marketId);
-//        model.addAttribute("market", marketInfo);
-//
-//        List<TimeSlotDTO> infoTime = userService.getFindTimeSlot(marketId);
-//        model.addAttribute("slot", infoTime);
-//
-//        return "marketHome";
-//    }
+    @GetMapping("/{id}/home")
+    public String viewMarketHome(@PathVariable("id") int marketId, Model model) {
+
+        //鈴鐺的部分
+        List<AnnouncementDTO> notices = userService.findMarketAnnouncement(marketId);
+        model.addAttribute("notices", notices);
+
+        List<MarketHomeDTO> marketInfo = userService.getFindMarketInfo(marketId);
+        model.addAttribute("market", marketInfo);
+
+        List<TimeSlotDTO> infoTime = userService.getFindTimeSlot(marketId);
+        model.addAttribute("slot", infoTime);
+
+        return "marketHome";
+    }
 
 }

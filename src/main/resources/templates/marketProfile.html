@@ -203,34 +203,36 @@
     </style>
 </head>
 <body>
-        <header>
+            <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+    <header>
         <div class="header-content">
             <div class="header-left">
-                <img src="../static/images/logo.png" alt="logo">
+                <img th:src="@{/images/logo.png}" alt="logo">
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                <form th:action="@{/eView/organizer/config}" method="get" style="display:inline;">
                     <button class="nav-btn">活動設定</button>
                 </form>
-                <form th:action="@{/map}" method="get" style="display:inline;">
+                <form th:action="@{/eView/oranizer/map}" method="get" style="display:inline;">
                     <button class="nav-btn">會場佈置</button>
                 </form>
-                <form th:action="@{/activity}" method="get" style="display:inline;">
+                <form th:action="@{/eView/oranizer/activity}" method="get" style="display:inline;">
                     <button class="nav-btn">抽獎系統</button>
                 </form>
-                <form th:action="@{/apply}" method="get" style="display:inline;">
+                <form th:action="@{/eView/oranizer/review}" method="get" style="display:inline;">
                     <button class="nav-btn">招商狀況</button>
                 </form>
 
-                <form th:action="@{/profile}" method="get">
+                <form th:action="@{/eView/organizer/profile}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
                 </form>
             </div>
         </div>
-
     </header>
 <br>
 <div class="main-container">
@@ -254,7 +256,7 @@
             </div>
             <div class="profile-img" id="profile-img">
                 
-                <img src="../static/images/vendor.png" alt="Profile">
+                <img src="@{images/vendor.png}" alt="Profile">
             </div>
             
         </div>
@@ -265,14 +267,14 @@
 <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form th:action="@{/profile/edit}" method="post">
+            <form th:action="@{/eView/organizer/profile/edit}" method="post">
                 <div class="modal-header">
                     <h5 class="modal-title">編輯個人資訊</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body">
                     <label>姓名</label>
-                    <input class="form-control" type="text" name="name" th:value="${user.name}" required>
+                    <input class="form-control" typme="text" name="name" th:value="${user.name}" required>
                     <label class="mt-2">電子郵件</label>
                     <input class="form-control" type="email" name="email" th:value="${user.email}" required>
                 </div>

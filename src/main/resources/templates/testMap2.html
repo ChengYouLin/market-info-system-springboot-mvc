@@ -101,30 +101,6 @@
             color: #073046;
         }
 
-        .section-wrapper {
-            background-color: white;
-            display: flex;
-            justify-content: center;
-        }
-
-        .section-inner {
-            width: 80%;
-            background-color: #fdf0d8;
-            padding: 40px;
-            text-align: left;
-            border-radius: 16px;
-
-        }
-
-        .section-title {
-            font-size: 22px;
-            font-weight: bold;
-            color: #073046;
-            margin-top: 30px;
-            display: flex;
-            align-items: center;
-        }
-
         .section-title i {
             margin-right: 10px;
         }
@@ -298,16 +274,6 @@
             color: red;
         }
 
-        .stars i {
-            font-size: 28px;
-            color: #ccc;
-            cursor: pointer;
-        }
-
-        .stars i.selected {
-            color: #ffcc00;
-        }
-
         .close-btn {
             position: absolute;
             top: 10px;
@@ -391,34 +357,48 @@
             color: white;
             border-color: #ff7043;
         }
+
+        .booth-btn.booth-filled {
+            background-color: #ff7043;
+            /* 橘色 */
+            color: white;
+        }
+
+        .booth-btn {
+            cursor: default;
+        }
     </style>
 </head>
 
 <body>
+    <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
     <header>
         <div class="header-content">
             <div class="header-left">
-                <img src="../static/images/logo.png" alt="logo">
+                <img th:src="@{/images/logo.png}" alt="logo">
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/home(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn">市集資訊</button>
                 </form>
-                <form th:action="@{/map}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/map(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn active">會場地圖</button>
                 </form>
-                <form th:action="@{/activity}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/activity(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn">抽獎集點</button>
                 </form>
-                <form th:action="@{/leftfood}" method="get" style="display:inline;">
+                <form th:action="@{/eView/market/{id}/leftfood(id=${marketId})}" method="get" style="display:inline;">
                     <button class="nav-btn">剩食搜尋</button>
                 </form>
                 <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
                     <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
                 </button>
 
-                <form th:action="@{/profile}" method="get">
+                <form th:action="@{/eView/market/{id}/profile(id=${marketId})}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
@@ -445,51 +425,65 @@
         <div class="map-header">
             <h2>會場地圖</h2>
             <div class="d-flex gap-2">
-                <form th:action="@{/map/reset}" method="post">
+                <form th:action="@{/eView/market/{id}/map(id=${marketId})}" method="post">
                     <button type="submit" class="btn btn-outline-secondary">重置篩選</button>
                 </form>
                 <button class="btn btn-warning" onclick="showFilter()">篩選器</button>
             </div>
         </div>
+
         <!-- 地圖容器 -->
         <!-- 會場地圖 -->
         <div class="map-container">
 
-            <!-- 標籤區 -->
-            <div class="map-label" style="top: 25px; left: 300px;">資訊大樓</div>
-            <div class="map-label" style="top: 25px; right: 315px;">商學院</div>
-            <div class="map-label" style="top: 435px; left: 300px;">行政大樓</div>
-            <div class="map-label" style="top: 230px; left: 600px;">四維道（中間的人行道）</div>
-            <div class="map-label" style="top: 420px; left: 685px;">四維堂</div>
-            <div class="map-label" style="top: 435px; right: 290px;">中正圖書館</div>
-
-            <!-- 第一排：A1 ~ C2 -->
-            <div class="booth-btn" onclick="openVendorModal('1')" style="top: 80px; left: 50px;">1</div>
-            <div class="booth-btn" onclick="openVendorModal('2')" style="top: 80px; left: 170px;">2</div>
-            <div class="booth-btn" onclick="openVendorModal('3')" style="top: 80px; left: 290px;">3</div>
-            <div class="booth-btn" onclick="openVendorModal('4')" onclick="openVendorModal('')"
+            <!-- 第一排：左側 1~5 -->
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 1].size() > 0} ? ' booth-filled'"
+                style="top: 80px; left: 50px;">1</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 2].size() > 0} ? ' booth-filled'"
+                style="top: 80px; left: 170px;">2</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 3].size() > 0} ? ' booth-filled'"
+                style="top: 80px; left: 290px;">3</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 4].size() > 0} ? ' booth-filled'"
                 style="top: 80px; left: 410px;">4</div>
-            <div class="booth-btn" onclick="openVendorModal('5')" style="top: 80px; left: 530px;">5</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 5].size() > 0} ? ' booth-filled'"
+                style="top: 80px; left: 530px;">5</div>
 
-            <div class="booth-btn" onclick="openVendorModal('10')" style="top: 80px; right: 50px;">10</div>
-            <div class="booth-btn" onclick="openVendorModal('9')" style="top: 80px; right: 170px;">9</div>
-            <div class="booth-btn" onclick="openVendorModal('8')" style="top: 80px; right: 290px;">8</div>
-            <div class="booth-btn" onclick="openVendorModal('7')" style="top: 80px; right: 410px;">7</div>
-            <div class="booth-btn" onclick="openVendorModal('6')" style="top: 80px; right: 530px;">6</div>
+            <!-- 第一排：右側 6~10 -->
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 6].size() > 0} ? ' booth-filled'"
+                style="top: 80px; right: 530px;">6</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 7].size() > 0} ? ' booth-filled'"
+                style="top: 80px; right: 410px;">7</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 8].size() > 0} ? ' booth-filled'"
+                style="top: 80px; right: 290px;">8</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 9].size() > 0} ? ' booth-filled'"
+                style="top: 80px; right: 170px;">9</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 10].size() > 0} ? ' booth-filled'"
+                style="top: 80px; right: 50px;">10</div>
 
+            <!-- 第二排：左側 11~15 -->
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 11].size() > 0} ? ' booth-filled'"
+                style="top: 290px; left: 50px;">11</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 12].size() > 0} ? ' booth-filled'"
+                style="top: 290px; left: 170px;">12</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 13].size() > 0} ? ' booth-filled'"
+                style="top: 290px; left: 290px;">13</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 14].size() > 0} ? ' booth-filled'"
+                style="top: 290px; left: 410px;">14</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 15].size() > 0} ? ' booth-filled'"
+                style="top: 290px; left: 530px;">15</div>
 
-            <!-- 第二排：E3 ~ C3 -->
-            <div class="booth-btn" onclick="openVendorModal('11')" style="top: 290px; left: 50px;">11</div>
-            <div class="booth-btn" onclick="openVendorModal('12')" style="top: 290px; left: 170px;">12</div>
-            <div class="booth-btn" onclick="openVendorModal('13')" style="top: 290px; left: 290px;">13</div>
-            <div class="booth-btn" onclick="openVendorModal('14')" style="top: 290px; left: 410px;">14</div>
-            <div class="booth-btn" onclick="openVendorModal('15')" style="top: 290px; left: 530px;">15</div>
+            <!-- 第二排：右側 16~20 -->
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 16].size() > 0} ? ' booth-filled'"
+                style="top: 290px; right: 530px;">16</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 17].size() > 0} ? ' booth-filled'"
+                style="top: 290px; right: 410px;">17</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 18].size() > 0} ? ' booth-filled'"
+                style="top: 290px; right: 290px;">18</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 19].size() > 0} ? ' booth-filled'"
+                style="top: 290px; right: 170px;">19</div>
+            <div class="booth-btn" th:classappend="${filteredVendors.?[code == 20].size() > 0} ? ' booth-filled'"
+                style="top: 290px; right: 50px;">20</div>
 
-            <div class="booth-btn" onclick="openVendorModal('20')" style="top: 290px; right: 50px;">20</div>
-            <div class="booth-btn" onclick="openVendorModal('19')" style="top: 290px; right: 170px;">19</div>
-            <div class="booth-btn" onclick="openVendorModal('18')" style="top: 290px; right: 290px;">18</div>
-            <div class="booth-btn" onclick="openVendorModal('17')" style="top: 290px; right: 410px;">17</div>
-            <div class="booth-btn" onclick="openVendorModal('16')" style="top: 290px; right: 530px;">16</div>
         </div>
 
         <!-- 🧾 篩選結果區塊（動態版）每排最多三個 -->
@@ -499,10 +493,12 @@
                     th:onclick="'openVendorModal(\'' + ${vendor.code} + '\')'">
                     <h5 class="fw-bold mb-2" th:text="'編號 ' + ${vendor.code} + '｜' + ${vendor.name}">攤商名稱</h5>
                     <div class="product-item" th:each="product : ${vendor.filteredProducts}">
-                        <div class="d-flex justify-content-between">
-                            <span th:text="${product.name}">商品名</span>
-                            <span th:text="${product.price}">價格</span>
+                        <div class="d-flex">
+                            <span class="flex-fill" th:text="${product.name}">商品名</span>
+                            <span class="flex-fill text-center" th:text="${product.categories}">類別</span>
+                            <span class="flex-fill text-end" th:text="${product.price}">價格</span>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -543,83 +539,10 @@
         </style>
 
 
-
-        <!-- 🔲 背景遮罩 -->
-        <div id="modalOverlay" class="modal-overlay" onclick="closeModals()"></div>
-
-        <!-- 🏪 攤商詳細資訊 Modal -->
-        <div id="vendorModal" class="modal-box">
-            <div class="modal-content" onclick="event.stopPropagation()">
-                <!-- 攤商資訊 Modal 裡 -->
-                <span class="close-btn" onclick="closeModals()">&times;</span>
-
-                <div class="modal-header">
-                    <img src="../static/images/vendor.png" class="vendor-img" />
-                    <div class="vendor-info">
-                        <h4 id="vendorTitle">A1 – 攤商名字</h4>
-                        <p id="vendorDesc">這是簡介文字...</p>
-                        <h6>聯絡方式</h6>
-                        <div id="vendorLinks">
-                            <a href="#">Facebook</a> <a href="#">Instagram</a> <a href="#">LINE</a> <a href="#">網站</a>
-                        </div>
-                        <div class="rating">
-                            <span id="vendorScore">4.3 / 5</span>
-                            <button class="btn btn-sm btn-warning" onclick="showRating()">評分</button>
-                        </div>
-                    </div>
-                    <div class="heart-icon" onclick="toggleFavorite(this, 'A1')">
-                        <i class="bi bi-heart"></i>
-                    </div>
-                </div>
-                <hr>
-                <h5><strong>商品品項</strong></h5>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>名稱</th>
-                            <th>類別</th>
-                            <th>價錢</th>
-                        </tr>
-                    </thead>
-                    <tbody id="productList">
-                        <tr>
-                            <td>Product 1</td>
-                            <td>類別 1</td>
-                            <td>Price 1</td>
-                        </tr>
-                        <tr>
-                            <td>Product 2</td>
-                            <td>類別 2</td>
-                            <td>Price 2</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- ⭐ 評分彈窗 -->
-        <div id="ratingModal" class="modal-box small">
-            <div class="modal-content" onclick="event.stopPropagation()">
-                <p class="text-center">滑動來評分</p>
-                <div id="ratingStars" class="stars text-center">
-                    <i class="bi bi-star" onclick="setRating(1)"></i>
-                    <i class="bi bi-star" onclick="setRating(2)"></i>
-                    <i class="bi bi-star" onclick="setRating(3)"></i>
-                    <i class="bi bi-star" onclick="setRating(4)"></i>
-                    <i class="bi bi-star" onclick="setRating(5)"></i>
-                </div>
-                <div class="text-center mt-3">
-                    <button class="btn btn-secondary" onclick="closeRating()">取消</button>
-                    <button class="btn btn-danger" onclick="submitRating()">送出</button>
-                </div>
-            </div>
-        </div>
-
         <!-- 篩選器遮罩與彈窗 -->
         <div id="filterOverlay" class="modal-overlay" onclick="closeFilter()"></div>
 
-        <form id="filterModal" th:action="@{/map/filter}" method="post" class="modal-box"
-            onclick="event.stopPropagation()">
+    <form id="filterModal" th:action="@{/eView/market/{id}/map/filter(id=${marketId})}"method="post" class="modal-box" onclick="event.stopPropagation()">
             <div class="modal-content">
                 <h4 class="text-center fw-bold">商品類型篩選（可複選）</h4>
 
@@ -717,63 +640,6 @@
                 document.getElementById('modalOverlay').style.display = 'none';
             }
 
-            function toggleFavorite(el, vendorId) {
-                el.classList.toggle("active");
-                fetch("/favorite", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ vendorId })
-                }).then(res => console.log("收藏送出"));
-            }
-
-            function showRating() {
-                document.getElementById('ratingModal').style.display = 'block';
-                document.getElementById('modalOverlay').style.display = 'block';
-            }
-
-            function closeRating() {
-                document.getElementById('ratingModal').style.display = 'none';
-
-                const vendorVisible = document.getElementById('vendorModal').style.display === 'block';
-                if (!vendorVisible) {
-                    document.getElementById('modalOverlay').style.display = 'none';
-                }
-            }
-
-
-            function setRating(score) {
-                selectedScore = score;
-                let stars = document.querySelectorAll("#ratingStars i");
-                stars.forEach((star, idx) => {
-                    star.classList.toggle("selected", idx < score);
-                });
-            }
-
-            function submitRating() {
-                if (selectedScore === 0) {
-                    alert("請選擇評分！");
-                    return;
-                }
-
-                const vendorId = document.getElementById('vendorModal').getAttribute('data-vendor-id');
-
-                fetch("/rate", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ vendorId, score: selectedScore })
-                })
-                    .then(res => {
-                        if (!res.ok) throw new Error("送出失敗！");
-                        return res.text(); // 可改成 .json() 看你的回傳
-                    })
-                    .then(msg => {
-                        alert("評分成功：" + msg);
-                        closeRating();
-                    })
-                    .catch(err => {
-                        alert("發生錯誤：" + err.message);
-                    });
-            }
 
             function closeFilter() {
                 document.getElementById('filterModal').style.display = 'none';
@@ -791,6 +657,7 @@
                 document.getElementById('filterModal').style.display = 'block';
                 document.getElementById('filterOverlay').style.display = 'block';
             }
+
             function toggleNotificationBox() {
                 const box = document.getElementById('notification-box');
                 box.style.display = (box.style.display === 'block') ? 'none' : 'block';

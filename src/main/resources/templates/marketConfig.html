@@ -22,11 +22,13 @@
             z-index: 1000;
             height: 60px;
         }
+
         #notification-icon i,
         .btn-link i {
             color: #073046;
             vertical-align: middle;
         }
+
         .header-content {
             width: 90%;
             margin: auto;
@@ -411,27 +413,30 @@
 
 <body>
 
+    <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
     <header>
         <div class="header-content">
             <div class="header-left">
-                <img src="../static/images/logo.png" alt="logo">
+                <img th:src="@{/images/logo.png}" alt="logo">
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/marketHome}" method="get" style="display:inline;">
+                <form th:action="@{/eView/organizer/config}" method="get" style="display:inline;">
                     <button class="nav-btn active">活動設定</button>
                 </form>
-                <form th:action="@{/map}" method="get" style="display:inline;">
+                <form th:action="@{/eView/oranizer/map}" method="get" style="display:inline;">
                     <button class="nav-btn">會場佈置</button>
                 </form>
-                <form th:action="@{/activity}" method="get" style="display:inline;">
+                <form th:action="@{/eView/oranizer/activity}" method="get" style="display:inline;">
                     <button class="nav-btn">抽獎系統</button>
                 </form>
-                 <form th:action="@{/apply}" method="get" style="display:inline;">
+                <form th:action="@{/eView/oranizer/review}" method="get" style="display:inline;">
                     <button class="nav-btn">招商狀況</button>
                 </form>
 
-                <form th:action="@{/profile}" method="get">
+                <form th:action="@{/eView/organizer/profile}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
@@ -439,6 +444,7 @@
             </div>
         </div>
     </header>
+
     <div class="main-container">
         <div class="sidebar">
             <button id="marketBtn" class="active" onclick="switchTab('market')">市集資訊</button>
@@ -449,10 +455,14 @@
             <!-- 市集資訊 -->
             <div id="marketSection" class="content-section">
                 <h4 class="mb-4" style="color: #073046; font-size: 2rem; font-weight: bold;">活動設定</h4>
-                <form th:action="@{/market/save}" method="post">
+                <form th:action="@{/eView/organizer/config/save}" method="post">
                     <div class="mb-3">
                         <label class="section-title">市集名稱</label>
                         <input type="text" name="marketName" class="form-control" th:value="${market.name}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="section-title">地點</label>
+                        <input type="text" name="marketName" class="form-control" th:value="${market.location}">
                     </div>
 
                     <!-- 舉辦時間 -->
@@ -545,9 +555,11 @@
 
 
             <!-- 臨時公告區塊 -->
+            <!-- 臨時公告區塊 -->
             <div id="noticeSection" class="content-section" style="display: none;">
                 <div class="notice-header">
                     <h4>臨時公告</h4>
+
                     <div
                         style="flex-grow: 1; display: flex; justify-content: flex-start; gap: 10px; align-items: center;">
                         <div class="notice-tabs">
@@ -556,19 +568,43 @@
                             <button onclick="setTab(this)">攤商</button>
                         </div>
                     </div>
+
                     <button class="btn btn-danger" onclick="openNoticeModal('新增臨時公告')">新增公告</button>
                 </div>
 
-                <div class="notice-card">
-                    <h5>哈哈哈集團舉辦市集，歡迎大家參與！ <small>最後更新時間：2344/5/3 29:39</small></h5>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam ante sem.</p>
-                    <div class="text-end">
-                        <button class="btn btn-secondary">刪除</button>
-                        <button class="btn btn-warning"
-                            onclick="openNoticeModal('編輯公告', '哈哈哈集團舉辦市集，歡迎大家參與！', 'Lorem ipsum...', '攤商')">編輯</button>
+                <!-- 📝 公告卡片 -->
+                <div th:if="${notices != null and !notices.isEmpty()}">
+                    <div th:each="notice : ${notices}" class="notice-card">
+                        <h5>
+                            <span th:text="${notice.title}">公告標題</span>
+                            <small th:text="'最後更新時間：' + ${#temporals.format(notice.lastUpdated, 'yyyy/MM/dd HH:mm')}">
+                                最後更新時間：2025/05/23 13:00
+                            </small>
+                        </h5>
+                        <p th:text="${notice.content}">這裡是公告內文內容</p>
+<div class="text-end d-flex gap-2 justify-content-end align-items-center">
+    <form th:action="@{/eView/organizer/config/delete}" method="post" class="m-0 p-0">
+        <input type="hidden" name="id" th:value="${notice.id}">
+        <button class="btn btn-secondary" type="submit">刪除</button>
+    </form>
+
+    <button class="btn btn-warning"
+        th:attr="data-title=${notice.title},
+                 data-content=${notice.content},
+                 data-target=${notice.target},
+                 data-id=${notice.id}"
+        onclick="handleEditNotice(this)">
+        編輯
+    </button>
+</div>
                     </div>
                 </div>
+
+                <div th:if="${notices == null or notices.isEmpty()}">
+                    <p>目前沒有公告</p>
+                </div>
             </div>
+
             <!-- 節目表 -->
             <div id="scheduleSection" class="content-section" style="display:none">
                 <h5 class="section-title">節目表（至多3張）</h5>
@@ -577,45 +613,86 @@
                     <p>上傳圖片<br>或將圖片拖曳至此</p>
                 </div>
                 <div class="schedule-preview">
-                    <img src="../static/images/schedule1.png">
-                    <img src="../static/images/schedule2.png">
-                    <img src="../static/images/schedule3.png">
+                    <img src="@{/images/schedule1.png}">
+                    <img src="@{/images/schedule2.png}">
+                    <img src="@{/images/schedule3.png}">
                 </div>
             </div>
         </div>
     </div>
 
     <!-- 新增/編輯 Modal -->
+    <!-- Modal 窗 -->
     <div id="noticeModal" class="modal-overlay" onclick="toggleModal(false)">
         <div class="modal-box" onclick="event.stopPropagation()">
-            <h5 id="modalTitle">新增臨時公告</h5>
-            <div class="mb-3">
-                <label class="form-label">* 標題（限20字）</label>
-                <input type="text" id="noticeTitle" class="form-control" maxlength="20">
-            </div>
-            <div class="mb-3">
-                <label class="form-label">內文（限150字）</label>
-                <textarea id="noticeContent" class="form-control" maxlength="150"></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">發布對象</label>
-                <select id="noticeTarget" class="form-select">
-                    <option>一般使用者</option>
-                    <option>攤商</option>
-                </select>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="toggleModal(false)">取消</button>
-                <button class="btn btn-danger" onclick="submitNotice()">發布</button>
-            </div>
+<form id="noticeForm" method="post">
+                <input type="hidden" name="id" id="noticeId">
+
+                <h5 id="modalTitle">新增臨時公告</h5>
+
+                <div class="mb-3">
+                    <label class="form-label">* 標題（限20字）</label>
+                    <input type="text" name="title" id="noticeTitle" class="form-control" maxlength="20" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">內文（限150字）</label>
+                    <textarea name="content" id="noticeContent" class="form-control" maxlength="150"
+                        required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">發布對象</label>
+                    <select name="target" id="noticeTarget" class="form-select">
+                        <option value="一般使用者">一般使用者</option>
+                        <option value="攤商">攤商</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" onclick="toggleModal(false)">取消</button>
+                    <button class="btn btn-danger" type="submit">發布</button>
+                </div>
+            </form>
         </div>
     </div>
+
 
     <script>
         function toggleModal(show) {
             const modal = document.getElementById('noticeModal');
             modal.style.display = show ? 'flex' : 'none';
         }
+
+        function handleEditNotice(button) {
+            const title = button.getAttribute('data-title');
+            const content = button.getAttribute('data-content');
+            const target = button.getAttribute('data-target');
+            const id = button.getAttribute('data-id');
+
+            openNoticeModal('編輯公告', title, content, target, id);
+        }
+
+        function toggleModal(show) {
+            const modal = document.getElementById('noticeModal');
+            modal.style.display = show ? 'flex' : 'none';
+        }
+
+function openNoticeModal(title, presetTitle = '', presetContent = '', presetTarget = '一般使用者', noticeId = '') {
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('noticeTitle').value = presetTitle;
+    document.getElementById('noticeContent').value = presetContent;
+    document.getElementById('noticeTarget').value = presetTarget;
+    document.getElementById('noticeId').value = noticeId;
+
+    const form = document.getElementById('noticeForm');
+    if (title.includes('新增')) {
+        form.action = '/eView/organizer/config/new';
+    } else {
+        form.action = '/eView/organizer/config/edit';
+    }
+
+    toggleModal(true);
+}
+
 
         function openNoticeModal(title, presetTitle = '', presetContent = '', presetTarget = '一般使用者') {
             document.getElementById('modalTitle').innerText = title;

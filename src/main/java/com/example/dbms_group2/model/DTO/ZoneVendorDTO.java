@@ -4,7 +4,7 @@ public class ZoneVendorDTO {
     private String displayName; // 顯示名稱，例如「攤商A（文創）」
     private String boothCode;   // 攤商編碼，就是地圖上的編號就可以！
 
-    public ZoneVendorDTO(String displayName, String boothCode) {
+    public ZoneVendorDTO(String z_code, String displayName, String boothCode) {
         this.displayName = displayName;
         this.boothCode = boothCode;
     }
