@@ -1,5 +1,7 @@
 package com.example.dbms_group2.model.DTO;
 
+import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -7,10 +9,10 @@ public class MarketFormInsideDTO {
     private String marketName;
     private String location;
 
-    private LocalDate recruitStartDate;
-    private LocalTime recruitStartTime;
-    private LocalDate recruitEndDate;
-    private LocalTime recruitEndTime;
+    private Date recruitStartDate;
+    private Time recruitStartTime;
+    private Date recruitEndDate;
+    private Time recruitEndTime;
 
     private String email;
     private String facebook;
@@ -18,7 +20,7 @@ public class MarketFormInsideDTO {
     private String line;
     private String website;
 
-    public MarketFormInsideDTO(String marketName, String location, LocalDate recruitStartDate, LocalTime recruitStartTime, LocalDate recruitEndDate, LocalTime recruitEndTime, String email, String facebook, String instagram, String line, String website) {
+    public MarketFormInsideDTO(String marketName, String location, Date recruitStartDate, Time recruitStartTime, Date recruitEndDate, Time recruitEndTime, String email, String facebook, String instagram, String line, String website) {
         this.marketName = marketName;
         this.location = location;
         this.recruitStartDate = recruitStartDate;
@@ -32,14 +34,6 @@ public class MarketFormInsideDTO {
         this.website = website;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getMarketName() {
         return marketName;
     }
@@ -48,35 +42,43 @@ public class MarketFormInsideDTO {
         this.marketName = marketName;
     }
 
-    public LocalDate getRecruitStartDate() {
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Date getRecruitStartDate() {
         return recruitStartDate;
     }
 
-    public void setRecruitStartDate(LocalDate recruitStartDate) {
+    public void setRecruitStartDate(Date recruitStartDate) {
         this.recruitStartDate = recruitStartDate;
     }
 
-    public LocalTime getRecruitStartTime() {
+    public Time getRecruitStartTime() {
         return recruitStartTime;
     }
 
-    public void setRecruitStartTime(LocalTime recruitStartTime) {
+    public void setRecruitStartTime(Time recruitStartTime) {
         this.recruitStartTime = recruitStartTime;
     }
 
-    public LocalDate getRecruitEndDate() {
+    public Date getRecruitEndDate() {
         return recruitEndDate;
     }
 
-    public void setRecruitEndDate(LocalDate recruitEndDate) {
+    public void setRecruitEndDate(Date recruitEndDate) {
         this.recruitEndDate = recruitEndDate;
     }
 
-    public LocalTime getRecruitEndTime() {
+    public Time getRecruitEndTime() {
         return recruitEndTime;
     }
 
-    public void setRecruitEndTime(LocalTime recruitEndTime) {
+    public void setRecruitEndTime(Time recruitEndTime) {
         this.recruitEndTime = recruitEndTime;
     }
 

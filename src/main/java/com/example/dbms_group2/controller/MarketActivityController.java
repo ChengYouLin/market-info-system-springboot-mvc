@@ -76,8 +76,8 @@ public class MarketActivityController {
         Object user = session.getAttribute("account");
         List<DrawResultDTO> results = marketService.performDraw((String)user);
 
-
-        if(results == null){
+        System.out.println(results);
+        if(results.isEmpty()){
 
             //進行抽獎
             marketService.getDrawActivity((String)user);

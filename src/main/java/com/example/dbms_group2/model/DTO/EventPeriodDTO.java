@@ -1,50 +1,60 @@
 package com.example.dbms_group2.model.DTO;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
 
 public class EventPeriodDTO {
-    private LocalDate startDate;
-    private LocalTime startTime;
-    private LocalDate endDate;
-    private LocalTime endTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date startDate;
+    @DateTimeFormat(pattern = "HH:mm")
+    private Time startTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endDate;
+    @DateTimeFormat(pattern = "HH:mm")
+    private Time endTime;
 
-    public EventPeriodDTO(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+    public EventPeriodDTO(Date startDate, Time startTime, Time endTime) {
         this.startDate = startDate;
         this.startTime = startTime;
-        this.endDate = endDate;
         this.endTime = endTime;
     }
 
-    public LocalDate getStartDate() {
+    public EventPeriodDTO() {
+    }
+
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    public LocalTime getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalTime startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDate getEndDate() {
+    public Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDate endDate) {
+    public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
 
-    public LocalTime getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalTime endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 }

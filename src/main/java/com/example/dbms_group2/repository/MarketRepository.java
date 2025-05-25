@@ -8,8 +8,9 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 public interface MarketRepository extends JpaRepository<Market, Long> {
@@ -241,15 +242,15 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
             )
             """, nativeQuery = true)
     void updateSaveMarketSettingsPeriod(
-            LocalDate startDate,
-            LocalTime startTime,
-            LocalDate endDate,
-            LocalTime endTime,
+            Date startDate,
+            Time startTime,
+            Date endDate,
+            Time endTime,
             String email
     );
 
     @Query(value = """
-            SELECT * 
+            SELECT an.announcement_id, an.title, an.content, an.target
             FROM announcement an 
             WHERE an.organizer_id = (
                 SELECT mar.organizer_id 
@@ -349,13 +350,11 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                     WHERE o.gmail = :specialId
                 )
             """, nativeQuery = true)
-    boolean updateSaveMarketCond(
+    Integer updateSaveMarketCond(
             String marketName,
             String location,
-            LocalDate recruitStartDate,
-            LocalTime recruitStartTime,
-            LocalDate recruitEndDate,
-            LocalTime recruitEndTime,
+            Date recruitStartDate,
+            Date recruitEndDate,
             String email,
             String facebook,
             String instagram,
@@ -367,31 +366,30 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     @Modifying
     @Transactional
     @Query(value = """
-            UPDATE market m
-            JOIN organizer o ON o.organizer_id = m.organizer_id
-            SET 
-                m.name = :marketName, 
-                m.location = :location, 
-                m.recruit_start_time = TIMESTAMP(CONCAT(:recruitStartDate, ' ', :recruitStartTime)), 
-                m.recruit_end_time = TIMESTAMP(CONCAT(:recruitEndDate, ' ', :recruitEndTime)), 
-                m.email = :email, 
-                m.facebook = :facebook, 
-                m.instagram = :instagram, 
-                m.line = :line, 
-                m.website = :website 
-            WHERE o.gmail = :specialId
-            """, nativeQuery = true)
-    void updateSaveMarketTrue(String marketName, String location,
-                              LocalDate recruitStartDate,
-                              LocalTime recruitStartTime,
-                              LocalDate recruitEndDate,
-                              LocalTime recruitEndTime,
-                              String email,
-                              String facebook,
-                              String instagram,
-                              String line,
-                              String website,
-                              String specialId);
+    UPDATE market m
+    JOIN organizer o ON o.organizer_id = m.organizer_id
+    SET 
+        m.name = :marketName, 
+        m.location = :location, 
+        m.recruit_start_time = :recruitStart, 
+        m.recruit_end_time = :recruitEnd, 
+        m.email = :email, 
+        m.facebook = :facebook, 
+        m.instagram = :instagram, 
+        m.line = :line, 
+        m.website = :website 
+    WHERE o.gmail = :specialId
+    """, nativeQuery = true)
+    int updateSaveMarketTrue(@Param("marketName") String marketName,
+                             @Param("location") String location,
+                             @Param("recruitStart") Timestamp recruitStart,
+                             @Param("recruitEnd") Timestamp recruitEnd,
+                             @Param("email") String email,
+                             @Param("facebook") String facebook,
+                             @Param("instagram") String instagram,
+                             @Param("line") String line,
+                             @Param("website") String website,
+                             @Param("specialId") String specialId);
 
     @Modifying
     @Transactional
@@ -403,8 +401,8 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
             VALUES (
                 :marketName,
                 :location,
-                TIMESTAMP(CONCAT(:recruitStartDate, ' ', :recruitStartTime)),
-                TIMESTAMP(CONCAT(:recruitEndDate, ' ', :recruitEndTime)),
+                :recruitStart,
+                :recruitEnd,
                 :email,
                 :facebook,
                 :instagram,
@@ -414,10 +412,8 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
             )
             """, nativeQuery = true)
     void updateSaveMarketFalse(String marketName, String location,
-                               LocalDate recruitStartDate,
-                               LocalTime recruitStartTime,
-                               LocalDate recruitEndDate,
-                               LocalTime recruitEndTime,
+                               Timestamp recruitStart,
+                               Timestamp recruitEnd,
                                String email,
                                String facebook,
                                String instagram,

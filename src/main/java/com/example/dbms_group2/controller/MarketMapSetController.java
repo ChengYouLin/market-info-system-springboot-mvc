@@ -64,7 +64,7 @@ public class MarketMapSetController {
         }
     }
 
-    @PostMapping("/vendor/checkin")
+    @PostMapping("/checkin")
     public String checkIn(@RequestParam int vendorId, HttpSession session, RedirectAttributes redirectAttributes) {
         Object user = session.getAttribute("account");
 

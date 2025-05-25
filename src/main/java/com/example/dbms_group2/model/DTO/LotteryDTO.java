@@ -4,12 +4,12 @@ import java.util.List;
 
 public class LotteryDTO {
 
-    private int id;
+    private Long id;
     private String title;              // 抽獎主題
     private String rule;               // 抽獎規則
     private List<RewardDTO> rewards;
 
-    public LotteryDTO(int id, String title, String rule, List<RewardDTO> rewards) {
+    public LotteryDTO(Long id, String title, String rule, List<RewardDTO> rewards) {
         this.id = id;
         this.title = title;
         this.rule = rule;
@@ -20,11 +20,11 @@ public class LotteryDTO {
 
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

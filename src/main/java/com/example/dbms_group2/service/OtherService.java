@@ -7,9 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.File;
+import java.sql.Time;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -180,28 +183,35 @@ public class OtherService {
     public void updateSaveMarketSettings(
             String marketName,
             String location,
-            LocalDate recruitStartDate,
-            LocalTime recruitStartTime,
-            LocalDate recruitEndDate,
-            LocalTime recruitEndTime,
+            Date recruitStartDate,
+            Time recruitStartTime,
+            Date recruitEndDate,
+            Time recruitEndTime,
             String email,
             String facebook,
             String instagram,
             String line,
             String website,
             String specialId
-    ){
-        boolean cond = marketRepository.updateSaveMarketCond(marketName, location, recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram,
+    ) {
+        // ✅ 合成 Timestamp，不用 toLocalDate/Time
+        Timestamp recruitStart = new Timestamp(recruitStartDate.getTime() + recruitStartTime.getTime());
+        Timestamp recruitEnd = new Timestamp(recruitEndDate.getTime() + recruitEndTime.getTime());
+
+        int cond = marketRepository.updateSaveMarketCond(marketName, location, recruitStart, recruitEnd, email, facebook, instagram,
                 line, website, specialId);
-        if (cond){
-            marketRepository.updateSaveMarketTrue(marketName, location, recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram,
+
+        if (cond == 1) {
+            marketRepository.updateSaveMarketTrue(marketName, location, recruitStart, recruitEnd, email, facebook, instagram,
                     line, website, specialId);
         } else {
-            marketRepository.updateSaveMarketFalse(marketName, location, recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram,
+            marketRepository.updateSaveMarketFalse(marketName, location, recruitStart, recruitEnd, email, facebook, instagram,
                     line, website, specialId);
         }
-
     }
+
+
+
 
     public List<VendorViewDTO> findVendorView(int marketId, String email){
 

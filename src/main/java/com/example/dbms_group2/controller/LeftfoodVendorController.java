@@ -37,7 +37,7 @@ public class LeftfoodVendorController {
             System.out.println(productNewList.size());
             //System.out.println(leftovers.size());
             //System.out.println(leftovers.get(0).getProductName());
-            System.out.println(productNewList.get(1).getName());
+            //System.out.println(productNewList.get(1).getName());
 
             //鈴鐺，傳自己的然後去抓
             List<AnnouncementDTO> notices = vendorService.getFindMarketForVendorAnnouncement((String) user);
@@ -46,50 +46,54 @@ public class LeftfoodVendorController {
 
             model.addAttribute("leftovers", leftovers);
             model.addAttribute("productList", productNewList);
+            System.out.println(leftovers.size());
+            //System.out.println(productNewList.size());
+            //System.out.println(leftovers.get(0).getProductName());
+
             return "leftfoodVendor"; // Thymeleaf 檔案名稱
         }
     }
 
-    @PostMapping("/add")
+    @PostMapping("/leftfood/add")
     public String addLeftover(@RequestParam String productName,
                               @RequestParam int quantity,
                               @SessionAttribute("account") String vendorId,
                               RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message", "成功新增剩食！");
         vendorService.addLeftover(productName, quantity, vendorId);
-        return "redirect:/eView/vendor/leftover";
+        return "redirect:/eView/vendor/leftfood";
     }
 
-    @PostMapping("/increase")
+    @PostMapping("/leftfood/increase")
     public String increaseLeftover(@RequestParam int leftoverId,
                                    RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message", "增加現場份數乙份！");
         vendorService.changeQuantity(leftoverId);
-        return "redirect:/eView/vendor/leftover";
+        return "redirect:/eView/vendor/leftfood";
     }
 
-    @PostMapping("/decrease")
+    @PostMapping("/leftfood/decrease")
     public String decreaseLeftover(@RequestParam int leftoverId,
                                    RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message", "增加現場份數乙份！");
 
         vendorService.changeQuantity(leftoverId);
-        return "redirect:/eView/vendor/leftover";
+        return "redirect:/eView/vendor/leftfood";
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/leftfood/delete")
     public String deleteLeftover(@RequestParam int leftoverId,
                                  RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message", "刪除該筆剩食資料成功！");
         vendorService.deleteLeftover(leftoverId);
-        return "redirect:/eView/vendor/leftover";
+        return "redirect:/eView/vendor/leftfood";
     }
 
-    @PostMapping("/complete")
+    @PostMapping("/leftfood/complete")
     public String completeRecord(@RequestParam int recordId,
                                  RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("message", "剩食發放完成，使用者完成取餐！");
         vendorService.completeRecord(recordId);
-        return "redirect:/eView/vendor/leftover";
+        return "redirect:/eView/vendor/leftfood";
     }
 }

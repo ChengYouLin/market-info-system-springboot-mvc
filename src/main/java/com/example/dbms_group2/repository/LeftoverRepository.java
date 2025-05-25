@@ -73,15 +73,13 @@ public interface LeftoverRepository extends JpaRepository<Leftover, Long> {
     List<RecordDTO> getLeftoversByVendorReserve(String vendorEmail, int leftoverId);
 
     @Query(value = """
-        SELECT l.leftover_id AS leftoverId,
-               l.name AS name,
-               l.amount - SUM(r.amount) AS leftcount
-        FROM leftover l
-        JOIN reserve r ON r.leftover_id = l.leftover_id
-        JOIN vendor v ON v.vendor_id = l.vendor_id
-        WHERE v.gmail = :vendorEmail
-        GROUP BY l.leftover_id, l.name
-        """, nativeQuery = true)
+    SELECT r.reserve_id AS Id, r.reserve_id AS pickupCode, u.name AS buyer, r.amount AS quantity, r.last_time AS pickupTime
+    FROM reserve r
+    LEFT JOIN user u ON u.user_id = r.user_id
+    JOIN leftover l ON l.leftover_id = r.leftover_id
+    JOIN vendor v ON v.vendor_id = l.vendor_id
+    WHERE v.gmail = :vendorEmail AND l.leftover_id = :leftoverId
+    """, nativeQuery = true)
     List<LeftoverInsideDTO> getLeftoversByVendorInside(String vendorEmail);
 
 
@@ -108,7 +106,7 @@ public interface LeftoverRepository extends JpaRepository<Leftover, Long> {
     @Transactional
     @Query(value = """
             INSERT INTO leftover (vendor_id, name, amount, type, status)
-            VALUES ((SELECT vendor_id FROM vendor WHERE gmail = :vendorEmail LIMIT 1), :productName, :quantity, (SELECT type FROM product p WHERE p.name = :productName LIMIT 1), :status)""",
+            VALUES ((SELECT vendor_id FROM vendor WHERE gmail = :vendorEmail LIMIT 1), :productName, :quantity, (SELECT type FROM product p WHERE p.name = :productName LIMIT 1), "可取用")""",
             nativeQuery = true)
     void addNewLeftover(String productName, int quantity, String vendorEmail);
 }

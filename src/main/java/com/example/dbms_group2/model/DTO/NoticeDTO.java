@@ -1,23 +1,25 @@
 package com.example.dbms_group2.model.DTO;
 
 public class NoticeDTO {
-    private int id;
+    private Long id;
     private String title;
     private String content;
     private String target;
 
-    public NoticeDTO(int id, String title, String content, String target) {
+    public NoticeDTO(Long id, String title, String content, String target) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.target = target;
     }
 
-    public int getId() {
+
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

@@ -199,10 +199,10 @@
                     <button class="nav-btn">活動設定</button>
                 </form>
                 <form th:action="@{/eView/organizer/map}" method="get" style="display:inline;">
-                    <button class="nav-btn active">會場佈置</button>
+                    <button class="nav-btn">會場佈置</button>
                 </form>
                 <form th:action="@{/eView/organizer/activity}" method="get" style="display:inline;">
-                    <button class="nav-btn">抽獎系統</button>
+                    <button class="nav-btn active">抽獎系統</button>
                 </form>
                 <form th:action="@{/eView/organizer/review}" method="get" style="display:inline;">
                     <button class="nav-btn">招商狀況</button>
@@ -318,28 +318,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="vendor : ${vendorList}">
-                        <td th:text="${vendor.email}"></td>
-                        <td th:text="${vendor.name}"></td>
-                        <td th:text="${vendor.boothCode}"></td>
-                        <td th:text="${vendor.cateName}"></td>
-                        <td>
-                            <!-- ✅ 不可報到（當天不開放報到） -->
-                            <button th:if="${!canCheckIn}" class="btn btn-secondary" disabled>今日不可報到</button>
+<tr th:each="vendor : ${vendorList}">
+    <td th:text="${vendor.email}"></td>
+    <td th:text="${vendor.name}"></td>
+    <td th:text="${vendor.boothCode}"></td>
+    <td th:text="${vendor.cateName}"></td>
+    <td>
+        <!-- ✅ 不可報到（當天不開放報到） -->
+        <button th:if="${!canCheckIn}" class="btn btn-secondary" disabled>今日不可報到</button>
 
-                            <!-- ✅ 可報到且已報到 -->
-                            <button th:if="${canCheckIn} and ${vendor.checkedIn}" class="btn btn-success"
-                                disabled>已經報到</button>
+        <!-- ✅ 可報到且已報到 -->
+        <button th:if="${canCheckIn} and ${vendor.checkedIn != 0}" class="btn btn-success" disabled>已經報到</button>
 
-                            <!-- ✅ 可報到但尚未報到 -->
-                            <form th:if="${canCheckIn} and ${!vendor.checkedIn}" th:action="@{/vendor/checkin}"
-                                method="post" style="display: inline;">
-                                <input type="hidden" name="vendorId" th:value="${vendor.id}" />
-                                <button type="submit" class="btn btn-danger">尚未報到</button>
-                            </form>
-                        </td>
+        <!-- ✅ 可報到但尚未報到 -->
+        <form th:if="${canCheckIn} and ${vendor.checkedIn == 0}" th:action="@{/eView/organizer/checkin}"
+              method="post" style="display: inline;">
+            <input type="hidden" name="vendorId" th:value="${vendor.id}" />
+            <button type="submit" class="btn btn-danger">尚未報到</button>
+        </form>
+    </td>
+</tr>
 
-                    </tr>
                 </tbody>
             </table>
         </div>

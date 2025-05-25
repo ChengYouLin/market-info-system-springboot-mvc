@@ -1,7 +1,12 @@
 package com.example.dbms_group2.model.DTO;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class MarketFormDTO {
@@ -9,10 +14,13 @@ public class MarketFormDTO {
     private String location;
     private List<EventPeriodDTO> eventPeriods;
 
-    private LocalDate recruitStartDate;
-    private LocalTime recruitStartTime;
-    private LocalDate recruitEndDate;
-    private LocalTime recruitEndTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date recruitStartDate;
+
+    private Time recruitStartTime;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date recruitEndDate;
+    private Time recruitEndTime;
 
     private String email;
     private String facebook;
@@ -20,7 +28,15 @@ public class MarketFormDTO {
     private String line;
     private String website;
 
-    public MarketFormDTO(String marketName, String location, List<EventPeriodDTO> eventPeriods, LocalDate recruitStartDate, LocalTime recruitStartTime, LocalDate recruitEndDate, LocalTime recruitEndTime, String email, String facebook, String instagram, String line, String website) {
+    public MarketFormDTO() {
+        this.eventPeriods = new ArrayList<>();
+        // 初始化最多 3 個空的 EventPeriodDTO
+        for (int i = 0; i < 3; i++) {
+            eventPeriods.add(new EventPeriodDTO());
+        }
+    }
+
+    public MarketFormDTO(String marketName, String location, List<EventPeriodDTO> eventPeriods, Date recruitStartDate, Time recruitStartTime, Date recruitEndDate, Time recruitEndTime, String email, String facebook, String instagram, String line, String website) {
         this.marketName = marketName;
         this.location = location;
         this.eventPeriods = eventPeriods;
@@ -35,20 +51,20 @@ public class MarketFormDTO {
         this.website = website;
     }
 
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
     public String getMarketName() {
         return marketName;
     }
 
     public void setMarketName(String marketName) {
         this.marketName = marketName;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public List<EventPeriodDTO> getEventPeriods() {
@@ -59,35 +75,35 @@ public class MarketFormDTO {
         this.eventPeriods = eventPeriods;
     }
 
-    public LocalDate getRecruitStartDate() {
+    public Date getRecruitStartDate() {
         return recruitStartDate;
     }
 
-    public void setRecruitStartDate(LocalDate recruitStartDate) {
+    public void setRecruitStartDate(Date recruitStartDate) {
         this.recruitStartDate = recruitStartDate;
     }
 
-    public LocalTime getRecruitStartTime() {
+    public Time getRecruitStartTime() {
         return recruitStartTime;
     }
 
-    public void setRecruitStartTime(LocalTime recruitStartTime) {
+    public void setRecruitStartTime(Time recruitStartTime) {
         this.recruitStartTime = recruitStartTime;
     }
 
-    public LocalDate getRecruitEndDate() {
+    public Date getRecruitEndDate() {
         return recruitEndDate;
     }
 
-    public void setRecruitEndDate(LocalDate recruitEndDate) {
+    public void setRecruitEndDate(Date recruitEndDate) {
         this.recruitEndDate = recruitEndDate;
     }
 
-    public LocalTime getRecruitEndTime() {
+    public Time getRecruitEndTime() {
         return recruitEndTime;
     }
 
-    public void setRecruitEndTime(LocalTime recruitEndTime) {
+    public void setRecruitEndTime(Time recruitEndTime) {
         this.recruitEndTime = recruitEndTime;
     }
 
