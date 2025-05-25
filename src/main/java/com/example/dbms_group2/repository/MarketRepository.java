@@ -210,8 +210,18 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
         """, nativeQuery = true)
     List<EventPeriodDTO> marketSettingsEvent(String mail);
 
-//    void updateSaveMarketSettings(
-//            String marketName,
+
+
+    @Query(value = """
+    SELECT 
+        EXISTS (
+            SELECT 1
+            FROM market m
+            JOIN organizer o ON m.organizer_id = o.organizer_id
+            WHERE o.gmail = :specialId
+        )
+    """, nativeQuery = true)
+//    void updateSaveMarketSettings(String marketName,
 //            String location,
 //            LocalDate recruitStartDate,
 //            LocalTime recruitStartTime,
@@ -224,6 +234,8 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
 //            String website,
 //            String specialId
 //    );
+
+
 
     @Modifying
     @Transactional
@@ -306,5 +318,91 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     """, nativeQuery = true)
     List<ProductDTO> findVendorListProduct(String email);
 
+
+
+    @Query(value = """
+    SELECT 
+        EXISTS (
+            SELECT 1
+            FROM market m
+            JOIN organizer o ON m.organizer_id = o.organizer_id
+            WHERE o.gmail = :specialId
+        )
+    """, nativeQuery = true)
+    boolean updateSaveMarketCond(
+            String marketName,
+            String location,
+            LocalDate recruitStartDate,
+            LocalTime recruitStartTime,
+            LocalDate recruitEndDate,
+            LocalTime recruitEndTime,
+            String email,
+            String facebook,
+            String instagram,
+            String line,
+            String website,
+            String specialId
+    );
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+    UPDATE market m
+    JOIN organizer o ON o.organizer_id = m.organizer_id
+    SET 
+        m.name = :marketName, 
+        m.location = :location, 
+        m.recruit_start_time = TIMESTAMP(CONCAT(:recruitStartDate, ' ', :recruitStartTime)), 
+        m.recruit_end_time = TIMESTAMP(CONCAT(:recruitEndDate, ' ', :recruitEndTime)), 
+        m.email = :email, 
+        m.facebook = :facebook, 
+        m.instagram = :instagram, 
+        m.line = :line, 
+        m.website = :website 
+    WHERE o.gmail = :specialId
+    """, nativeQuery = true)
+    void updateSaveMarketTrue(String marketName, String location,
+                                  LocalDate recruitStartDate,
+                                  LocalTime recruitStartTime,
+                                  LocalDate recruitEndDate,
+                                  LocalTime recruitEndTime,
+                                  String email,
+                                  String facebook,
+                                  String instagram,
+                                  String line,
+                                  String website,
+                                  String specialId);
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+    INSERT INTO market(
+        name, location, recruit_start_time, recruit_end_time, 
+        email, facebook, instagram, line, website, organizer_id
+    )
+    VALUES (
+        :marketName,
+        :location,
+        TIMESTAMP(CONCAT(:recruitStartDate, ' ', :recruitStartTime)),
+        TIMESTAMP(CONCAT(:recruitEndDate, ' ', :recruitEndTime)),
+        :email,
+        :facebook,
+        :instagram,
+        :line,
+        :website,
+        (SELECT organizer_id FROM organizer WHERE gmail = :specialId LIMIT 1)
+    )
+    """, nativeQuery = true)
+    void updateSaveMarketFalse(String marketName, String location,
+                              LocalDate recruitStartDate,
+                              LocalTime recruitStartTime,
+                              LocalDate recruitEndDate,
+                              LocalTime recruitEndTime,
+                              String email,
+                              String facebook,
+                              String instagram,
+                              String line,
+                              String website,
+                              String specialId);
 
 }

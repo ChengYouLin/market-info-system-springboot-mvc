@@ -31,6 +31,11 @@ public class OtherService {
     @Autowired
     private ZoneRepository zoneRepository;
 
+    @Autowired
+    private PreferRepository zoneRepository;
+    @Autowired
+    private PreferRepository preferRepository;
+
     public OtherService() {
     }
 
@@ -162,5 +167,41 @@ public class OtherService {
         }
 
         return result;
+    }
+
+    public void updatePrefer(String email, int marketId, int vendorId){
+        Boolean cond = preferRepository.isUserPreferred(email, marketId, vendorId);
+        if (cond){
+            preferRepository.isUserPreferredTrue(email, marketId, vendorId);
+        } else {
+            preferRepository.isUserPreferredFalse(email, marketId, vendorId);
+        }
+    }
+
+
+    public void updateSaveMarketSettings(
+            String marketName,
+            String location,
+            LocalDate recruitStartDate,
+            LocalTime recruitStartTime,
+            LocalDate recruitEndDate,
+            LocalTime recruitEndTime,
+            String email,
+            String facebook,
+            String instagram,
+            String line,
+            String website,
+            String specialId
+    ){
+        boolean cond = marketRepository.updateSaveMarketCond(marketName, location, recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram,
+                line, website, specialId);
+        if (cond){
+            marketRepository.updateSaveMarketTrue(marketName, location, recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram,
+                    line, website, specialId);
+        } else {
+            marketRepository.updateSaveMarketFalse(marketName, location, recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram,
+                    line, website, specialId);
+        }
+
     }
 }
