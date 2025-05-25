@@ -203,4 +203,9 @@ public class MarketService {
     public List<NoticeDTO> getAllNotice(String email){
         return marketRepository.allNotice(email);
     }
+
+    public List<ApplicationViewDTO> getFindAllApplys(String email){
+        return applyRepository.findAllApplys(email);
+
+    }
 }

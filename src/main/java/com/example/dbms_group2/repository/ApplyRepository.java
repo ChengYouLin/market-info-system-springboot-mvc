@@ -1,9 +1,6 @@
 package com.example.dbms_group2.repository;
 
-import com.example.dbms_group2.model.DTO.QrSectionDTO;
-import com.example.dbms_group2.model.DTO.StampDTO;
-import com.example.dbms_group2.model.DTO.VendorApplicationDTO;
-import com.example.dbms_group2.model.DTO.VendorViewDTO;
+import com.example.dbms_group2.model.DTO.*;
 import com.example.dbms_group2.model.entity.Apply;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -134,4 +131,7 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
 UPDATE apply SET status = '未通過' WHERE apply_id = :applyId"""
             , nativeQuery = true)
     void rejectStatus(int applyId);
+
+
+    List<ApplicationViewDTO> findAllApplys(String email);
 }

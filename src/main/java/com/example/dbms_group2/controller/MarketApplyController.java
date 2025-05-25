@@ -1,5 +1,6 @@
 package com.example.dbms_group2.controller;
 
+import com.example.dbms_group2.model.DTO.ApplicationViewDTO;
 import com.example.dbms_group2.model.DTO.VendorApplicationDTO;
 import com.example.dbms_group2.service.MarketService;
 import com.example.dbms_group2.service.VendorService;
@@ -30,11 +31,13 @@ public class MarketApplyController {
             if (user == null) {
                 redirectAttributes.addFlashAttribute("message", "您尚未登入！");
                 return "redirect:/eView/login";
-            } else if (role != "o") {
+            } else if (!("o".equals(session.getAttribute("role")))) {
                 redirectAttributes.addFlashAttribute("message", "您身份不符！");
                 return "redirect:/eView";
             } else {
 
+                List<ApplicationViewDTO> applicationViewDTOS = marketService.getFindAllApplys((String) user);
+                model.addAttribute("applications", applicationViewDTOS);
                 return "marketApply"; // Thymeleaf 對應的 HTML 名稱
             }
     }

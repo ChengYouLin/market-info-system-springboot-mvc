@@ -32,7 +32,7 @@ public class MarketConfigController {
         if (user == null) {
             redirectAttributes.addFlashAttribute("message", "您尚未登入！");
             return "redirect:/eView/login";
-        } else if (role != "o") {
+        } else if (!("o".equals(session.getAttribute("role")))) {
             redirectAttributes.addFlashAttribute("message", "您身份不符！");
             return "redirect:/eView";
         } else {
