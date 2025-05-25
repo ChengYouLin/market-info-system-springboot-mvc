@@ -45,7 +45,7 @@ public class VendorInfoController {
 
                 model.addAttribute("marketList", marketList);
 
-                List<VendorViewDTO> vendorDetails = vendorService.getFindVendorList((String) user);
+                List<VendorDetailDTO> vendorDetails = vendorService.getFindVendorList((String) user);
 
                 List<QrSectionDTO> qr =vendorService.findGetStampInfo((String) user);
                 model.addAttribute("qrSection", qr);

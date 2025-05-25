@@ -10,6 +10,10 @@ import java.util.List;
 
 @Service
 public class VendorService {
+
+    @Autowired
+    private OtherService otherService;
+
     @Autowired
     private ProductRepository productRepository;
     @Autowired
@@ -50,8 +54,8 @@ public class VendorService {
     }
 
     public List<LeftoverDTO> findGetLeftoversByVendor(String vendorEmail){
-        return null;
-        //return leftoverRepository.getLeftoversByVendor(vendorEmail);
+        //return null;
+        return otherService.getLeftoversByVendor(vendorEmail);
     }
 
     public void changeQuantity(int leftfoodId){
@@ -90,13 +94,13 @@ public class VendorService {
     }
 
     public List<MarketInfoDTO> getFindMarketList(String email){
-        return null;
-        //return marketRepository.findMarketList(email);
+        //return null;
+        return marketRepository.findMarketList(email);
     }
 
-    public List<VendorViewDTO> getFindVendorList(String email){
-        return null;
-        //return marketRepository.findVendorList( email);
+    public List<VendorDetailDTO> getFindVendorList(String email){
+        //return null;
+        return otherService.findVendorList(email);
     }
 
     public List<QrSectionDTO> findGetStampInfo(String email){

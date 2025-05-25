@@ -36,7 +36,7 @@ public class MarketApplyController {
                 return "redirect:/eView";
             } else {
 
-                List<ApplicationViewDTO> applicationViewDTOS = marketService.getFindAllApplys((String) user);
+                List<VendorApplicationDTO> applicationViewDTOS = marketService.getFindAllApplys((String) user);
                 model.addAttribute("applications", applicationViewDTOS);
                 return "marketApply"; // Thymeleaf 對應的 HTML 名稱
             }

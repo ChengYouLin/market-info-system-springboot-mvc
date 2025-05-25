@@ -2,6 +2,8 @@ package com.example.dbms_group2.repository;
 
 import com.example.dbms_group2.model.DTO.LeftoverDTO;
 import com.example.dbms_group2.model.DTO.LeftoverFoodDTO;
+import com.example.dbms_group2.model.DTO.LeftoverInsideDTO;
+import com.example.dbms_group2.model.DTO.RecordDTO;
 import com.example.dbms_group2.model.entity.Leftover;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -59,6 +61,29 @@ public interface LeftoverRepository extends JpaRepository<Leftover, Long> {
     void updateLeftFood(@Param("user") String user, @Param("leftoverId") int leftoverId, @Param("productName") String productName, @Param("quantity") int quantity);
 
     //List<LeftoverDTO> getLeftoversByVendor(String vendorEmail);
+
+    @Query(value = """
+    SELECT r.reserve_id AS reserveId, u.name AS name, r.amount AS amount, r.last_time AS pickupTime
+    FROM reserve r
+    LEFT JOIN user u ON u.user_id = r.user_id
+    JOIN leftover l ON l.leftover_id = r.leftover_id
+    JOIN vendor v ON v.vendor_id = l.vendor_id
+    WHERE v.gmail = :vendorEmail AND l.leftover_id = :leftoverId
+    """, nativeQuery = true)
+    List<RecordDTO> getLeftoversByVendorReserve(String vendorEmail, int leftoverId);
+
+    @Query(value = """
+        SELECT l.leftover_id AS leftoverId,
+               l.name AS name,
+               l.amount - SUM(r.amount) AS leftcount
+        FROM leftover l
+        JOIN reserve r ON r.leftover_id = l.leftover_id
+        JOIN vendor v ON v.vendor_id = l.vendor_id
+        WHERE v.gmail = :vendorEmail
+        GROUP BY l.leftover_id, l.name
+        """, nativeQuery = true)
+    List<LeftoverInsideDTO> getLeftoversByVendorInside(String vendorEmail);
+
 
     @Modifying
     @Transactional

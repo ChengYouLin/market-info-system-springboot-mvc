@@ -132,6 +132,37 @@ UPDATE apply SET status = '未通過' WHERE apply_id = :applyId"""
             , nativeQuery = true)
     void rejectStatus(int applyId);
 
+    @Query(value = """
+        SELECT app.apply_id AS applyId,
+               app.date AS date,
+               app.email AS email,
+               app.name AS name,
+               app.status AS status,
+               a.num AS num,
+               app.description AS description,
+               app.facebook AS facebook,
+               app.instagram AS instagram,
+               app.line AS line,
+               app.website AS website
+        FROM apply app
+        LEFT JOIN assignment_point a ON a.apply_id = app.apply_id
+        JOIN market m ON m.market_id = app.market_id
+        JOIN organizer org ON org.organizer_id = m.organizer_id
+        WHERE org.gmail = :email
+        """, nativeQuery = true)
+    List<VendorApplicationInsideDTO> findAllMarketApplyStatusInside(String organizerEmail);
 
-    List<ApplicationViewDTO> findAllApplys(String email);
+    @Query(value = """
+    SELECT p.name AS name, p.type AS type, p.price AS price
+    FROM product p
+    JOIN vendor v ON v.vendor_id = p.vendor_id
+    JOIN apply app ON app.vendor_id = v.vendor_id
+    JOIN market m ON m.market_id = app.market_id
+    JOIN organizer org ON org.organizer_id = m.organizer_id
+    WHERE org.gmail = :organizerEmail AND app.apply_id = :applyId
+    """, nativeQuery = true)
+    List<ProductDTO> findAllMarketApplyStatusProduct(String organizerEmail, long applyId);
+
+
+
 }

@@ -14,6 +14,9 @@ import java.util.Optional;
 public class UserService {
 
     @Autowired
+    private OtherService otherService;
+
+    @Autowired
     private AnnouncementRepository announcementRepository;
 
     @Autowired
@@ -142,12 +145,12 @@ public class UserService {
     }
 
     public List<ZoneDTO> getFindAllZone(int marketId){
-        return null;
-        //return zoneRepository.findAllZone(marketId);
+        //return null;
+        return otherService.findAllZone(marketId);
     }
 
     public void getUpdatePrefer(String user, int marketId, int vendorId){
-        //preferRepository.updatePrefer(user, marketId , vendorId);
+        otherService.updatePrefer(user, marketId , vendorId);
     }
 
     public boolean checkFindResultRank(String email, int marketId, int vendorId, int score){
@@ -161,7 +164,7 @@ public class UserService {
     }
 
     public List<FilterVendorDTO> getFindFilterVendor(String email, int marketId, List<String> selectedCategories, int length){
-        return null;
-        //return assignmentPointRepository.findFilterVendor(email, marketId, selectedCategories, length);
+        //return null;
+        return otherService.findFilterVendor(email, marketId, selectedCategories, length);
     }
 }

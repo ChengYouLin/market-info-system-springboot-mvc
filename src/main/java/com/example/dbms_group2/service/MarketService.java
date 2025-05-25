@@ -15,7 +15,9 @@ import java.util.*;
 public class MarketService {
 
     @Autowired
+    private OtherService otherService;
 
+    @Autowired
     private ApplyRepository applyRepository;
 
     @Autowired
@@ -68,8 +70,8 @@ public class MarketService {
     }
 
     public List<LotteryDTO> getLotterySetting(String email){
-        return null;
-        //return marketRepository.lotterySetting(email);
+        //return null;
+        return otherService.lotterySetting(email);
     }
 
     public List<UserDTO> getAllParticipants(String email){
@@ -101,8 +103,8 @@ public class MarketService {
         totalUser = userDTOList.size();
 
         int totalRewardCount = 0;
-        List<RewardDTO> rewardDTOList = null;
-        //List<RewardDTO> rewardDTOList = marketRepository.lotteryAllInfo(email);
+        //List<RewardDTO> rewardDTOList = null;
+        List<RewardDTO> rewardDTOList = marketRepository.lotteryAllInfo(email);
         if(rewardDTOList != null){
             for(RewardDTO rewardDTO : rewardDTOList){
                 totalRewardCount = totalRewardCount + rewardDTO.getCount();
@@ -161,13 +163,13 @@ public class MarketService {
     }
 
     public List<MarketFormDTO> getMarketSettings(String mail){
-        return null;
-        //return marketRepository.marketSettings(mail);
+        //return null;
+        return otherService.marketSettings(mail);
     }
 
 
     public void saveMarketSettings(String marketName, String location, LocalDate recruitStartDate, LocalTime recruitStartTime, LocalDate recruitEndDate, LocalTime recruitEndTime, String email, String facebook, String instagram, String line, String website, String specialId) {
-        //marketRepository.updateSaveMarketSettings(marketName, location,recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram, line, website, specialId);
+        otherService.updateSaveMarketSettings(marketName, location,recruitStartDate, recruitStartTime, recruitEndDate, recruitEndTime, email, facebook, instagram, line, website, specialId);
     }
 
     public void saveMarketSettingsPeriod(List<EventPeriodDTO> eventPeriodDTOS, String email){
@@ -204,8 +206,8 @@ public class MarketService {
         return marketRepository.allNotice(email);
     }
 
-    public List<ApplicationViewDTO> getFindAllApplys(String email){
-        return applyRepository.findAllApplys(email);
+    public List<VendorApplicationDTO> getFindAllApplys(String email){
+        return otherService.findAllMarketApplyStatus(email);
 
     }
 }

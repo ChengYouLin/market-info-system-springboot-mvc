@@ -55,7 +55,35 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     @Query("SELECT m.name FROM Market m WHERE m.marketId = :marketId")
     String findNameByMarketId(int marketId);
 
-    //List<MarketInfoDTO> findMarketList(String email);
+
+    @Query(value = """
+            SELECT 
+                m.market_id AS id,
+                m.name AS name,
+                o.name AS org,
+                CONCAT(DATE_FORMAT(MIN(op.date), '%Y/%m/%d'), ' - ', DATE_FORMAT(MAX(op.date), '%Y/%m/%d')) AS dateRange,
+                IFNULL(a.name, '') AS boothName,
+                a.apply_id AS applyId,
+                CASE
+                    WHEN a.status IS NOT NULL THEN a.status
+                    WHEN NOW() BETWEEN m.recruit_start_time AND m.recruit_end_time THEN '招商中'
+                    ELSE NULL
+                END AS statusText,
+                CASE
+                    WHEN a.status IS NOT NULL THEN a.status
+                    WHEN NOW() BETWEEN m.recruit_start_time AND m.recruit_end_time THEN '招商中'
+                    ELSE NULL
+                END AS statusCode
+            FROM market m
+            JOIN organizer o ON m.organizer_id = o.organizer_id
+            JOIN opening op ON op.market_id = m.market_id
+            LEFT JOIN apply a 
+                ON a.market_id = m.market_id 
+               AND a.vendor_id = (SELECT vendor_id FROM vendor WHERE gmail = :email LIMIT 1)
+            WHERE a.status IS NOT NULL
+            GROUP BY m.market_id, m.name, a.name, a.apply_id, a.status, m.recruit_start_time, m.recruit_end_time
+            """, nativeQuery = true)
+    List<MarketInfoDTO> findMarketList(String email);
 
     //List<VendorViewDTO> findVendorList(String email);
 
@@ -234,4 +262,169 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
             )
             """, nativeQuery = true)
     List<NoticeDTO> allNotice(String email);
+
+    @Query(value = """
+            SELECT m.market_id, m.lottery_title, m.lottery_rule
+            FROM market m
+            JOIN organizer o ON o.organizer_id = m.organizer_id
+            WHERE o.gmail = :email
+            """, nativeQuery = true)
+    List<LotteryInsideDTO> lotterySettingInside(String email);
+
+    @Query(value = """
+            SELECT p.name, p.amount 
+            FROM prize p
+            WHERE p.market_id = (
+                SELECT m.market_id 
+                FROM organizer o 
+                JOIN market m ON m.organizer_id = o.organizer_id 
+                WHERE o.gmail = :email 
+                LIMIT 1
+            )
+            """, nativeQuery = true)
+    List<RewardDTO> lotteryAllInfo(String email);
+
+    @Query(value = """
+            SELECT m.name AS marketName,
+                   m.location,
+                   DATE(m.recruit_start_time) AS recruitStartDate,
+                   TIME(m.recruit_start_time) AS recruitStartTime,
+                   DATE(m.recruit_end_time) AS recruitEndDate,
+                   TIME(m.recruit_end_time) AS recruitEndTime,
+                   m.email,
+                   m.facebook,
+                   m.instagram,
+                   m.line,
+                   m.website
+            FROM market m
+            JOIN organizer o ON o.organizer_id = m.organizer_id
+            WHERE o.gmail = :mail
+            """, nativeQuery = true)
+    List<MarketFormInsideDTO> marketSettingsInside(String mail);
+
+    @Query(value = """
+            SELECT o.date AS date,
+                   o.start_time AS startTime,
+                   o.end_time AS endTime
+            FROM opening o
+            LEFT JOIN market m ON o.market_id = m.market_id
+            LEFT JOIN organizer org ON org.organizer_id = m.organizer_id
+            WHERE org.gmail = :mail
+            """, nativeQuery = true)
+    List<EventPeriodDTO> marketSettingsEvent(String mail);
+
+    @Query(value = """
+            SELECT app.name AS name, app.description AS description
+            FROM apply app
+            JOIN vendor v ON v.vendor_id = app.vendor_id
+            WHERE v.gmail = :email
+            """, nativeQuery = true)
+    List<VendorDetailInsideDTO> findVendorListInside(String email);
+
+    @Query(value = """
+            SELECT 'Email' AS name, email AS url FROM apply WHERE apply_id = :applyId
+            UNION ALL
+            SELECT 'Facebook', facebook FROM apply WHERE apply_id = :applyId
+            UNION ALL
+            SELECT 'Instagram', instagram FROM apply WHERE apply_id = :applyId
+            UNION ALL
+            SELECT 'Line', line FROM apply WHERE apply_id = :applyId
+            UNION ALL
+            SELECT 'Website', website FROM apply WHERE apply_id = :applyId
+            """, nativeQuery = true)
+    List<LinkDTO> findVendorListLink(String email, int applyId);
+
+    @Query(value = """
+            SELECT p.name AS name, p.type AS type, p.price AS price
+            FROM product p
+            JOIN vendor v ON v.vendor_id = p.vendor_id
+            WHERE v.gmail = :email
+            """, nativeQuery = true)
+    List<ProductDTO> findVendorListProduct(String email);
+
+    @Query(value = """
+            SELECT 
+                EXISTS (
+                    SELECT 1
+                    FROM market m
+                    JOIN organizer o ON m.organizer_id = o.organizer_id
+                    WHERE o.gmail = :specialId
+                )
+            """, nativeQuery = true)
+    boolean updateSaveMarketCond(
+            String marketName,
+            String location,
+            LocalDate recruitStartDate,
+            LocalTime recruitStartTime,
+            LocalDate recruitEndDate,
+            LocalTime recruitEndTime,
+            String email,
+            String facebook,
+            String instagram,
+            String line,
+            String website,
+            String specialId
+    );
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+            UPDATE market m
+            JOIN organizer o ON o.organizer_id = m.organizer_id
+            SET 
+                m.name = :marketName, 
+                m.location = :location, 
+                m.recruit_start_time = TIMESTAMP(CONCAT(:recruitStartDate, ' ', :recruitStartTime)), 
+                m.recruit_end_time = TIMESTAMP(CONCAT(:recruitEndDate, ' ', :recruitEndTime)), 
+                m.email = :email, 
+                m.facebook = :facebook, 
+                m.instagram = :instagram, 
+                m.line = :line, 
+                m.website = :website 
+            WHERE o.gmail = :specialId
+            """, nativeQuery = true)
+    void updateSaveMarketTrue(String marketName, String location,
+                              LocalDate recruitStartDate,
+                              LocalTime recruitStartTime,
+                              LocalDate recruitEndDate,
+                              LocalTime recruitEndTime,
+                              String email,
+                              String facebook,
+                              String instagram,
+                              String line,
+                              String website,
+                              String specialId);
+
+    @Modifying
+    @Transactional
+    @Query(value = """
+            INSERT INTO market(
+                name, location, recruit_start_time, recruit_end_time, 
+                email, facebook, instagram, line, website, organizer_id
+            )
+            VALUES (
+                :marketName,
+                :location,
+                TIMESTAMP(CONCAT(:recruitStartDate, ' ', :recruitStartTime)),
+                TIMESTAMP(CONCAT(:recruitEndDate, ' ', :recruitEndTime)),
+                :email,
+                :facebook,
+                :instagram,
+                :line,
+                :website,
+                (SELECT organizer_id FROM organizer WHERE gmail = :specialId LIMIT 1)
+            )
+            """, nativeQuery = true)
+    void updateSaveMarketFalse(String marketName, String location,
+                               LocalDate recruitStartDate,
+                               LocalTime recruitStartTime,
+                               LocalDate recruitEndDate,
+                               LocalTime recruitEndTime,
+                               String email,
+                               String facebook,
+                               String instagram,
+                               String line,
+                               String website,
+                               String specialId);
+
 }
