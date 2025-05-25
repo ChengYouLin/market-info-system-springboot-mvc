@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>個人資訊</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
     <style>
-                header {
+        header {
             background-color: #F7DEA0;
             position: fixed;
             top: 0;
@@ -64,6 +65,7 @@
             background-color: #ff8c00;
             transition: width 0.3s;
         }
+
         footer {
             background-color: #073046;
             color: white;
@@ -99,10 +101,12 @@
         body {
             padding-top: 80px;
         }
+
         .main-container {
             width: 80%;
             margin: auto;
         }
+
         .info-section {
             background-color: #fdf0d8;
             border-radius: 16px;
@@ -110,6 +114,7 @@
             height: 650px;
             padding: 20px;
         }
+
         .info-left {
             width: 30%;
             display: flex;
@@ -119,6 +124,7 @@
             gap: 20px;
             padding-top: 30px;
         }
+
         .info-left button {
             width: 80%;
             height: 60px;
@@ -128,12 +134,15 @@
             font-size: 18px;
             color: white;
         }
+
         .info-left .active {
             background-color: #FF725E;
         }
+
         .info-left .inactive {
             background-color: #C4C4C4;
         }
+
         .info-right {
             width: 60%;
             display: flex;
@@ -141,17 +150,21 @@
             align-items: flex-start;
             padding: 40px;
         }
+
         .info-content {
             width: 60%;
         }
+
         .info-content h5 {
             margin-bottom: 20px;
             font-weight: bold;
         }
+
         .info-content p {
             margin-bottom: 16px;
             font-size: 18px;
         }
+
         .edit-button {
             width: 40%;
             margin-top: 20px;
@@ -162,7 +175,8 @@
             color: white;
             border-radius: 8px;
         }
-.profile-img {
+
+        .profile-img {
             width: 30%;
             display: flex;
             justify-content: flex-start;
@@ -175,9 +189,11 @@
             width: 100%;
             max-width: 180px;
         }
+
         .favorite-list {
             width: 100%;
         }
+
         .favorite-card {
             display: flex;
             justify-content: space-between;
@@ -188,22 +204,26 @@
             padding: 15px 20px;
             margin-bottom: 15px;
         }
+
         .favorite-card p {
             margin: 0;
             font-size: 16px;
             font-weight: 500;
         }
+
         .favorite-card .btn {
             border-radius: 10px;
         }
+
         /* Modal style */
         .modal-backdrop.show {
             opacity: 0.5;
         }
     </style>
 </head>
+
 <body>
-            <!-- ✅ 自動引入 flash message 區塊 -->
+    <!-- ✅ 自動引入 flash message 區塊 -->
     <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
 
     <header>
@@ -216,13 +236,13 @@
                 <form th:action="@{/eView/organizer/config}" method="get" style="display:inline;">
                     <button class="nav-btn">活動設定</button>
                 </form>
-                <form th:action="@{/eView/oranizer/map}" method="get" style="display:inline;">
+                <form th:action="@{/eView/organizer/map}" method="get" style="display:inline;">
                     <button class="nav-btn">會場佈置</button>
                 </form>
-                <form th:action="@{/eView/oranizer/activity}" method="get" style="display:inline;">
+                <form th:action="@{/eView/organizer/activity}" method="get" style="display:inline;">
                     <button class="nav-btn">抽獎系統</button>
                 </form>
-                <form th:action="@{/eView/oranizer/review}" method="get" style="display:inline;">
+                <form th:action="@{/eView/organizer/review}" method="get" style="display:inline;">
                     <button class="nav-btn">招商狀況</button>
                 </form>
 
@@ -234,68 +254,68 @@
             </div>
         </div>
     </header>
-<br>
-<div class="main-container">
-    <h2 style="color:#073046; font-weight: bold;">主辦單位帳號資訊</h2>
-    <div class="info-section">
-        <div class="info-left">
-            <button id="btn-basic" class="active" onclick="showSection('basic')">基本資料</button>
-        </div>
-        <div class="info-right">
-            <!-- Basic Info -->
-            <div class="info-content" id="basic-info">
-                <br>
-                <br>
-                <br>
-                <br>
-                <h5>主辦單位名稱：<span th:text="${user.name}">UserID</span></h5>
-                <p>電子郵件：<span th:text="${user.email}"></span></p>
-                <br>
-                <br>
-                <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal">編輯個人資訊</button>
+    <br>
+    <div class="main-container">
+        <h2 style="color:#073046; font-weight: bold;">主辦單位帳號資訊</h2>
+        <div class="info-section">
+            <div class="info-left">
+                <button id="btn-basic" class="active" onclick="showSection('basic')">基本資料</button>
             </div>
-            <div class="profile-img" id="profile-img">
-                
-                <img src="@{images/vendor.png}" alt="Profile">
+            <div class="info-right">
+                <!-- Basic Info -->
+                <div class="info-content" id="basic-info">
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <h5>主辦單位名稱：<span th:text="${name}">UserID</span></h5>
+                    <p>電子郵件：<span th:text="${email}"></span></p>
+                    <br>
+                    <br>
+                    <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal">編輯個人資訊</button>
+                </div>
+                <div class="profile-img" id="profile-img">
+
+                    <img th:src="@{/images/Organizer.png}" alt="Profile">
+                </div>
+
             </div>
-            
         </div>
     </div>
-</div>
 
-<!-- Modal for editing user info -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form th:action="@{/eView/organizer/profile/edit}" method="post">
-                <div class="modal-header">
-                    <h5 class="modal-title">編輯個人資訊</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <label>姓名</label>
-                    <input class="form-control" typme="text" name="name" th:value="${user.name}" required>
-                    <label class="mt-2">電子郵件</label>
-                    <input class="form-control" type="email" name="email" th:value="${user.email}" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">確認編輯</button>
-                </div>
-            </form>
+    <!-- Modal for editing user info -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form th:action="@{/eView/organizer/profile/edit}" method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title">編輯個人資訊</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <label>姓名</label>
+                        <input class="form-control" typme="text" name="name" required>
+                        <label class="mt-2">電子郵件</label>
+                        <input class="form-control" type="email" name="email" required>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">確認編輯</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    function showSection(section) {
-        document.getElementById('basic-info').style.display = (section === 'basic') ? 'block' : 'none';
-        document.getElementById('profile-img').style.display = (section === 'basic') ? 'flex' : 'none';
-        document.getElementById('favorite-info').style.display = (section === 'favorite') ? 'block' : 'none';
-        document.getElementById('btn-basic').className = (section === 'basic') ? 'active' : 'inactive';
-        document.getElementById('btn-fav').className = (section === 'favorite') ? 'active' : 'inactive';
-    }
-    function toggleNotificationBox() {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function showSection(section) {
+            document.getElementById('basic-info').style.display = (section === 'basic') ? 'block' : 'none';
+            document.getElementById('profile-img').style.display = (section === 'basic') ? 'flex' : 'none';
+            document.getElementById('favorite-info').style.display = (section === 'favorite') ? 'block' : 'none';
+            document.getElementById('btn-basic').className = (section === 'basic') ? 'active' : 'inactive';
+            document.getElementById('btn-fav').className = (section === 'favorite') ? 'active' : 'inactive';
+        }
+        function toggleNotificationBox() {
             const box = document.getElementById('notification-box');
             box.style.display = (box.style.display === 'block') ? 'none' : 'block';
         }
@@ -305,10 +325,11 @@
                 box.style.display = 'none';
             }
         }
-</script>
-<br>
+    </script>
+    <br>
     <footer>
         <p class="text-center">© 2025 eView. All Rights Reserved.</p>
     </footer>
 </body>
+
 </html>

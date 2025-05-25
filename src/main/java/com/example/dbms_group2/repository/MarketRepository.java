@@ -28,6 +28,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                 JOIN market m ON o.organizer_id = m.organizer_id
             )
             SELECT 
+                market_id AS id,
                 MAX(name) AS name,
                 MAX(description) AS description,
                 MAX(location) AS location,
@@ -41,7 +42,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                 MAX(website) AS website,
                 MAX(line) AS line
             FROM ranked_schedules
-            WHERE market_id = 1
+            WHERE market_id = :marketId
             GROUP BY market_id;"""
             , nativeQuery = true)
     List<MarketHomeDTO> findMarketInfo(@Param("marketId") int marketId);
@@ -51,6 +52,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     String findLotteryRuleById(@Param("id") int id);
 
 
+    @Query("SELECT m.name FROM Market m WHERE m.marketId = :marketId")
     String findNameByMarketId(int marketId);
 
     //List<MarketInfoDTO> findMarketList(String email);
@@ -99,7 +101,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
                     FROM t
                     GROUP BY id
                     """, nativeQuery = true)
-    boolean checkInAllowedToday(String email);
+    Integer checkInAllowedToday(String email);
 
     @Query(value =
             """
@@ -111,21 +113,23 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     List<CateDTO> availableCategories(String email);
 
     @Query(value = """
-            SELECT 
-              app.vendor_id AS id, 
-              app.name, 
-              v.gmail AS email, 
-              ap.num AS boothCode, 
-              CASE 
+            SELECT
+              app.vendor_id AS id,
+              app.name,
+              v.gmail AS email,
+              ap.num AS boothCode,
+              CASE
                 WHEN c.status IS NOT NULL THEN c.status
                 ELSE FALSE
-              END AS checkedIn
+              END AS checkedIn,
+              z.name
             FROM apply app
             JOIN market m ON m.market_id = app.market_id
             JOIN vendor v ON v.vendor_id = app.vendor_id
             JOIN organizer org ON org.organizer_id = m.organizer_id
             LEFT JOIN `check` c ON c.apply_id = app.apply_id
             LEFT JOIN assignment_point ap ON ap.apply_id = app.apply_id
+            LEFT JOIN zone z ON z.zone_id = ap.zone_id
             WHERE app.status = '已通過'
               AND org.gmail = :email
             """, nativeQuery = true)

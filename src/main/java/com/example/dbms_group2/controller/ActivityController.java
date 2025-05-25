@@ -28,22 +28,32 @@ public class ActivityController {
         if(DTO.get(0).isActivity() == false){
             redirectAttributes.addFlashAttribute("message", "本活動無提供抽獎！");
             return "redirect:/eView/market/" + marketId + "/home";
-        }else if (session.getAttribute("user") == null || session.getAttribute("role") != "u") {
+        }else if (session.getAttribute("account") == null) {
+            System.out.println("here!!!!!1");
+            System.out.println();
+            System.out.println(session.getAttribute("account") == null);
+
+
             redirectAttributes.addFlashAttribute("message", "尚未登入，無法參與抽獎！");
             return "redirect:/eView/login";
+        }else if (!("u".equals(session.getAttribute("role")))){
+            redirectAttributes.addFlashAttribute("message", "您非一般使用者，無法參與抽獎！");
+            return "redirect:/eView";
         }else{
 
             //鈴鐺的部分
             List<AnnouncementDTO> notices = userService.findMarketAnnouncement(marketId);
             model.addAttribute("notices", notices);
 
-            Object user = session.getAttribute("user");
+            Object user = session.getAttribute("account");
             int total = userService.getFindTotalPoint((String) user, marketId);
 
+            model.addAttribute("id", marketId);
             model.addAttribute("pointCount", total);
             model.addAttribute("activityRule", userService.getFindActDes(marketId));
+            return"activity";
         }
-        return"activity";
+
     }
 
     @PostMapping("/{id}/activity/submitPoint")
@@ -52,19 +62,22 @@ public class ActivityController {
                               HttpSession session,
                               RedirectAttributes redirectAttributes) {
 
+        System.out.println("he!");
         Object user = session.getAttribute("account");
 
         //check 編號正確與否
-        boolean success = userService.correctStamp(marketId, pointCode);
+        int success = userService.correctStamp(marketId, pointCode);
+        System.out.println(success);
         //check 使用者的點數狀況
         int total = userService.getFindTotalPoint((String) user, marketId);
-
+        System.out.println(total);
+        System.out.println("out!");
         if(total >= 10){
             redirectAttributes.addFlashAttribute("errorMsg", "您已經集滿全部點數！");
             return "redirect:/eView/market/" + marketId + "/activity";
         }
 
-        if (success) {
+        if (success==1) {
             redirectAttributes.addFlashAttribute("successMsg", "點數已成功累積！");
             userService.findUpdateHavePoint((String) user, marketId);
         } else {

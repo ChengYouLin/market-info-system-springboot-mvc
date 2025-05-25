@@ -13,31 +13,35 @@ import java.util.List;
 
 public interface LeftoverRepository extends JpaRepository<Leftover, Long> {
 
-    @Query(value = """
-            SELECT
-                l.name AS leftoverName, 
-                a.name AS vendorApplyName, 
-                l.type AS leftoverType,
-                (l.amount - COALESCE(SUM(r.amount), 0)) AS remaining, 
-                l.leftover_id AS leftoverId
-            FROM apply a
-            JOIN vendor v ON v.vendor_id = a.vendor_id
-            JOIN leftover l ON v.vendor_id = l.vendor_id
-            LEFT JOIN reserve r ON l.leftover_id = r.leftover_id
-            WHERE l.vendor_id IN (
-                SELECT vendor_id
-                FROM apply sub_a
-                WHERE market_id = :marketId AND status = '已通過'
-            )
-            GROUP BY
-                l.leftover_id,
-                l.name,
-                l.type,
-                l.amount,
-                a.name
-            ORDER BY l.leftover_id
-            """, nativeQuery = true)
-    List<LeftoverFoodDTO> findLeftInfo(int marketId);
+@Query(value = """
+        SELECT
+            l.name AS leftoverName, 
+            a.name AS vendorApplyName, 
+            l.type AS leftoverType,
+            (l.amount - SUM(r.amount)) AS remaining, 
+            l.leftover_id AS leftoverId,
+                    1 AS test
+        FROM apply a
+        JOIN vendor v ON v.vendor_id = a.vendor_id
+        JOIN leftover l ON v.vendor_id = l.vendor_id
+        LEFT JOIN reserve r ON l.leftover_id = r.leftover_id
+        WHERE l.vendor_id IN (
+            SELECT vendor_id
+            FROM apply sub_a
+            WHERE market_id = :marketId AND status = '已通過'
+        )
+        GROUP BY
+            l.leftover_id,
+            l.name,
+            l.type,
+            l.amount,
+            a.name
+        HAVING remaining > 0
+        ORDER BY l.leftover_id
+        """, nativeQuery = true)
+    List<LeftoverFoodDTO> findLeftInfo(@Param("marketId") int marketId);
+
+
 
 
     @Modifying

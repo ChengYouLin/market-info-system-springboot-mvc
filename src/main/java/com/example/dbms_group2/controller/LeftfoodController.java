@@ -1,10 +1,7 @@
 package com.example.dbms_group2.controller;
 
 
-import com.example.dbms_group2.model.DTO.AnnouncementDTO;
-import com.example.dbms_group2.model.DTO.DTO;
-import com.example.dbms_group2.model.DTO.LeftoverFoodDTO;
-import com.example.dbms_group2.model.DTO.ReservationDTO;
+import com.example.dbms_group2.model.DTO.*;
 import com.example.dbms_group2.model.entity.Announcement;
 import com.example.dbms_group2.service.UserService;
 import jakarta.servlet.http.HttpSession;
@@ -37,23 +34,28 @@ public class LeftfoodController {
             Object user = session.getAttribute("account");
             Object role = session.getAttribute("role");
 
-            if(user == null || role != "u"){
+            if(user == null ) {
                 redirectAttributes.addFlashAttribute("message", "您尚未登入！");
                 return "redirect:/eView/login";
+            }else if(!("u".equals(session.getAttribute("role")))){
+                redirectAttributes.addFlashAttribute("message", "您非一般使用者，無法預約剩食！");
+                return "redirect:/eView";
             }else{
                 List<ReservationDTO> reservations = userService.findGetReserInfo((String) user, marketId);
                 List<LeftoverFoodDTO> leftFoods = userService.getfindLeftInfo(marketId);
+                List<UserDTO> usess = userService.findGetUserDetail((String) user);
+                model.addAttribute("name", usess.get(0).getName());
+                model.addAttribute("phone", usess.get(0).getPhone());
 
                 model.addAttribute("reservations", reservations);
                 model.addAttribute("leftFoods", leftFoods);
 
                 List<AnnouncementDTO> notices = userService.findMarketAnnouncement(marketId);
                 model.addAttribute("notices", notices);
+                model.addAttribute("marketId", marketId);
             }
-
+            return "leftfood"; // Thymeleaf 頁面檔名
         }
-
-        return "leftfood"; // Thymeleaf 頁面檔名
     }
 
     @PostMapping("/{id}/leftfood/book")
@@ -65,7 +67,7 @@ public class LeftfoodController {
                                RedirectAttributes redirectAttributes) {
 
         userService.getUpdateLeftFood(user, leftoverId, productName, quantity);
-
+        System.out.println(quantity);
         redirectAttributes.addFlashAttribute("message", "預約成功！請查看畫面上方區塊編號！");
         return "redirect:/eView/market/" + marketId + "/leftfood";
     }

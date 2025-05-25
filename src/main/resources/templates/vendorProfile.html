@@ -88,6 +88,10 @@
             color: #073046;
             vertical-align: middle;
         }
+.edit-button {
+    position: relative;
+    z-index: 10;
+}
 
         #notification-box {
             display: none;
@@ -283,6 +287,7 @@
     </header>
     <br>
     <div class="main-container">
+        
         <h2 style="color:#073046; font-weight: bold;">攤商個人帳號資訊</h2>
         <div class="info-section">
             <div class="info-left">
@@ -295,11 +300,11 @@
                     <br>
                     <br>
                     <br>
-                    <h5>註冊者姓名：<span th:text="${user.name}">UserID</span></h5>
+                    <h5>註冊者姓名：<span th:text="${name}">UserID</span></h5>
                     <br>
-                    <p>電子郵件：<span th:text="${user.email}"></span></p>
+                    <p>電子郵件：<span th:text="${email}"></span></p>
                     <br>
-                    <p>手機：<span th:text="${user.phone}"></span></p>
+                    <p>手機：<span th:text="${phone}"></span></p>
                     <br>
                     <br>
                     <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal">編輯個人資訊</button>
@@ -317,16 +322,16 @@
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form th:action="@{eView/vendor/profile/edit}" method="post">
+                <form th:action="@{/eView/vendor/profile/edit}" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title">編輯個人資訊</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <label>姓名</label>
-                        <input class="form-control" type="text" name="name" th:value="${user.name}" required>
+                        <input class="form-control" type="text" name="name"  required>
                         <label class="mt-2">電子郵件</label>
-                        <input class="form-control" type="email" name="email" th:value="${user.email}" required>
+                        <input class="form-control" type="email" name="email"  required>
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary">確認編輯</button>
@@ -336,7 +341,7 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         function showSection(section) {
             document.getElementById('basic-info').style.display = (section === 'basic') ? 'block' : 'none';

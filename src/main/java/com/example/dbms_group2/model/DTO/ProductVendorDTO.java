@@ -3,10 +3,10 @@ package com.example.dbms_group2.model.DTO;
 public class ProductVendorDTO {
     private String name;
     private String category;
-    private String price;
-    private int id;
+    private Object price;
+    private Long id;
 
-    public ProductVendorDTO(String name, String category, String price, int id) {
+    public ProductVendorDTO(String name, String category, Object price, Long id) {
         this.name = name;
         this.category = category;
         this.price = price;
@@ -29,19 +29,19 @@ public class ProductVendorDTO {
         this.category = category;
     }
 
-    public String getPrice() {
+    public Object getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Object price) {
         this.price = price;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 }

@@ -29,12 +29,18 @@ public class ProfileController {
                               RedirectAttributes redirectAttributes) {
         Object user = session.getAttribute("account");
         Object role = session.getAttribute("role");
+        if(user == "test"){
+            session.setAttribute("account", null);
+            redirectAttributes.addFlashAttribute("message", "請重新登入！若信箱不符規定，請使用原始信箱。");
+            return "redirect:/eView/login";
+        }
+
         if (user == null) {
             redirectAttributes.addFlashAttribute("message", "您尚未登入！");
             return "redirect:/eView/login";
-        }else if (role == "v"){
+        }else if (("v".equals(session.getAttribute("role")))){
             return "redirect:/eView/vendor/profile";
-        }else if (role == "o"){
+        }else if (("o".equals(session.getAttribute("role")))){
             return "redirect:/eView/organizer/profile";
         }
 
@@ -44,11 +50,15 @@ public class ProfileController {
 
         //個人資訊
         List<UserDTO> users = userService.findGetUserDetail((String) user);
-        model.addAttribute("users", users);
+        model.addAttribute("users", users.get(0));
+        model.addAttribute("name", users.get(0).getName());
+        model.addAttribute("phone", users.get(0).getPhone());
+        model.addAttribute("gmail", users.get(0).getGmail());
 
+        model.addAttribute("marketId", marketId);
         //喜愛資訊
         List<FaoDTO> faos = userService.getFindUserFao((String) user);
-        model.addAttribute("fav", faos);
+        model.addAttribute("favorites", faos);
 
         return "profile";
     }
@@ -59,7 +69,8 @@ public class ProfileController {
                                    Model model,
                                    HttpSession session,
                                    RedirectAttributes redirectAttributes) {
-        userService.deleteFao(vendorId);
+        System.out.println(vendorId);
+        //userService.deleteFao((vendorId);
         return "redirect:/eView/market/" + marketId + "/profile";
     }
 
@@ -70,11 +81,20 @@ public class ProfileController {
                               HttpSession session,
                               RedirectAttributes redirectAttributes) {
         Object user = session.getAttribute("account");
-        userService.findUpdateUserProfile(name, email);
-        session.setAttribute("account", email);
 
-        redirectAttributes.addFlashAttribute("successMessage", "個人資訊已成功更新！");
-        return "redirect:/eView/market/" + marketId + "/profile";
+        try {
+            userService.findUpdateUserProfile((String)user,name, email);
+
+
+            session.setAttribute("account", "test");
+
+            redirectAttributes.addFlashAttribute("message", "請重新登入！若信箱不符規定，請使用原始信箱。");
+            return "redirect:/eView/market/" + marketId + "/profile";
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("message", "請重新登入！若信箱不符規定，請使用原始信箱。");
+            return "redirect:/eView/market/" + marketId + "/profile";
+        }
+
     }
 
 

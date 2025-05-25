@@ -1,26 +1,28 @@
 package com.example.dbms_group2.model.DTO;
 
 public class LeftoverFoodDTO {
-    private Long leftoverId;
     private String productName;
     private String vendor;       // 攤商名稱
     private String category;     // 食物類別
-    private int remaining;       // 剩餘份數
+    private Object remaining;       // 剩餘份數
+    private Object leftoverId;
+    private Object maxQty;
 
-    public LeftoverFoodDTO(Long leftoverId, String productName, String vendor, String category, int remaining) {
-        this.leftoverId = leftoverId;
+    public LeftoverFoodDTO(String productName, String vendor, String category, Object remaining, Object leftoverId, Object maxQty) {
         this.productName = productName;
         this.vendor = vendor;
         this.category = category;
         this.remaining = remaining;
-    }
-
-    public Long getLeftoverId() {
-        return leftoverId;
-    }
-
-    public void setLeftoverId(Long leftoverId) {
         this.leftoverId = leftoverId;
+        this.maxQty = maxQty;
+    }
+
+    public Object getMaxQty() {
+        return maxQty;
+    }
+
+    public void setMaxQty(Object maxQty) {
+        this.maxQty = maxQty;
     }
 
     public String getProductName() {
@@ -47,11 +49,19 @@ public class LeftoverFoodDTO {
         this.category = category;
     }
 
-    public int getRemaining() {
+    public Object getRemaining() {
         return remaining;
     }
 
-    public void setRemaining(int remaining) {
+    public void setRemaining(Object remaining) {
         this.remaining = remaining;
+    }
+
+    public Object getLeftoverId() {
+        return leftoverId;
+    }
+
+    public void setLeftoverId(Object leftoverId) {
+        this.leftoverId = leftoverId;
     }
 }

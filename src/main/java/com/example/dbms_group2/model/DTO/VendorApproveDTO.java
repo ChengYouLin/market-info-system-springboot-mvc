@@ -1,25 +1,27 @@
 package com.example.dbms_group2.model.DTO;
 
 public class VendorApproveDTO {
-    private int id;           // 攤商 ID
+    private Long id;           // 攤商 ID
     private String name;       // 攤商名稱
     private String email;      // 攤商信箱
-    private String boothCode;  // 攤位編號（如 "A1"）
-    private boolean checkedIn; // 是否已報到
+    private Object boothCode;  // 攤位編號（如 "A1"）
+    private Long checkedIn; // 是否已報到
+    private Object cateName;
 
-    public VendorApproveDTO(int id, String name, String email, String boothCode, boolean checkedIn) {
+    public VendorApproveDTO(Long id, String name, String email, Object boothCode, Long checkedIn, Object cateName) {
         this.id = id;
         this.name = name;
         this.email = email;
         this.boothCode = boothCode;
         this.checkedIn = checkedIn;
+        this.cateName = cateName;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -39,19 +41,27 @@ public class VendorApproveDTO {
         this.email = email;
     }
 
-    public String getBoothCode() {
+    public Object getBoothCode() {
         return boothCode;
     }
 
-    public void setBoothCode(String boothCode) {
+    public void setBoothCode(Object boothCode) {
         this.boothCode = boothCode;
     }
 
-    public boolean isCheckedIn() {
+    public Long getCheckedIn() {
         return checkedIn;
     }
 
-    public void setCheckedIn(boolean checkedIn) {
+    public void setCheckedIn(Long checkedIn) {
         this.checkedIn = checkedIn;
+    }
+
+    public Object getCateName() {
+        return cateName;
+    }
+
+    public void setCateName(Object cateName) {
+        this.cateName = cateName;
     }
 }

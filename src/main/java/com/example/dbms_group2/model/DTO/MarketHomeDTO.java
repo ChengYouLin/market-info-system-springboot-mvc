@@ -1,6 +1,7 @@
 package com.example.dbms_group2.model.DTO;
 
 public class MarketHomeDTO {
+    private Long id;
     private String title;        // 市集名稱
     private String description;  // 市集介紹
     private String location;     // 地點
@@ -14,7 +15,8 @@ public class MarketHomeDTO {
     private String website;
     private String line;
 
-    public MarketHomeDTO(String title, String description, String location, String imageUrl, String schedule1, String schedule2, String schedule3, String email, String instagram, String facebook, String website, String line) {
+    public MarketHomeDTO(Long id, String title, String description, String location, String imageUrl, String schedule1, String schedule2, String schedule3, String email, String instagram, String facebook, String website, String line) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.location = location;
@@ -27,6 +29,14 @@ public class MarketHomeDTO {
         this.facebook = facebook;
         this.website = website;
         this.line = line;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {

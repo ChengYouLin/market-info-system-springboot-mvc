@@ -195,23 +195,23 @@
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/eView/market/{id}/home(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/home'}" method="get" style="display:inline;">
                     <button class="nav-btn active">市集資訊</button>
                 </form>
-                <form th:action="@{/eView/market/{id}/map(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/map'}" method="get" style="display:inline;">
                     <button class="nav-btn">會場地圖</button>
                 </form>
-                <form th:action="@{/eView/market/{id}/activity(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/activity'}" method="get" style="display:inline;">
                     <button class="nav-btn">抽獎集點</button>
                 </form>
-                <form th:action="@{/eView/market/{id}/leftfood(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/leftfood'}" method="get" style="display:inline;">
                     <button class="nav-btn">剩食搜尋</button>
                 </form>
                 <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
                     <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
                 </button>
 
-                <form th:action="@{/eView/market/{id}/profile(id=${marketId})}" method="get">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/profile'}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
@@ -241,8 +241,8 @@
 -->
 
     <div style="margin-top: 100px; text-align: center;">
-<img th:src="@{${market.imageUrl != null and !#strings.isEmpty(market.imageUrl) ? market.imageUrl : '/images/marketImage2.png'}}"
-     class="d-block w-100" alt="市集圖片">
+        <img th:src="@{${market.imageUrl != null and !#strings.isEmpty(market.imageUrl) ? market.imageUrl : '/images/marketImage2.png'}}"
+            class="d-block w-100" alt="市集圖片">
 
 
     </div>
@@ -271,24 +271,27 @@
             <h2 class="section-title mt-4"><i class="bi bi-calendar-event-fill"></i>節目表：</h2>
             <!-- 節目表圖片：從 DTO 裡抓取，如果為空則顯示預設圖 -->
             <div class="schedule-row">
-<img th:src="@{${market.schedule1 != null and !#strings.isEmpty(market.schedule1) ? market.schedule1 : '/images/schedule1.png'}}" alt="schedule1">
-<img th:src="@{${market.schedule2 != null and !#strings.isEmpty(market.schedule2) ? market.schedule2 : '/images/schedule2.png'}}" alt="schedule2">
-<img th:src="@{${market.schedule3 != null and !#strings.isEmpty(market.schedule3) ? market.schedule3 : '/images/schedule3.png'}}" alt="schedule3">
+                <img th:src="@{${market.schedule1 != null and !#strings.isEmpty(market.schedule1) ? market.schedule1 : '/images/schedule1.png'}}"
+                    alt="schedule1">
+                <img th:src="@{${market.schedule2 != null and !#strings.isEmpty(market.schedule2) ? market.schedule2 : '/images/schedule2.png'}}"
+                    alt="schedule2">
+                <img th:src="@{${market.schedule3 != null and !#strings.isEmpty(market.schedule3) ? market.schedule3 : '/images/schedule3.png'}}"
+                    alt="schedule3">
 
             </div>
 
 
             <h2 class="section-title mt-4"><i class="bi bi-telephone-fill"></i>聯絡資訊：</h2>
             <ul class="list-unstyled contact-info">
-                <li th:if="${contact.email}"><i class="bi bi-envelope-fill"></i> <a
-                        th:href="'mailto:' + ${contact.email}" th:text="${contact.email}"></a></li>
-                <li th:if="${contact.instagram}"><i class="bi bi-instagram"></i> <a th:href="${contact.instagram}"
+                <li th:if="${market.email}"><i class="bi bi-envelope-fill"></i> <a th:href="'mailto:' + ${market.email}"
+                        th:text="${market.email}"></a></li>
+                <li th:if="${market.instagram}"><i class="bi bi-instagram"></i> <a th:href="${market.instagram}"
                         target="_blank">Instagram</a></li>
-                <li th:if="${contact.facebook}"><i class="bi bi-facebook"></i> <a th:href="${contact.facebook}"
+                <li th:if="${market.facebook}"><i class="bi bi-facebook"></i> <a th:href="${market.facebook}"
                         target="_blank">Facebook</a></li>
-                <li th:if="${contact.website}"><i class="bi bi-globe"></i> <a th:href="${contact.website}"
+                <li th:if="${market.website}"><i class="bi bi-globe"></i> <a th:href="${market.website}"
                         target="_blank">個人網站</a></li>
-                <li th:if="${contact.line}"><i class="bi bi-chat-dots-fill"></i> <a th:href="${contact.line}"
+                <li th:if="${market.line}"><i class="bi bi-chat-dots-fill"></i> <a th:href="${market.line}"
                         target="_blank">LINE</a></li>
             </ul>
         </div>

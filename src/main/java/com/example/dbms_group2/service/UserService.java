@@ -2,11 +2,13 @@ package com.example.dbms_group2.service;
 
 import com.example.dbms_group2.model.DTO.*;
 import com.example.dbms_group2.model.entity.Announcement;
+import com.example.dbms_group2.model.entity.User;
 import com.example.dbms_group2.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -58,6 +60,9 @@ public class UserService {
     }
 
     public List<UserDTO> findGetUserDetail(String email) {
+        System.out.println("heer");
+        System.out.println(userRepository.getUserDetail(email).get(0).getName());
+
         return userRepository.getUserDetail(email);
     }
 
@@ -69,9 +74,22 @@ public class UserService {
         preferRepository.deleteByPreferId(preferId);
     }
 
-    public void findUpdateUserProfile(String email, String name){
-        userRepository.updateUserProfile(email,name);
+    public void findUpdateUserProfile(String oldEmail, String name, String newEmail) {
+        if (userRepository.existsOtherUserWithEmail(newEmail, oldEmail)) {
+            System.out.println("<UNK>");
+
+        }else{
+            int updated = userRepository.updateUserGmailAndName(oldEmail, name, newEmail);
+            System.out.println(">>>>>");
+
+            if (updated == 0) {
+                throw new IllegalArgumentException("使用者不存在或更新失敗");
+            }
+        }
+
     }
+
+
 
     public List<MarketHomeDTO> getFindMarketInfo(int marketId){
         return marketRepository.findMarketInfo(marketId);
@@ -83,7 +101,11 @@ public class UserService {
 
     public int getFindTotalPoint(String email, int marketId){
         List<PointDTO> p = havePointsRespository.findTotalPoint(email, marketId);
-        return p.get(0).getPointCount();
+        System.out.println(p);
+        System.out.println(email);
+        System.out.println(marketId);
+        int total = p.get(0).getPointCount();
+        return total;
     }
 
     public List<DTO> genFindStatus(int marketId){
@@ -94,8 +116,9 @@ public class UserService {
         return marketRepository.findLotteryRuleById(marketId);
     }
 
-    public boolean correctStamp(int marketId, String stamp) {
-        return applyRepository.checkCorrectStamp(marketId, stamp).get(0).isCorrect();
+    public int correctStamp(int marketId, String stamp) {
+        System.out.println(applyRepository.checkCorrectStamp(marketId, stamp));
+        return applyRepository.checkCorrectStamp(marketId, stamp);
     }
 
     public void findUpdateHavePoint(String email, int marketId){

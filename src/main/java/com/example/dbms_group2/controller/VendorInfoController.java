@@ -22,14 +22,14 @@ public class VendorInfoController {
     @Autowired
     private VendorService vendorService;
 
-        @GetMapping("/vendor/info")
+        @GetMapping("/info")
         public String showMainPage(Model model,
                 HttpSession session, RedirectAttributes redirectAttributes) throws JsonProcessingException {
 
             Object user = session.getAttribute("account");
             Object role = session.getAttribute("role");
 
-            if (role != "v") {
+            if (!("v".equals(session.getAttribute("role")))){
                 redirectAttributes.addFlashAttribute("message", "您非攤商身份！");
                 return "redirect:/eView";
             } else if (user == null) {

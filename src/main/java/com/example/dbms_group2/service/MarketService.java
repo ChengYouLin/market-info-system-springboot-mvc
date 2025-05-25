@@ -63,8 +63,8 @@ public class MarketService {
         return organizerRepository.findGetOrganizerDetail(email);
     }
 
-    public void getFindUpdateOrganizerProfile(String name, String email){
-        organizerRepository.findUpdateOrganizerProfile(name, email);
+    public void getFindUpdateOrganizerProfile(String oldemail, String name, String email){
+        organizerRepository.findUpdateOrganizerProfile(oldemail, name, email);
     }
 
     public List<LotteryDTO> getLotterySetting(String email){
@@ -125,7 +125,12 @@ public class MarketService {
     }
 
     public boolean isCheckInAllowedToday(String mail){
-        return marketRepository.checkInAllowedToday(mail);
+        int success =  marketRepository.checkInAllowedToday(mail);
+        if(success == 1){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     public List<CateDTO> getAvailableCategories(String email){
@@ -140,7 +145,7 @@ public class MarketService {
 
         List<VendorApproveDTO> result = new ArrayList<>();
         for(VendorApproveDTO vendorApproveDTO : all){
-            if(vendorApproveDTO.getBoothCode().isEmpty() == true){
+            if(vendorApproveDTO.getBoothCode() == null){
                 result.add(vendorApproveDTO);
             }
         }

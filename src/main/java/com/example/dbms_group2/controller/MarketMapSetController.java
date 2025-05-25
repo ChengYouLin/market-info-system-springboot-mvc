@@ -13,6 +13,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/eView/organizer")
@@ -31,7 +33,7 @@ public class MarketMapSetController {
         if (user == null) {
             redirectAttributes.addFlashAttribute("message", "您尚未登入！");
             return "redirect:/eView/login";
-        } else if (role != "o") {
+        } else if (!("o".equals(session.getAttribute("role")))) {
             redirectAttributes.addFlashAttribute("message", "您身份不符！");
             return "redirect:/eView";
         } else {
@@ -49,6 +51,14 @@ public class MarketMapSetController {
             model.addAttribute("categories", categories);
             //true等於可以報到
             model.addAttribute("canCheckIn", marketService.isCheckInAllowedToday((String) user));
+
+
+            Map<String, VendorApproveDTO> boothVendorMap = vendorList.stream()
+                    .filter(v -> v.getBoothCode() != null)
+                    .collect(Collectors.toMap(v -> String.valueOf(v.getBoothCode()), v -> v));
+
+            model.addAttribute("boothVendorMap", boothVendorMap);      // ✅ 關鍵
+
 
             return "marketMapSet1"; // Thymeleaf HTML 檔名
         }

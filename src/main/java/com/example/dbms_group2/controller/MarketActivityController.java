@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-@RequestMapping("/eView/Organizer")
+@RequestMapping("/eView/organizer")
 public class MarketActivityController {
 
     @Autowired
@@ -26,14 +26,17 @@ public class MarketActivityController {
     public String showLotteryPage(Model model,
                                   HttpSession session,
                                   RedirectAttributes redirectAttributes) {
+        System.out.println("!!!!!!!!!!!!");
 
         Object user = session.getAttribute("account");
         Object role = session.getAttribute("role");
+        System.out.println(role);
         if (user == null) {
             redirectAttributes.addFlashAttribute("message", "您尚未登入！");
             return "redirect:/eView/login";
-        } else if (role != "o") {
-            redirectAttributes.addFlashAttribute("message", "您身份不符！");
+        } else if (!("o".equals(session.getAttribute("role")))) {
+            System.out.println("OOOOOOQ");
+            redirectAttributes.addFlashAttribute("message", "您身份不符??????！");
             return "redirect:/eView";
         } else if (marketService.getFindStatus((String) user).get(0).isActivity() == true) {
 

@@ -25,7 +25,7 @@ public class VendorService {
     @Autowired
     private ApplyRepository applyRepository;
 
-    public List<ProductVendorDTO> getFindAllProduct(String mail){
+    public List<ProductNewDTO> getFindAllProduct(String mail){
         return productRepository.findAllProduct(mail);
     }
 
@@ -45,8 +45,8 @@ public class VendorService {
         return vendorRepository.getVendorDetail(email);
     }
 
-    public void findUpdateUserProfile(String name, String email){
-        vendorRepository.updateVendorProfil(name, email);
+    public void findUpdateUserProfile(String gmail, String name, String email){
+        vendorRepository.updateVendorProfil(gmail, name, email);
     }
 
     public List<LeftoverDTO> findGetLeftoversByVendor(String vendorEmail){
@@ -103,4 +103,12 @@ public class VendorService {
         return applyRepository.getStampInfo(email);
     }
 
+    public boolean getApplyStatus(String email, int marketId){
+        int result = applyRepository.findGetApplyStatus(email, marketId);
+        if(result == 1){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }

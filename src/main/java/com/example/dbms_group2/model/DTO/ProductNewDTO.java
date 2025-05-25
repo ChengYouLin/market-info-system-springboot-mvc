@@ -1,23 +1,17 @@
 package com.example.dbms_group2.model.DTO;
 
-public class ProductDTO {
+public class ProductNewDTO {
     private String name;
     private String category;
-    private Long price;
+    private int price;
+    private int id;
 
-    public ProductDTO() {}
-    public ProductDTO(String name, String category, Long price) {
+    public ProductNewDTO() {}
+    public ProductNewDTO(String name, String category, int price, int id) {
         this.name = name;
         this.category = category;
         this.price = price;
-    }
-
-    public Long getPrice() {
-        return price;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
+        this.id = id;
     }
 
     public String getName() {
@@ -36,5 +30,19 @@ public class ProductDTO {
         this.category = category;
     }
 
-}
+    public int getPrice() {
+        return price;
+    }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+}

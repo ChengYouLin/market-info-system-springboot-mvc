@@ -1,9 +1,6 @@
 package com.example.dbms_group2.controller;
 
-import com.example.dbms_group2.model.DTO.AnnouncementDTO;
-import com.example.dbms_group2.model.DTO.LeftoverDTO;
-import com.example.dbms_group2.model.DTO.ProductDTO;
-import com.example.dbms_group2.model.DTO.ProductVendorDTO;
+import com.example.dbms_group2.model.DTO.*;
 import com.example.dbms_group2.service.VendorService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,22 +24,27 @@ public class LeftfoodVendorController {
 
         Object user = session.getAttribute("account");
         Object role = session.getAttribute("role");
-        if (user == null) {
-            redirectAttributes.addFlashAttribute("message", "您尚未登入！");
-            return "redirect:/eView/login";
-        } else if (role != "v") {
+        if (!("v".equals(session.getAttribute("role")))) {
             redirectAttributes.addFlashAttribute("message", "您非攤商身份！");
             return "redirect:/eView";
+        } else if (user == null) {
+            redirectAttributes.addFlashAttribute("message", "您尚未登入！");
+            return "redirect:/eView/login";
         } else {
+
             List<LeftoverDTO> leftovers = vendorService.findGetLeftoversByVendor(vendorId);
-            List<ProductVendorDTO> productList = vendorService.getFindAllProduct(vendorId);
+            List<ProductNewDTO> productNewList = vendorService.getFindAllProduct(vendorId);
+            System.out.println(productNewList.size());
+            //System.out.println(leftovers.size());
+            //System.out.println(leftovers.get(0).getProductName());
+            System.out.println(productNewList.get(1).getName());
 
             //鈴鐺，傳自己的然後去抓
             List<AnnouncementDTO> notices = vendorService.getFindMarketForVendorAnnouncement((String) user);
             model.addAttribute("notices", notices);
 
             model.addAttribute("leftovers", leftovers);
-            model.addAttribute("productList", productList);
+            model.addAttribute("productList", productNewList);
             return "leftfoodVendor"; // Thymeleaf 檔案名稱
         }
     }

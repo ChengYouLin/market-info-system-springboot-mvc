@@ -29,7 +29,7 @@ public class MarketMapController {
 
     @GetMapping("/{id}/map")
     public String viewMarketMap(@PathVariable("id") int marketId,
-                                @SessionAttribute("account") String user,
+                                @SessionAttribute(name = "account", required = false) String user,
                                 Model model,
                                 RedirectAttributes redirectAttributes) {
 
@@ -73,7 +73,7 @@ public class MarketMapController {
     public String showMap(@PathVariable("id") int marketId,
                           @RequestParam(name = "cate", required = false) List<String> selectedCategories,
                           Model model,
-                          @SessionAttribute("account") String user,
+                          @SessionAttribute(name = "account", required = false) String user,
                           RedirectAttributes redirectAttributes) {
         //鈴鐺問題
         List<AnnouncementDTO> notices = userService.findMarketAnnouncement(marketId);
@@ -92,7 +92,7 @@ public class MarketMapController {
 
     @PostMapping("/{id}/map/toggleFavorite")
     public String toggleFavorite(@PathVariable("id") int marketId,
-                                 @SessionAttribute("account") String user,
+                                 @SessionAttribute(name = "account", required = false) String user,
                                  @RequestParam int vendorId,
                                  @RequestHeader(value = "referer", required = false) String referer,
                                  RedirectAttributes redirectAttributes,
@@ -115,7 +115,7 @@ public class MarketMapController {
     @PostMapping("/{id}/map/submitRating")
     public String submitRating(@PathVariable("id") int marketId,
                                @RequestParam Integer score,
-                               @SessionAttribute("account") String user,
+                               @SessionAttribute(name = "account", required = false) String user,
                                @RequestParam int vendorId,
                                @RequestHeader(value = "referer", required = false) String referer,
                                RedirectAttributes redirectAttributes,

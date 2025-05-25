@@ -1,6 +1,7 @@
 package com.example.dbms_group2.controller;
 
 import com.example.dbms_group2.model.DTO.AnnouncementDTO;
+import com.example.dbms_group2.model.DTO.OtherDTO;
 import com.example.dbms_group2.service.VendorService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,22 +26,31 @@ public class VendorApplyController {
 
         Object user = session.getAttribute("account");
         Object role = session.getAttribute("role");
-        if (role != "v") {
-            redirectAttributes.addFlashAttribute("message", "您非攤商身份！");
-            return "redirect:/eView";
-        } else if (user == null) {
+        if (user == null) {
             redirectAttributes.addFlashAttribute("message", "您尚未登入！");
             return "redirect:/eView/login";
-        } else {
+        }else if (("u".equals(session.getAttribute("role")))){
+            return "redirect:/eView";
+        }else if (("o".equals(session.getAttribute("role")))){
+            return "redirect:/eView/organizer/profile";
+        }else{
+
+            if((vendorService.getApplyStatus((String) user, marketId ))){
+                redirectAttributes.addFlashAttribute("message", "您已經申請過該市集招商環節！");
+                return "redirect:/eView/vendor/info";
+
+            }
 
             //鈴鐺，傳自己的然後去抓
             List<AnnouncementDTO> notices = vendorService.getFindMarketForVendorAnnouncement((String) user);
             model.addAttribute("notices", notices);
 
             String marketName = vendorService.getFindMarketName(marketId);
+            model.addAttribute("vendor", new OtherDTO()); // ← 這裡的類別是你表單綁定的 DTO 類別
 
             model.addAttribute("marketName", marketName);
 
+            model.addAttribute("marketId", marketId);
             return "vendorApply";
 
         }
@@ -64,7 +74,7 @@ public class VendorApplyController {
             vendorService.getUpdateNewApply(marketId, name, description, email, facebook, instagram, line, website, vendorEmail);
 
             redirectAttributes.addFlashAttribute("message", "請查看「市集申請」中，是否為審核中狀態！");
-            return "redirect:/eView/vendor/info/apply";
+            return "redirect:/eView/vendor/info";
         }
 
 

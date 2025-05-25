@@ -2,6 +2,7 @@ package com.example.dbms_group2.controller;
 
 import com.example.dbms_group2.model.DTO.AnnouncementDTO;
 import com.example.dbms_group2.model.DTO.ProductDTO;
+import com.example.dbms_group2.model.DTO.ProductNewDTO;
 import com.example.dbms_group2.model.DTO.ProductVendorDTO;
 import com.example.dbms_group2.service.VendorService;
 import jakarta.servlet.http.HttpSession;
@@ -27,7 +28,7 @@ public class ProductController {
 
         Object user = session.getAttribute("account");
         Object role = session.getAttribute("role");
-        if (role != "v") {
+        if (!("v".equals(session.getAttribute("role")))) {
             redirectAttributes.addFlashAttribute("message", "您非攤商身份！");
             return "redirect:/eView";
         } else if (user == null) {
@@ -40,8 +41,10 @@ public class ProductController {
             model.addAttribute("notices", notices);
 
             //傳入相關資料
-            List<ProductVendorDTO> products = vendorService.getFindAllProduct((String) user);
+            List<ProductNewDTO> products = vendorService.getFindAllProduct((String) user);
             model.addAttribute("productList", products);
+
+            model.addAttribute("product", new ProductDTO()); // ✅ 加上這一行
 
             return "product";
 
@@ -52,10 +55,12 @@ public class ProductController {
     public String uploadProduct(@RequestParam("name") String name,
                                 @RequestParam("category") String category,
                                 @RequestParam("price") int price,
-                                @SessionAttribute("vendorId") String vendorId,
-                                RedirectAttributes redirectAttributes) {
+                                @SessionAttribute("account") String vendorId,
+                                RedirectAttributes redirectAttributes,
+                                HttpSession session) {
 
-        vendorService.getUpdateNewProduct( vendorId,  name,  category,  price);
+        Object user  = session.getAttribute("account");
+        vendorService.getUpdateNewProduct( (String)user,  name,  category,  price);
         // 呼叫 service 儲存商品
         redirectAttributes.addFlashAttribute("message", "請確認新上架商品是否在畫面中！（商品名稱不能重複唷！）");
 
@@ -64,7 +69,7 @@ public class ProductController {
     }
 
 
-    @PostMapping("/eView/vendor/product/delete/{id}")
+    @PostMapping("/product/delete/{id}")
     public String deleteProduct(@PathVariable("id") int productId,
                                 @SessionAttribute("account") String vendorId,
                                 RedirectAttributes redirectAttributes) {

@@ -185,7 +185,7 @@
 </head>
 
 <body>
-            <!-- ✅ 自動引入 flash message 區塊 -->
+    <!-- ✅ 自動引入 flash message 區塊 -->
     <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
 
     <header>
@@ -198,13 +198,13 @@
                 <form th:action="@{/eView/organizer/config}" method="get" style="display:inline;">
                     <button class="nav-btn">活動設定</button>
                 </form>
-                <form th:action="@{/eView/oranizer/map}" method="get" style="display:inline;">
+                <form th:action="@{/eView/organizer/map}" method="get" style="display:inline;">
                     <button class="nav-btn active">會場佈置</button>
                 </form>
-                <form th:action="@{/eView/oranizer/activity}" method="get" style="display:inline;">
+                <form th:action="@{/eView/organizer/activity}" method="get" style="display:inline;">
                     <button class="nav-btn">抽獎系統</button>
                 </form>
-                <form th:action="@{/eView/oranizer/review}" method="get" style="display:inline;">
+                <form th:action="@{/eView/organizer/review}" method="get" style="display:inline;">
                     <button class="nav-btn">招商狀況</button>
                 </form>
 
@@ -235,32 +235,70 @@
             <div class="map-label" style="top: 435px; right: 290px;">中正圖書館</div>
 
             <!-- 第一排：A1 ~ C2 -->
-            <div class="booth-btn" onclick="openVendorModal('1')" style="top: 80px; left: 50px;">1</div>
-            <div class="booth-btn" onclick="openVendorModal('2')" style="top: 80px; left: 170px;">2</div>
-            <div class="booth-btn" onclick="openVendorModal('3')" style="top: 80px; left: 290px;">3</div>
-            <div class="booth-btn" onclick="openVendorModal('4')" onclick="openVendorModal('')"
-                style="top: 80px; left: 410px;">4</div>
-            <div class="booth-btn" onclick="openVendorModal('5')" style="top: 80px; left: 530px;">5</div>
+            <div class="booth-btn" onclick="openVendorModal('1')" th:with="vendor=${boothVendorMap['1']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 80px; left: 50px;">1</div>
+            <div class="booth-btn" onclick="openVendorModal('2')" th:with="vendor=${boothVendorMap['2']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 80px; left: 170px;">2
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('3')" th:with="vendor=${boothVendorMap['3']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 80px; left: 290px;">3
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('4')" th:with="vendor=${boothVendorMap['4']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 80px; left: 410px;">4
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('5')" th:with="vendor=${boothVendorMap['5']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 80px; left: 530px;">5
+            </div>
 
-            <div class="booth-btn" onclick="openVendorModal('10')" style="top: 80px; right: 50px;">10</div>
-            <div class="booth-btn" onclick="openVendorModal('9')" style="top: 80px; right: 170px;">9</div>
-            <div class="booth-btn" onclick="openVendorModal('8')" style="top: 80px; right: 290px;">8</div>
-            <div class="booth-btn" onclick="openVendorModal('7')" style="top: 80px; right: 410px;">7</div>
-            <div class="booth-btn" onclick="openVendorModal('6')" style="top: 80px; right: 530px;">6</div>
+            <div class="booth-btn" onclick="openVendorModal('10')" th:with="vendor=${boothVendorMap['10']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 80px; right: 50px;">10
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('9')" th:with="vendor=${boothVendorMap['9']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 80px; right: 170px;">9
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('8')" th:with="vendor=${boothVendorMap['8']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 80px; right: 290px;">8
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('7')" th:with="vendor=${boothVendorMap['7']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 80px; right: 410px;">7
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('6')" th:with="vendor=${boothVendorMap['6']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 80px; right: 530px;">6
+            </div>
 
 
             <!-- 第二排：E3 ~ C3 -->
-            <div class="booth-btn" onclick="openVendorModal('11')" style="top: 290px; left: 50px;">11</div>
-            <div class="booth-btn" onclick="openVendorModal('12')" style="top: 290px; left: 170px;">12</div>
-            <div class="booth-btn" onclick="openVendorModal('13')" style="top: 290px; left: 290px;">13</div>
-            <div class="booth-btn" onclick="openVendorModal('14')" style="top: 290px; left: 410px;">14</div>
-            <div class="booth-btn" onclick="openVendorModal('15')" style="top: 290px; left: 530px;">15</div>
+            <div class="booth-btn" onclick="openVendorModal('11')" th:with="vendor=${boothVendorMap['11']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 290px; left: 50px;">11
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('12')" th:with="vendor=${boothVendorMap['12']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 290px; left: 170px;">12
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('13')" th:with="vendor=${boothVendorMap['13']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 290px; left: 290px;">13
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('14')" th:with="vendor=${boothVendorMap['14']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 290px; left: 410px;">14
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('15')" th:with="vendor=${boothVendorMap['15']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 290px; left: 530px;">15
+            </div>
 
-            <div class="booth-btn" onclick="openVendorModal('20')" style="top: 290px; right: 50px;">20</div>
-            <div class="booth-btn" onclick="openVendorModal('19')" style="top: 290px; right: 170px;">19</div>
-            <div class="booth-btn" onclick="openVendorModal('18')" style="top: 290px; right: 290px;">18</div>
-            <div class="booth-btn" onclick="openVendorModal('17')" style="top: 290px; right: 410px;">17</div>
-            <div class="booth-btn" onclick="openVendorModal('16')" style="top: 290px; right: 530px;">16</div>
+            <div class="booth-btn" onclick="openVendorModal('20')" th:with="vendor=${boothVendorMap['20']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 290px; right: 50px;">20
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('19')" th:with="vendor=${boothVendorMap['19']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 290px; right: 170px;">19
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('18')" th:with="vendor=${boothVendorMap['18']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 290px; right: 290px;">18
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('17')" th:with="vendor=${boothVendorMap['17']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 290px; right: 410px;">17
+            </div>
+            <div class="booth-btn" onclick="openVendorModal('16')" th:with="vendor=${boothVendorMap['16']}"
+                th:classappend="${vendor != null} ? ' btn-filled' : ' btn-empty'" style="top: 290px; right: 530px;">16
+            </div>
         </div>
         <!-- 🔽 攤商列表區塊 -->
         <div class="mt-5">
@@ -275,6 +313,7 @@
                         <th>攤商信箱</th>
                         <th>攤商名字</th>
                         <th>攤位編號</th>
+                        <th>分區名稱</th>
                         <th>是否已經報到</th>
                     </tr>
                 </thead>
@@ -283,6 +322,7 @@
                         <td th:text="${vendor.email}"></td>
                         <td th:text="${vendor.name}"></td>
                         <td th:text="${vendor.boothCode}"></td>
+                        <td th:text="${vendor.cateName}"></td>
                         <td>
                             <!-- ✅ 不可報到（當天不開放報到） -->
                             <button th:if="${!canCheckIn}" class="btn btn-secondary" disabled>今日不可報到</button>
@@ -310,7 +350,7 @@
     <div id="vendorModal" class="modal-box">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h5 class="text-center fw-bold" id="modalTitle">位置：A1</h5>
-            <form th:action="@{/booth/update}" method="post">
+            <form th:action="@{/eView/organizer/booth/update}" method="post">
                 <input type="hidden" name="boothCode" id="modalBoothCode">
                 <label class="form-label mt-3">選擇攤商</label>
                 <input type="text" id="selectedVendorDisplay" class="form-control" readonly onclick="showVendorSelect()"
@@ -319,7 +359,7 @@
 
                 <label class="form-label mt-3">選擇類別</label>
                 <select name="category" class="form-select selector-box">
-                    <option th:each="cat : ${categories}" th:value="${cat}" th:text="${cat}"></option>
+                    <option th:each="cat : ${categories}" th:value="${cat.categories}" th:text="${cat.categories}">
                 </select>
                 <div class="d-flex justify-content-between mt-4">
                     <button type="button" class="btn btn-secondary w-50 me-2" onclick="closeModal()">取消</button>
@@ -345,6 +385,17 @@
 
 
     <style>
+        .btn-filled {
+            background-color: #cc860d;
+            color: white;
+        }
+
+        .btn-empty {
+            background-color: #d9d9d9;
+            color: #777;
+        }
+
+
         table th {
             background-color: #f2f2f2;
             color: #073046;

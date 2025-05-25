@@ -9,22 +9,39 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 
 public interface ApplyRepository extends JpaRepository<Apply, Long> {
 
+    @Query("""
+    SELECT CASE WHEN COUNT(a) > 0 THEN 1 ELSE 0 END
+    FROM Apply a
+    WHERE a.market.marketId = :marketId
+      AND a.status = '已通過'
+      AND a.stamp = :stamp
+      AND EXISTS (
+        SELECT o FROM Opening o
+        WHERE o.market.marketId = :marketId AND DATE(o.date) = CURRENT_DATE
+      )
+""")
+    Integer checkCorrectStamp(@Param("marketId") int marketId, @Param("stamp") String stamp);
+
+
     @Query(value = """
-            SELECT CASE WHEN COUNT(*) > 0 THEN TRUE ELSE FALSE END turn
-            FROM apply a
-            WHERE a.market_id IN (
-                SELECT o.market_id FROM opening o WHERE DATE(o.date) = CURRENT_DATE AND o.market_id = :marketId
-            )
-            AND a.status = '已通過'
-            AND a.stamp = :stamp
-            """, nativeQuery = true)
-    List<StampDTO> checkCorrectStamp(int marketId, String stamp);
+    SELECT 
+        EXISTS (
+            SELECT 1
+            FROM vendor v
+            JOIN apply app ON app.vendor_id = v.vendor_id
+            WHERE v.gmail = :email
+              AND app.market_id = :marketId
+        ) AS cond
+    """, nativeQuery = true)
+    Integer findGetApplyStatus(String email, int marketId);
+
 
 
     @Query(value = """
@@ -68,7 +85,7 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
                 JOIN assignment_point app ON app.apply_id = ap.apply_id
                 JOIN zone z ON app.zone_id = z.zone_id
                 LEFT JOIN prefer p ON p.apply_id = ap.apply_id AND p.user_id = (
-                    SELECT user_id FROM user WHERE gmail = :gmail LIMIT 1
+                    SELECT user_id FROM user WHERE gmail = :email LIMIT 1
                 )
                 LEFT JOIN `rank` r ON r.apply_id = ap.apply_id
                 WHERE ap.market_id = :marketId

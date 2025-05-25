@@ -30,19 +30,27 @@ public class MarketProfileController {
 
         Object user = session.getAttribute("account");
         Object role = session.getAttribute("role");
+        if(user == "test"){
+            session.setAttribute("account", null);
+            redirectAttributes.addFlashAttribute("message", "請重新登入！若信箱不符規定，請使用原始信箱。");
+            return "redirect:/eView/login";
+        }
+
         if (user == null) {
             redirectAttributes.addFlashAttribute("message", "您尚未登入！");
             return "redirect:/eView/login";
-        } else if (role != "o") {
+        } else if (!("o".equals(session.getAttribute("role")))) {
             redirectAttributes.addFlashAttribute("message", "您身份不符！");
             return "redirect:/eView";
         } else {
 
             List<UserDTO> users = marketService.findGetOrganizerDetail((String) user);
             model.addAttribute("users", users);
+            model.addAttribute("name", users.get(0).getName());
+            model.addAttribute("email", users.get(0).getGmail());
 
 
-            return "vendorProfile";
+            return "marketProfile";
         }
     }
 
@@ -53,10 +61,16 @@ public class MarketProfileController {
                               RedirectAttributes redirectAttributes) {
 
         Object user = session.getAttribute("account");
-        marketService.getFindUpdateOrganizerProfile(name, email);
-        session.setAttribute("account", email);
+        try {
+            marketService.getFindUpdateOrganizerProfile((String)user,name, email);
 
-        redirectAttributes.addFlashAttribute("successMessage", "個人資訊已成功更新！");
-        return "redirect:/eView/organizer/profile";
+            session.setAttribute("account", "test");
+
+            redirectAttributes.addFlashAttribute("message", "請重新登入！若信箱不符規定，請使用原始信箱。");
+            return "redirect:/eView/vendor/profile";
+        } catch (IllegalArgumentException e) {
+            redirectAttributes.addFlashAttribute("message", "請重新登入！若信箱不符規定，請使用原始信箱。");
+            return "redirect:/eView/vendor/profile";
+        }
     }
 }

@@ -1,35 +1,32 @@
 package com.example.dbms_group2.repository;
 
+import com.example.dbms_group2.model.DTO.ProductDTO;
+import com.example.dbms_group2.model.DTO.ProductNewDTO;
 import com.example.dbms_group2.model.DTO.ProductVendorDTO;
 import com.example.dbms_group2.model.entity.Product;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query(value = """
-            SELECT 
-                m.name AS marketName,
-                a.update_time AS time,
-                a.title AS title,
-                a.content AS content
-            FROM vendor v 
-            JOIN apply ap ON ap.vendor_id = v.vendor_id
-            JOIN market m ON ap.market_id = m.market_id
-            JOIN organizer o ON o.organizer_id = m.organizer_id
-            JOIN announcement a ON a.organizer_id = o.organizer_id
-            WHERE v.gmail = :email
-              AND ap.status = '已通過'
-              AND a.target IN ('攤商')
-            ORDER BY a.update_time DESC
-            """, nativeQuery = true)
-    List<ProductVendorDTO> findAllProduct(String vendorEmail);
+
+    @Query("""
+    SELECT new com.example.dbms_group2.model.DTO.ProductNewDTO(p.name, p.type, p.price, p.productId)
+    FROM Product p
+    JOIN p.vendor v
+    WHERE v.gmail = :vendorEmail
+""")
+    List<ProductNewDTO> findAllProduct(@Param("vendorEmail") String vendorEmail);
+
+
 
     @Modifying
+    @Transactional
     @Query("DELETE FROM Product p WHERE p.productId = :productId")
     void deleteProductByVendorId(int productId);
 

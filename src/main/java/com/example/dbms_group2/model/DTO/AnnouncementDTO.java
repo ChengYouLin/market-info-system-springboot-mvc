@@ -4,11 +4,11 @@ import java.time.LocalDateTime;
 
 public class AnnouncementDTO {
     private String marketName;
-    private LocalDateTime time;
+    private Object time;
     private String title;
     private String content;
 
-    public AnnouncementDTO(String marketName, LocalDateTime time, String title, String content) {
+    public AnnouncementDTO(String marketName, Object time, String title, String content) {
         this.marketName = marketName;
         this.time = time;
         this.title = title;
@@ -23,11 +23,11 @@ public class AnnouncementDTO {
         this.marketName = marketName;
     }
 
-    public LocalDateTime getTime() {
+    public Object getTime() {
         return time;
     }
 
-    public void setTime(LocalDateTime time) {
+    public void setTime(Object time) {
         this.time = time;
     }
 

@@ -6,12 +6,16 @@ import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface VendorRepository extends JpaRepository<Vendor, Integer> {
 
-    List<Vendor> findByGmail(String email);
+
+    @Query("SELECT v FROM Vendor v WHERE v.gmail = :gmail")
+    List<Vendor> findByGmail(@Param("gmail") String gmail);
+
 
     @Query("""
             SELECT new com.example.dbms_group2.model.DTO.UserDTO(name, gmail, telephone) FROM Vendor
@@ -20,6 +24,6 @@ public interface VendorRepository extends JpaRepository<Vendor, Integer> {
 
     @Modifying
     @Transactional
-    @Query("UPDATE Vendor v SET v.gmail = :email WHERE v.name = :name")
-    void updateVendorProfil(String name, String email);
+    @Query("UPDATE Vendor u SET u.gmail = :newEmail, u.name = :name WHERE u.gmail = :oldEmail")
+    void updateVendorProfil(String oldEmail, String name, String newEmail);
 }

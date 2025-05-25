@@ -265,6 +265,7 @@
         <div class="section-wrapper">
             <div class="section-inner">
                 <form th:action="@{/eView/vendor/info/apply}" th:object="${vendor}" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" th:value="${marketId}" />
                     <div class="form-section">
                         <!-- 左欄 -->
                         <div class="form-column">

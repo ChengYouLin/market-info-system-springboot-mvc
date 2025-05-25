@@ -284,17 +284,17 @@
                     <span class="logo-text">藝覽無遺 eView</span>
                 </div>
                 <div class="d-flex align-items-center" style="gap: 10px;">
-                    <form th:action="@{/eView/market/{id}/home(id=${marketId})}" method="get" style="display:inline;">
+                    <form th:action="@{'/eView/market/' + ${marketId} + '/home'}" method="get" style="display:inline;">
                         <button class="nav-btn">市集資訊</button>
                     </form>
-                    <form th:action="@{/eView/market/{id}/map(id=${marketId})}" method="get" style="display:inline;">
+                    <form th:action="@{'/eView/market/' + ${marketId} + '/map'}" method="get" style="display:inline;">
                         <button class="nav-btn">會場地圖</button>
                     </form>
-                    <form th:action="@{/eView/market/{id}/activity(id=${marketId})}" method="get"
+                    <form th:action="@{'/eView/market/' + ${marketId} + '/activity'}" method="get"
                         style="display:inline;">
                         <button class="nav-btn">抽獎集點</button>
                     </form>
-                    <form th:action="@{/eView/market/{id}/leftfood(id=${marketId})}" method="get"
+                    <form th:action="@{'/eView/market/' + ${marketId} + '/leftfood'}" method="get"
                         style="display:inline;">
                         <button class="nav-btn active">剩食搜尋</button>
                     </form>
@@ -302,7 +302,7 @@
                         <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
                     </button>
 
-                    <form th:action="@{/eView/market/{id}/profile(id=${marketId})}" method="get">
+                    <form th:action="@{'/eView/market/' + ${marketId} + '/profile'}" method="get">
                         <button class="btn btn-link">
                             <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                         </button>
@@ -353,14 +353,12 @@
                     <p>攤商名稱：<span th:text="${item.vendor}"></span></p>
                     <p>類別：<span th:text="${item.category}"></span></p>
                     <p>剩餘份數：<span th:text="${item.remaining}"></span></p>
-<button class="btn btn-danger"
-        th:attr="data-id=${item.leftoverId},
+                    <button class="btn btn-danger" th:attr="data-id=${item.leftoverId},
                  data-name=${item.productName},
                  data-qty=${item.remaining},
-                 data-max=${item.maxQty}"
-        onclick="openModal(this)">
-    我要預訂
-</button>
+                 data-max=${item.remaining}" onclick="openModal(this)">
+                        我要預訂
+                    </button>
 
 
                 </div>
@@ -377,8 +375,8 @@
                     <form th:action="@{'/eView/market/' + ${marketId} + '/leftfood/book'}" method="post">
                         <input type="hidden" name="productName" id="hiddenProductName" />
                         <input type="hidden" name="leftoverId" id="hiddenLeftoverId" />
-                        <div class="mb-2">姓名：<span th:text="${user.name}"></span></div>
-                        <div class="mb-2">電話：<span th:text="${user.phone}"></span></div>
+                        <div class="mb-2">姓名：<span th:text="${name}"></span></div>
+                        <div class="mb-2">電話：<span th:text="${phone}"></span></div>
                         <div class="d-flex align-items-center my-3">
                             <label class="me-2">份數：</label>
                             <button type="button" class="btn btn-secondary qty-btn" onclick="adjustQty(-1)">−</button>
@@ -387,54 +385,53 @@
                             <button type="button" class="btn btn-secondary qty-btn" onclick="adjustQty(1)">＋</button>
                         </div>
                         <div class="mb-3">最後取餐時間：（系統時間 +15 分鐘）<span id="pickupTimeText"></span></div>
-<div class="text-center mt-3">
-    <button class="btn btn-danger"
-            th:attr="data-name=${item.productName},
-                     data-qty=${item.remaining},
-                     data-max=${item.maxQty}"
-            onclick="openModal(this)">
-        我要預訂
-    </button>
-</div>
+                        <!-- ✅ 不再用 th:attr，直接用 <button type="submit"> -->
+                        <div class="text-center mt-3">
+                            <button class="btn btn-danger" type="submit">我要預訂</button>
+                        </div>
+
 
 
                     </form>
                 </div>
             </div>
+        </main>
+
     </div>
 
     <script>
-        function openModal(btn) {
-            const name = btn.getAttribute('data-name');
-            const qty = parseInt(btn.getAttribute('data-qty'));
-            showModal(name, qty);
-        }
 
 
         let maxQty = 1; // 預設初始值
 
-function openModal(btn) {
-    const name = btn.getAttribute('data-name');
-    const qty = parseInt(btn.getAttribute('data-qty'));
-    const max = parseInt(btn.getAttribute('data-max'));
-    const leftoverId = btn.getAttribute('data-id'); // ✅ 新增
+        function openModal(btn) {
+            const name = btn.getAttribute('data-name');
+            const qty = parseInt(btn.getAttribute('data-qty'));
+            const max = parseInt(btn.getAttribute('data-max'));
+            const leftoverId = btn.getAttribute('data-id'); // ✅ 新增
 
-    maxQty = max;
+            maxQty = max;
 
-    document.getElementById('modalProductName').textContent = name;
-    document.getElementById('hiddenProductName').value = name;
-    document.getElementById('hiddenLeftoverId').value = leftoverId; // ✅ 寫入 hidden input
-    document.getElementById('qtyInput').value = 1;
-    document.getElementById('bookingModal').style.display = 'flex';
-    updatePickupTime();
-        // ✅ 正確打開 modal
-    document.getElementById('bookingModal').style.display = 'flex';
+            document.getElementById('modalProductName').textContent = name;
+            document.getElementById('hiddenProductName').value = name;
+            document.getElementById('hiddenLeftoverId').value = leftoverId; // ✅ 寫入 hidden input
+            document.getElementById('qtyInput').value = 1;
+            document.getElementById('bookingModal').style.display = 'flex';
+            updatePickupTime();
+            // ✅ 正確打開 modal
 
-}
+        }
+
+
+
+        function hideModal() {
+            document.getElementById('bookingModal').style.display = 'none';
+        }
 
         function adjustQty(change) {
             const input = document.getElementById('qtyInput');
             let val = parseInt(input.value);
+
             val += change;
 
             if (val < 1) {
@@ -447,16 +444,7 @@ function openModal(btn) {
 
             input.value = val;
         }
-        function hideModal() {
-            document.getElementById('bookingModal').style.display = 'none';
-        }
 
-        function adjustQty(change) {
-            const input = document.getElementById('qtyInput');
-            let val = parseInt(input.value);
-            val = Math.min(Math.max(val + change, 1), maxQty);
-            input.value = val;
-        }
 
         function updatePickupTime() {
             const now = new Date();
@@ -470,7 +458,6 @@ function openModal(btn) {
             if (e.target === modal) hideModal();
         });
     </script>
-    </main>
     <br>
 
     <footer>

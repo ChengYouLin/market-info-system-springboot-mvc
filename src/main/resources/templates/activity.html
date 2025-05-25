@@ -204,7 +204,6 @@
 </head>
 
 <body>
-
     <!-- ✅ 自動引入 flash message 區塊 -->
     <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
 
@@ -216,23 +215,23 @@
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/eView/market/{id}/home(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${id} + '/home'}" method="get" style="display:inline;">
                     <button class="nav-btn">市集資訊</button>
                 </form>
-                <form th:action="@{/eView/market/{id}/map(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${id} + '/map'}" method="get" style="display:inline;">
                     <button class="nav-btn">會場地圖</button>
                 </form>
-                <form th:action="@{/eView/market/{id}/activity(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${id} + '/activity'}" method="get" style="display:inline;">
                     <button class="nav-btn active">抽獎集點</button>
                 </form>
-                <form th:action="@{/eView/market/{id}/leftfood(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${id} + '/leftfood'}" method="get" style="display:inline;">
                     <button class="nav-btn">剩食搜尋</button>
                 </form>
                 <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
                     <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
                 </button>
 
-                <form th:action="@{/eView/market/{id}/profile(id=${marketId})}" method="get">
+                <form th:action="@{'/eView/market/' + ${id} + '/profile'}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
@@ -272,7 +271,7 @@
 
         <div class="mt-4">
             <div class="section-title">累積點數</div>
-            <form th:action="@{'/eView/market/' + ${marketId} + 'activity/submitPoint}" method="post" class="point-input-group">
+            <form th:action="@{'/eView/market/' + ${id} + '/activity/submitPoint'}" method="post" class="point-input-group">
                 <input type="text" name="pointCode" class="form-control point-input" placeholder="請輸入點數代碼">
                 <button type="submit" class="btn-submit">輸入</button>
                 <button type="button" class="btn-scan">掃描 QR Code</button>

@@ -238,8 +238,7 @@
 </head>
 
 <body>
-
-        <!-- ✅ 自動引入 flash message 區塊 -->
+    <!-- ✅ 自動引入 flash message 區塊 -->
     <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
 
 
@@ -250,23 +249,23 @@
                 <span class="logo-text">藝覽無遺 eView</span>
             </div>
             <div class="d-flex align-items-center" style="gap: 10px;">
-                <form th:action="@{/eView/market/{id}/home(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/home'}" method="get" style="display:inline;">
                     <button class="nav-btn">市集資訊</button>
                 </form>
-                <form th:action="@{/eView/market/{id}/map(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/map'}" method="get" style="display:inline;">
                     <button class="nav-btn">會場地圖</button>
                 </form>
-                <form th:action="@{/eView/market/{id}/activity(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/activity'}" method="get" style="display:inline;">
                     <button class="nav-btn">抽獎集點</button>
                 </form>
-                <form th:action="@{/eView/market/{id}/leftfood(id=${marketId})}" method="get" style="display:inline;">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/leftfood'}" method="get" style="display:inline;">
                     <button class="nav-btn">剩食搜尋</button>
                 </form>
                 <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
                     <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
                 </button>
 
-                <form th:action="@{/eView/market/{id}/profile(id=${marketId})}" method="get">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/profile'}" method="get">
                     <button class="btn btn-link">
                         <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
                     </button>
@@ -301,11 +300,11 @@
                     <br>
                     <br>
                     <br>
-                    <h5>姓名：<span th:text="${user.name}">UserID</span></h5>
+                    <h5>姓名：<span th:text="${name}">UserID</span></h5>
                     <br>
-                    <p>電子郵件：<span th:text="${user.gmail}"></span></p>
+                    <p>電子郵件：<span th:text="${gmail}"></span></p>
                     <br>
-                    <p>手機：<span th:text="${user.phone}"></span></p>
+                    <p>手機：<span th:text="${phone}"></span></p>
                     <br>
                     <br>
                     <button class="edit-button" data-bs-toggle="modal" data-bs-target="#editModal">編輯個人資訊</button>
@@ -343,19 +342,19 @@
     <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form th:action="@{'/eView/market/' + ${marketId} + 'profile/edit'}" method="post">
+                <form th:action="@{'/eView/market/' + ${marketId} + '/profile/edit'}" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title">編輯個人資訊</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                     </div>
                     <div class="modal-body">
                         <label>姓名</label>
-                        <input class="form-control" type="text" name="name" th:value="${user.name}" required>
+                        <input class="form-control" type="text" name="name"  required>
                         <label class="mt-2">電子郵件</label>
-                        <input class="form-control" type="email" name="email" th:value="${user.email}" required>
+                        <input class="form-control" type="email" name="email" required>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary">確認編輯</button>
+                        <確認編輯 type="button" class="btn-close" data-bs-dismiss="modal">確認編輯</button>
                     </div>
                 </form>
             </div>

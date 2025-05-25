@@ -36,7 +36,7 @@ public interface UserQueryRepository extends JpaRepository<Announcement, Long> {
             JOIN market m ON ap.market_id = m.market_id
             JOIN organizer o ON o.organizer_id = m.organizer_id
             JOIN announcement a ON a.organizer_id = o.organizer_id
-            WHERE v.gmail = :email
+            WHERE v.gmail = :vendorEmail
               AND ap.status = '已通過'
               AND a.target IN ('攤商')
             ORDER BY a.update_time DESC
