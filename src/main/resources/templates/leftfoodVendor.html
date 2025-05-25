@@ -292,6 +292,9 @@
         <!-- 🔶 新增剩食區塊 -->
         <div class="rounded-box">
             <div class="section-title">新增剩食</div>
+<p th:text="${leftovers}">leftovers 無資料</p>
+<p th:text="${productList}">productList 無資料</p>
+<p th:text="${notices}">notices 無資料</p>
 
             <!-- ✅ 自訂排版區塊 -->
             <form th:action="@{/eView/vendor/leftover/add}" method="post" class="flex-container">
@@ -389,7 +392,7 @@
                         </div>
         </div>
 
-
+</div>
         <script>
             function selectProduct(name) {
                 document.getElementById('productNameInput').value = name;

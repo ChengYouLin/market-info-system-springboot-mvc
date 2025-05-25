@@ -436,15 +436,25 @@
             <div id="qr-section" class="rounded-box" style="display: block;">
                 <h4>
                     <span id="marketSelector" class="selector-box" onclick="openMarketModal()"
-                        th:text="${qrSection.marketName != null} ? ${qrSection.marketName} : '請點擊選擇市集'">
+                        th:text="${qrSection != null} ? ${qrSection.marketName} : '請點擊選擇市集'">
                         請點擊選擇市集
                     </span>
                 </h4>
 
                 <div class="mt-4">
-                    <p class="market-info" th:text="'攤位名稱：' + ${qrSection.boothName}">攤位名稱：不能夠有你</p>
-                    <p class="stamp-code" th:text="'集點代碼：' + ${qrSection.stampCode}">集點代碼：STMP223456</p>
-                    <img th:src="@{/images/QRcode.png}" alt="QR Code" class="qr-image">
+<!-- 攤位與集點代碼資訊 -->
+<p class="market-info"
+   th:text="${qrSection != null} ? '攤位名稱：' + ${qrSection.boothName} : ''">
+   攤位名稱：
+</p>
+
+<p class="stamp-code"
+   th:text="${qrSection != null} ? '集點代碼：' + ${qrSection.stampCode} : ''">
+   集點代碼：
+</p>
+
+<img th:if="${qrSection != null and qrSection.boothName != null and !#strings.isEmpty(qrSection.boothName)}"
+     th:src="@{/images/QRcode.png}" alt="QR Code" class="qr-image">
                 </div>
             </div>
 
@@ -466,9 +476,7 @@
 
                     </div>
                     <!-- 只顯示審核中的狀態 -->
-                    <div class="status-box-clickable" th:if="${market.statusCode != '招商中'}" th:classappend="${market.statusCode == '審核中'} ? ' bg-review' :
-                     ${market.statusCode == '已通過'} ? ' bg-pass' :
-                     ${market.statusCode == '未通過'} ? ' bg-fail' : ''" th:text="${market.statusText}">狀態文字</div>
+                    <div class="status-box-clickable" th:if="${market.statusCode != '招商中'}" th:classappend="${market.statusCode == '審核中' ? ' bg-review' : (market.statusCode == '已通過' ? ' bg-pass' : (market.statusCode == '未通過' ? ' bg-fail' : ''))}"  th:text="${market.statusText}">狀態文字</div>
 
 
                     <!-- 只有當是招商中時，才顯示「可點擊」 -->
@@ -483,11 +491,15 @@
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content p-4">
                         <h5>請選擇市集</h5>
-                        <div class="d-grid gap-2">
-                            <button class="btn-market-option" th:each="market : ${marketList}"
-                                th:onclick="'selectMarket(\'' + ${market.name} + '\')'"
-                                th:text="${market.name}">金勾貝爾市集</button>
-                        </div>
+<div class="d-grid gap-2">
+    <div th:each="market : ${qrList}">
+        <form th:action="@{/eView/vendor/info/select}" method="get">
+            <input type="hidden" name="marketName" th:value="${market.marketName}" />
+            <button class="btn-market-option" type="submit" th:text="${market.marketName}">市集名稱</button>
+        </form>
+    </div>
+</div>
+
                     </div>
                 </div>
             </div>
@@ -602,6 +614,7 @@
         }
 
     </script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

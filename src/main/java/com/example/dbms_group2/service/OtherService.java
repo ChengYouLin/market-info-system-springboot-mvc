@@ -168,8 +168,8 @@ public class OtherService {
     }
 
     public void updatePrefer(String email, int marketId, int vendorId){
-        Boolean cond = preferRepository.isUserPreferred(email, marketId, vendorId);
-        if (cond){
+        int cond = preferRepository.isUserPreferred(email, marketId, vendorId);
+        if (cond == 1){
             preferRepository.isUserPreferredTrue(email, marketId, vendorId);
         } else {
             preferRepository.isUserPreferredFalse(email, marketId, vendorId);
@@ -201,5 +201,33 @@ public class OtherService {
                     line, website, specialId);
         }
 
+    }
+
+    public List<VendorViewDTO> findVendorView(int marketId, String email){
+
+        List<VendorViewDTO> result = new ArrayList<>();
+        List<VendorViewInsideDTO> inside = applyRepository.findVendorViewInside(marketId, email);
+
+        for(int i = 0 ; i < inside.size() ; i++){
+            VendorViewDTO x = new VendorViewDTO(inside.get(i).getBoothId(),
+                    inside.get(i).getBoothCode(),
+                    inside.get(i).getId(),
+                    inside.get(i).getName(),
+                    inside.get(i).getDescription(),
+                    inside.get(i).getFacebook(),
+                    inside.get(i).getInstagram(),
+                    inside.get(i).getLine(),
+                    inside.get(i).getWebsite(),
+                    inside.get(i).getImageUrl(),
+                    inside.get(i).getRating(),
+                    inside.get(i).getFavorited(),
+                    inside.get(i).getZoneIndex(),
+                    inside.get(i).getZoneCode(),
+                    inside.get(i).getZoneName(),
+                    applyRepository.findVendorViewProduct(marketId, inside.get(i).getId()));
+            result.add(x);
+        }
+
+        return result;
     }
 }

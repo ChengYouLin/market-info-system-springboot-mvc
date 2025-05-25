@@ -1,16 +1,16 @@
 package com.example.dbms_group2.model.DTO;
 
 public class MarketInfoDTO {
-    private int id;                 // 市集 id（供招商連結用）
+    private Long id;                 // 市集 id（供招商連結用）
     private String name;            // 市集名稱
     private String organizer;       // 主辦單位
     private String dateRange;       // 日期範圍 (2025/6/1 - 2025/6/3)
     private String boothName;       // 攤位名稱
-    private int applyId;           // 每筆申請對應的唯一 ID
+    private Long applyId;           // 每筆申請對應的唯一 ID
     private String statusText;      // 狀態文字（審核中、已通過、未通過、招商中）
     private String statusCode;      // 狀態文字同上，因為前端的關係
 
-    public MarketInfoDTO(int id, String name, String organizer, String dateRange, String boothName, int applyId, String statusText, String statusCode) {
+    public MarketInfoDTO(Long id, String name, String organizer, String dateRange, String boothName, Long applyId, String statusText, String statusCode) {
         this.id = id;
         this.name = name;
         this.organizer = organizer;
@@ -21,11 +21,11 @@ public class MarketInfoDTO {
         this.statusCode = statusCode;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -61,11 +61,11 @@ public class MarketInfoDTO {
         this.boothName = boothName;
     }
 
-    public int getApplyId() {
+    public Long getApplyId() {
         return applyId;
     }
 
-    public void setApplyId(int applyId) {
+    public void setApplyId(Long applyId) {
         this.applyId = applyId;
     }
 

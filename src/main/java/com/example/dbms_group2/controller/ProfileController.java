@@ -69,8 +69,9 @@ public class ProfileController {
                                    Model model,
                                    HttpSession session,
                                    RedirectAttributes redirectAttributes) {
-        System.out.println(vendorId);
-        //userService.deleteFao((vendorId);
+        Object user = session.getAttribute("account");
+        //System.out.println(vendorId);
+        userService.getUpdatePrefer((String)user,marketId, vendorId);
         return "redirect:/eView/market/" + marketId + "/profile";
     }
 

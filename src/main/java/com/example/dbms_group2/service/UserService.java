@@ -141,7 +141,7 @@ public class UserService {
     }
 
     public List<VendorViewDTO> getFindVendorView(String email, int marketId){
-        return applyRepository.findVendorView(marketId, email);
+        return otherService.findVendorView(marketId, email);
     }
 
     public List<ZoneDTO> getFindAllZone(int marketId){

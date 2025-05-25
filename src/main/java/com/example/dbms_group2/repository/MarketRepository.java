@@ -57,32 +57,30 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
 
 
     @Query(value = """
-            SELECT 
-                m.market_id AS id,
-                m.name AS name,
-                o.name AS org,
-                CONCAT(DATE_FORMAT(MIN(op.date), '%Y/%m/%d'), ' - ', DATE_FORMAT(MAX(op.date), '%Y/%m/%d')) AS dateRange,
-                IFNULL(a.name, '') AS boothName,
-                a.apply_id AS applyId,
-                CASE
-                    WHEN a.status IS NOT NULL THEN a.status
-                    WHEN NOW() BETWEEN m.recruit_start_time AND m.recruit_end_time THEN '招商中'
-                    ELSE NULL
-                END AS statusText,
-                CASE
-                    WHEN a.status IS NOT NULL THEN a.status
-                    WHEN NOW() BETWEEN m.recruit_start_time AND m.recruit_end_time THEN '招商中'
-                    ELSE NULL
-                END AS statusCode
-            FROM market m
-            JOIN organizer o ON m.organizer_id = o.organizer_id
-            JOIN opening op ON op.market_id = m.market_id
-            LEFT JOIN apply a 
-                ON a.market_id = m.market_id 
-               AND a.vendor_id = (SELECT vendor_id FROM vendor WHERE gmail = :email LIMIT 1)
-            WHERE a.status IS NOT NULL
-            GROUP BY m.market_id, m.name, a.name, a.apply_id, a.status, m.recruit_start_time, m.recruit_end_time
-            """, nativeQuery = true)
+            SELECT\s
+        m.market_id AS id,
+        m.name AS name,
+        o.name AS org,
+        CONCAT(DATE_FORMAT(MIN(op.date), '%Y/%m/%d'), ' - ', DATE_FORMAT(MAX(op.date), '%Y/%m/%d')) AS dateRange,
+        IFNULL(a.name, '') AS boothName,
+        a.apply_id AS applyId,
+        CASE
+            WHEN a.status IS NOT NULL THEN a.status
+            WHEN NOW() BETWEEN m.recruit_start_time AND m.recruit_end_time THEN '招商中'
+            ELSE NULL
+        END AS statusText,
+        CASE
+            WHEN a.status IS NOT NULL THEN a.status
+            WHEN NOW() BETWEEN m.recruit_start_time AND m.recruit_end_time THEN '招商中'
+            ELSE NULL
+        END AS statusCode
+    FROM market m
+    JOIN organizer o ON m.organizer_id = o.organizer_id
+    JOIN opening op ON op.market_id = m.market_id
+    JOIN apply a\s
+        ON a.market_id = m.market_id\s
+       AND a.vendor_id = (SELECT vendor_id FROM vendor WHERE gmail = :email LIMIT 1)
+    GROUP BY m.market_id, m.name, a.name, a.apply_id, a.status, m.recruit_start_time, m.recruit_end_time """, nativeQuery = true)
     List<MarketInfoDTO> findMarketList(String email);
 
     //List<VendorViewDTO> findVendorList(String email);
@@ -314,7 +312,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
     List<EventPeriodDTO> marketSettingsEvent(String mail);
 
     @Query(value = """
-            SELECT app.name AS name, app.description AS description
+            SELECT app.name AS name, app.description AS description, app.apply_id
             FROM apply app
             JOIN vendor v ON v.vendor_id = app.vendor_id
             WHERE v.gmail = :email
@@ -332,7 +330,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
             UNION ALL
             SELECT 'Website', website FROM apply WHERE apply_id = :applyId
             """, nativeQuery = true)
-    List<LinkDTO> findVendorListLink(String email, int applyId);
+    List<LinkDTO> findVendorListLink(String email, Long applyId);
 
     @Query(value = """
             SELECT p.name AS name, p.type AS type, p.price AS price

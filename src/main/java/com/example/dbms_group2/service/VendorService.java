@@ -95,6 +95,8 @@ public class VendorService {
 
     public List<MarketInfoDTO> getFindMarketList(String email){
         //return null;
+        System.out.println("----------");
+        System.out.println(marketRepository.findMarketList(email).size());
         return marketRepository.findMarketList(email);
     }
 

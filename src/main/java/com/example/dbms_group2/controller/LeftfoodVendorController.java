@@ -43,6 +43,7 @@ public class LeftfoodVendorController {
             List<AnnouncementDTO> notices = vendorService.getFindMarketForVendorAnnouncement((String) user);
             model.addAttribute("notices", notices);
 
+
             model.addAttribute("leftovers", leftovers);
             model.addAttribute("productList", productNewList);
             return "leftfoodVendor"; // Thymeleaf 檔案名稱

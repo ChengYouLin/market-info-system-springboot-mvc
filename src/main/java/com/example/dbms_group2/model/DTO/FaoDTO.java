@@ -3,9 +3,9 @@ package com.example.dbms_group2.model.DTO;
 public class FaoDTO {
     private String vendorName;
     private String marketName;
-    private int vendorId;
+    private Long vendorId;
 
-    public FaoDTO(String vendorName, String marketName, int vendorId) {
+    public FaoDTO(String vendorName, String marketName, Long vendorId) {
         this.vendorName = vendorName;
         this.marketName = marketName;
         this.vendorId = vendorId;
@@ -27,11 +27,11 @@ public class FaoDTO {
         this.marketName = marketName;
     }
 
-    public int getVendorId() {
+    public Long getVendorId() {
         return vendorId;
     }
 
-    public void setVendorId(int vendorId) {
+    public void setVendorId(Long vendorId) {
         this.vendorId = vendorId;
     }
 }

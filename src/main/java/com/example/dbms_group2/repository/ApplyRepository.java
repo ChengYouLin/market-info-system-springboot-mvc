@@ -40,59 +40,48 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
     Integer findGetApplyStatus(String email, int marketId);
 
 
+    @Query(value = """
+    SELECT
+        appt.num AS boothId,
+        appt.num AS boothCode,
+        v.vendor_id AS id,
+        ap.name,
+        ap.description,
+        ap.facebook,
+        ap.instagram,
+        ap.line,
+        ap.website,
+        m.imageUrl,
+        COALESCE(AVG(r.rank_score), 0) AS rating,
+        CASE WHEN p.user_id IS NOT NULL THEN TRUE ELSE FALSE END AS favorited,
+        z.code AS zoneCode,
+        z.code AS zoneIndex,
+        z.name AS zoneName
+    FROM apply ap
+    JOIN vendor v ON ap.vendor_id = v.vendor_id
+    JOIN market m ON ap.market_id = m.market_id
+    JOIN organizer o ON m.organizer_id = o.organizer_id
+    JOIN assignment_point appt ON appt.apply_id = ap.apply_id
+    JOIN zone z ON appt.zone_id = z.zone_id
+    LEFT JOIN prefer p ON p.apply_id = ap.apply_id 
+                      AND p.user_id = (SELECT user_id FROM user WHERE gmail = :email LIMIT 1)
+    LEFT JOIN rank r ON r.apply_id = ap.apply_id
+    WHERE ap.market_id = :marketId
+      AND ap.status = '已通過'
+    GROUP BY v.vendor_id, appt.num, ap.name, ap.description, ap.facebook, ap.instagram, ap.line, ap.website, m.imageUrl, p.user_id, z.code, z.name
+    ORDER BY boothId ASC
+    """, nativeQuery = true)
+    List<VendorViewInsideDTO> findVendorViewInside(int marketId, String email);
+
 
     @Query(value = """
-            SELECT
-                t.boothId,
-                t.boothCode,
-                t.id,
-                t.name,
-                t.description,
-                t.facebook,
-                t.instagram,
-                t.line,
-                t.website,
-                t.imageUrl,
-                COALESCE(AVG(r.rank_score), 0) AS rating,
-                CASE WHEN t.favorited IS NOT NULL THEN TRUE ELSE FALSE END AS favorited,
-                t.zoneCode,
-                t.zoneIndex,
-                t.zoneName
-            FROM (
-                SELECT 
-                    app.num AS boothId,
-                    app.num AS boothCode,
-                    v.vendor_id AS id,
-                    ap.name,
-                    ap.description,
-                    ap.facebook,
-                    ap.instagram,
-                    ap.line,
-                    ap.website,
-                    m.imageUrl,
-                    p.user_id AS favorited,
-                    ap.apply_id,
-                    z.code AS zoneCode,
-                    z.code AS zoneIndex,
-                    z.name AS zoneName
-                FROM apply ap
-                JOIN vendor v ON ap.vendor_id = v.vendor_id
-                JOIN market m ON m.market_id = ap.market_id
-                JOIN organizer o ON o.organizer_id = m.organizer_id
-                JOIN assignment_point app ON app.apply_id = ap.apply_id
-                JOIN zone z ON app.zone_id = z.zone_id
-                LEFT JOIN prefer p ON p.apply_id = ap.apply_id AND p.user_id = (
-                    SELECT user_id FROM user WHERE gmail = :email LIMIT 1
-                )
-                LEFT JOIN `rank` r ON r.apply_id = ap.apply_id
-                WHERE ap.market_id = :marketId
-                  AND ap.status = '已通過'
-            ) t
-            LEFT JOIN `rank` r ON r.apply_id = t.apply_id
-            GROUP BY t.id, t.boothId, t.boothCode, t.name, t.description, t.facebook, t.instagram, t.line, t.website, t.imageUrl, t.favorited, t.zoneCode, t.zoneIndex, t.zoneName
-            ORDER BY t.boothId ASC
-            """, nativeQuery = true)
-    List<VendorViewDTO> findVendorView(int marketId, String email);
+    SELECT a.vendor_id, p.name, p.type, p.price
+    FROM product p
+    LEFT JOIN vendor v ON v.vendor_id = p.vendor_id
+    JOIN apply a ON a.vendor_id = v.vendor_id
+    WHERE a.market_id = :marketId AND v.vendor_id = :vendorId
+    """, nativeQuery = true)
+    List<ProductDTO> findVendorViewProduct(int marketId, int vendorId);
 
     @Modifying
     @Transactional
