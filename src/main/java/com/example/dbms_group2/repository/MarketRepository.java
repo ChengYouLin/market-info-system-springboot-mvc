@@ -58,7 +58,7 @@ public interface MarketRepository extends JpaRepository<Market, Long> {
 
 
     @Query(value = """
-            SELECT\s
+            SELECT
         m.market_id AS id,
         m.name AS name,
         o.name AS org,

@@ -1,16 +1,19 @@
 package com.example.dbms_group2.model.DTO;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 public class RecordDTO {
 
-    private int id;             // 紀錄 ID
-    private String pickupCode;   // 取餐編號
+    private Long id;             // 紀錄 ID
+    private Long pickupCode;   // 取餐編號
     private String buyer;        // 訂購人名稱
-    private int quantity;    // 訂購份數
-    private LocalTime pickupTime;   // 最後取餐時間（字串格式）
+    private Integer quantity;    // 訂購份數
+    private Timestamp pickupTime;   // 最後取餐時間（字串格式）
 
-    public RecordDTO(int id, String pickupCode, String buyer, int quantity, LocalTime pickupTime) {
+    public RecordDTO(Long id, Long pickupCode, String buyer, Integer quantity, Timestamp pickupTime) {
         this.id = id;
         this.pickupCode = pickupCode;
         this.buyer = buyer;
@@ -18,19 +21,19 @@ public class RecordDTO {
         this.pickupTime = pickupTime;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getPickupCode() {
+    public Long getPickupCode() {
         return pickupCode;
     }
 
-    public void setPickupCode(String pickupCode) {
+    public void setPickupCode(Long pickupCode) {
         this.pickupCode = pickupCode;
     }
 
@@ -42,19 +45,19 @@ public class RecordDTO {
         this.buyer = buyer;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public LocalTime getPickupTime() {
+    public Timestamp getPickupTime() {
         return pickupTime;
     }
 
-    public void setPickupTime(LocalTime pickupTime) {
+    public void setPickupTime(Timestamp pickupTime) {
         this.pickupTime = pickupTime;
     }
 }

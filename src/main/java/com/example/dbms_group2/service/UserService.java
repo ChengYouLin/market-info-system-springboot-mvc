@@ -63,10 +63,16 @@ public class UserService {
     }
 
     public List<UserDTO> findGetUserDetail(String email) {
-        System.out.println("heer");
-        System.out.println(userRepository.getUserDetail(email).get(0).getName());
+        List<UserDTO> result = userRepository.getUserDetail(email);
 
-        return userRepository.getUserDetail(email);
+        if (result.isEmpty()) {
+            throw new RuntimeException("找不到使用者：" + email);
+        }
+
+        System.out.println("heer");
+        System.out.println(result.get(0).getName());
+
+        return result;
     }
 
     public List<FaoDTO> getFindUserFao(String email){
