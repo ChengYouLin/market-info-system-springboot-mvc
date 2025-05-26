@@ -2,11 +2,11 @@ package com.example.dbms_group2.model.DTO;
 
 public class LotteryInsideDTO {
 
-    private long id;
+    private Long id;
     private String title;              // 抽獎主題
     private String rule;               // 抽獎規則
 
-    public LotteryInsideDTO(long id, String title, String rule) {
+    public LotteryInsideDTO(Long id, String title, String rule) {
         this.id = id;
         this.title = title;
         this.rule = rule;

@@ -167,4 +167,8 @@ public class UserService {
         //return null;
         return otherService.findFilterVendor(email, marketId, selectedCategories, length);
     }
+
+    public List<MapDownDTO> getLastOne(int id){
+        return zoneRepository.findMapIntro(id);
+    }
 }

@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-Hant">
+
+<head>
+    <meta charset="UTF-8">
+    <title>會場地圖</title>
+    <!-- Bootstrap & Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <style>
+        /* === 放這裡：Header 相關樣式 === */
+        /* 你原本的 header 樣式完整保留即可 */
+        footer {
+            background-color: #073046;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        header {
+            background-color: #F7DEA0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            height: 60px;
+        }
+
+        .header-content {
+            width: 90%;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-weight: bold;
+            height: 100%;
+            gap: 10px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .header-left img {
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .logo-text {
+            color: #073046;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: #073046;
+            font-size: 18px;
+            font-weight: bold;
+            margin-left: 20px;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -3px;
+            width: 0;
+            height: 2px;
+            background-color: #ff8c00;
+            transition: width 0.3s;
+        }
+
+        .nav-btn:hover::after,
+        .nav-btn.active::after {
+            width: 100%;
+        }
+
+        .nav-btn:hover,
+        .nav-btn.active {
+            color: #ff8c00;
+        }
+
+        #notification-icon i,
+        .btn-link i {
+            color: #073046;
+            vertical-align: middle;
+        }
+
+        .main-title {
+            width: 80%;
+            margin: 50px auto 20px auto;
+            text-align: left;
+            font-size: 28px;
+            font-weight: bold;
+            color: #073046;
+        }
+
+        .section-title i {
+            margin-right: 10px;
+        }
+
+        .section-content p,
+        .section-content li {
+            margin-left: 2em;
+        }
+
+        .schedule-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 20px;
+            margin-top: 15px;
+            margin-left: 2em;
+        }
+
+        .schedule-row img {
+            max-width: 30%;
+            height: auto;
+        }
+
+        .contact-info li {
+            margin-bottom: 10px;
+            margin-left: 2em;
+        }
+
+        .contact-info i {
+            margin-right: 8px;
+        }
+
+        #notification-box {
+            display: none;
+            position: absolute;
+            top: 70px;
+            right: 20px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-wrapper {
+            width: 80%;
+            margin: 100px auto 30px auto;
+        }
+
+        .map-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .map-header h2 {
+            color: #073046;
+            font-weight: bold;
+        }
+
+        .booth-map {
+            background-color: #fdf0d8;
+            padding: 30px;
+            border-radius: 20px;
+            height: 500px;
+            position: relative;
+        }
+
+        .booth-btn {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 6px;
+            border: none;
+            background-color: #ccc;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* 下方分區欄位 */
+        .zone-columns {
+            display: flex;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .zone-column {
+            flex: 1;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .zone-title {
+            border-radius: 20px;
+            padding: 10px;
+            color: #073046;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .vendor-name {
+            text-align: center;
+            cursor: pointer;
+            color: #073046;
+            margin-bottom: 10px;
+        }
+
+        /* 攤位彈跳視窗 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+        }
+
+        .modal-box {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            z-index: 1001;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            width: 60%;
+        }
+
+        .modal-box.small {
+            width: 30%;
+        }
+
+        .modal-content {
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            gap: 20px;
+        }
+
+        .vendor-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            background-color: #eee;
+            border-radius: 8px;
+        }
+
+        .vendor-info a {
+            margin-right: 10px;
+            color: #073046;
+            text-decoration: underline;
+        }
+
+        .heart-icon {
+            margin-left: auto;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+        .heart-icon.active {
+            color: red;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 16px;
+            font-size: 28px;
+            color: #888;
+            cursor: pointer;
+            z-index: 10;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .close-btn:hover {
+            color: #ff8c00;
+        }
+
+
+        .map-container {
+            position: relative;
+            background-color: #fdf0d8;
+            border-radius: 30px;
+            padding: 30px;
+            height: 500px;
+            margin-bottom: 40px;
+        }
+
+        .booth-btn {
+            position: absolute;
+            width: 115px;
+            height: 125px;
+            background-color: #ccc;
+            color: #073046;
+            font-weight: bold;
+            border: none;
+            border-radius: 8px;
+            font-size: 24px;
+            text-align: center;
+            line-height: 50px;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center
+        }
+
+        .map-label {
+            position: absolute;
+            color: #073046;
+            font-weight: bold;
+            font-size: 24px;
+        }
+
+
+        .booth-btn:hover {
+            transform: scale(1.05);
+            background-color: #999;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 40px;
+        }
+
+        .filter-btn {
+            display: inline-block;
+            cursor: pointer;
+            border: 2px solid #ccc;
+            background-color: white;
+            border-radius: 30px;
+            padding: 10px 20px;
+            font-weight: bold;
+            color: #444;
+            transition: 0.2s;
+            user-select: none;
+        }
+
+        .filter-btn input:checked+span,
+        .filter-btn:has(input:checked) {
+            background-color: #ff7043;
+            color: white;
+            border-color: #ff7043;
+        }
+
+        .booth-btn.booth-filled {
+            background-color: #ff7043;
+            /* 橘色 */
+            color: white;
+        }
+
+        .booth-btn {
+            cursor: default;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- ✅ 自動引入 flash message 區塊 -->
+    <div th:replace="~{fragments/flash-message :: flashMessage}"></div>
+
+
+    <header>
+        <div class="header-content">
+            <div class="header-left">
+                <img th:src="@{/images/logo.png}" alt="logo">
+                <span class="logo-text">藝覽無遺 eView</span>
+            </div>
+            <div class="d-flex align-items-center" style="gap: 10px;">
+                <form th:action="@{/eView/market/{id}/home(id=${marketId})}" method="get" style="display:inline;">
+                    <button class="nav-btn">市集資訊</button>
+                </form>
+                <form th:action="@{/eView/market/{id}/map(id=${marketId})}" method="get" style="display:inline;">
+                    <button class="nav-btn active">會場地圖</button>
+                </form>
+                <form th:action="@{/eView/market/{id}/activity(id=${marketId})}" method="get" style="display:inline;">
+                    <button class="nav-btn">抽獎集點</button>
+                </form>
+                <form th:action="@{/eView/market/{id}/leftfood(id=${marketId})}" method="get" style="display:inline;">
+                    <button class="nav-btn">剩食搜尋</button>
+                </form>
+                <button id="notification-icon" class="btn btn-link" onclick="toggleNotificationBox()">
+                    <i class="bi bi-bell-fill" style="font-size: 1.5rem;"></i>
+                </button>
+
+                <form th:action="@{/eView/market/{id}/profile(id=${marketId})}" method="get">
+                    <button class="btn btn-link">
+                        <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+                    </button>
+                </form>
+
+
+            </div>
+        </div>
+        <div id="notification-box">
+            <h5>通知</h5>
+            <div th:if="${notices.size()} == 0">目前沒有公告消息</div>
+            <div th:each="notice : ${notices}" style="margin-top: 10px;">
+                <p><strong>【<span th:text="${notice.marketName}"></span>】</strong> 發布時間: <span
+                        th:text="${notice.time}"></span></p>
+                <p th:text="${notice.title}"></p>
+                <p th:text="${notice.content}"></p>
+                <hr />
+            </div>
+        </div>
+    </header>
+
+    <div class="main-wrapper">
+        <!-- ⛳ 標題與篩選器 -->
+        <div class="map-header">
+            <h2>會場地圖</h2>
+            <div class="d-flex gap-2">
+                <form th:action="@{/eView/market/{id}/map(id=${marketId})}">
+                    <button type="submit" class="btn btn-outline-secondary">重置篩選</button>
+                </form>
+                <button class="btn btn-warning" onclick="showFilter()">篩選器</button>
+            </div>
+        </div>
+
+         <!-- 地圖容器 -->
+        <div class="map-container">
+
+            <!-- 第一排：左側 1~5 -->
+            <div class="booth-btn" style="top: 80px; left: 50px;">1</div>
+            <div class="booth-btn booth-filled" style="top: 80px; left: 170px;">2</div> <!-- 熱食 -->
+            <div class="booth-btn" style="top: 80px; left: 290px;">3</div>
+            <div class="booth-btn" style="top: 80px; left: 410px;">4</div>
+            <div class="booth-btn" style="top: 80px; left: 530px;">5</div>
+
+            <!-- 第一排：右側 6~10 -->
+            <div class="booth-btn booth-filled" style="top: 80px; right: 530px;">6</div> <!-- 飲品 -->
+            <div class="booth-btn" style="top: 80px; right: 410px;">7</div>
+            <div class="booth-btn" style="top: 80px; right: 290px;">8</div>
+            <div class="booth-btn" style="top: 80px; right: 170px;">9</div>
+            <div class="booth-btn" style="top: 80px; right: 50px;">10</div>
+
+            <!-- 第二排：左側 11~15 -->
+            <div class="booth-btn" style="top: 290px; left: 50px;">11</div>
+            <div class="booth-btn" style="top: 290px; left: 170px;">12</div>
+            <div class="booth-btn booth-filled" style="top: 290px; left: 290px;">13</div> <!-- 飾品 -->
+            <div class="booth-btn" style="top: 290px; left: 410px;">14</div>
+            <div class="booth-btn" style="top: 290px; left: 530px;">15</div>
+
+            <!-- 第二排：右側 16~20 -->
+            <div class="booth-btn" style="top: 290px; right: 530px;">16</div>
+            <div class="booth-btn booth-filled" style="top: 290px; right: 410px;">17</div> <!-- 飲品 -->
+            <div class="booth-btn" style="top: 290px; right: 290px;">18</div>
+            <div class="booth-btn" style="top: 290px; right: 170px;">19</div>
+            <div class="booth-btn" style="top: 290px; right: 50px;">20</div>
+
+        </div>
+
+        <!-- 篩選結果卡片 -->
+        <div class="filtered-vendor-wrapper">
+            <div class="filtered-vendor-grid mt-5">
+
+                <!-- 攤位 2：暖心麵館 -->
+                <div class="vendor-card" onclick="openVendorModal('2')">
+                    <h5 class="fw-bold mb-2">編號 2｜暖心麵館</h5>
+                    <div class="product-item">
+                        <div class="d-flex">
+                            <span class="flex-fill">紅燒牛肉麵</span>
+                            <span class="flex-fill text-center">小吃/熟食</span>
+                            <span class="flex-fill text-end">$120</span>
+                        </div>
+                        <div class="d-flex">
+                            <span class="flex-fill">酸辣湯</span>
+                            <span class="flex-fill text-center">小吃/熟食</span>
+                            <span class="flex-fill text-end">$40</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 攤位 6：熱飲專賣店 -->
+                <div class="vendor-card" onclick="openVendorModal('6')">
+                    <h5 class="fw-bold mb-2">編號 6｜熱飲專賣店</h5>
+                    <div class="product-item">
+                        <div class="d-flex">
+                            <span class="flex-fill">熱紅茶</span>
+                            <span class="flex-fill text-center">飲品／咖啡</span>
+                            <span class="flex-fill text-end">$35</span>
+                        </div>
+                        <div class="d-flex">
+                            <span class="flex-fill">拿鐵</span>
+                            <span class="flex-fill text-center">飲品／咖啡</span>
+                            <span class="flex-fill text-end">$55</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 攤位 13：手作飾品館 -->
+                <div class="vendor-card" onclick="openVendorModal('13')">
+                    <h5 class="fw-bold mb-2">編號 13｜手作飾品館</h5>
+                    <div class="product-item">
+                        <div class="d-flex">
+                            <span class="flex-fill">復古耳環</span>
+                            <span class="flex-fill text-center">手作飾品</span>
+                            <span class="flex-fill text-end">$280</span>
+                        </div>
+                        <div class="d-flex">
+                            <span class="flex-fill">天然石手鍊</span>
+                            <span class="flex-fill text-center">手作飾品</span>
+                            <span class="flex-fill text-end">$350</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 攤位 17：暖心咖啡站 -->
+                <div class="vendor-card" onclick="openVendorModal('17')">
+                    <h5 class="fw-bold mb-2">編號 17｜暖心咖啡站</h5>
+                    <div class="product-item">
+                        <div class="d-flex">
+                            <span class="flex-fill">焦糖瑪奇朵</span>
+                            <span class="flex-fill text-center">飲品／咖啡</span>
+                            <span class="flex-fill text-end">$70</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <style>
+            .filtered-vendor-wrapper {
+                width: 100%;
+                margin: 0 auto;
+            }
+
+            .filtered-vendor-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 30px;
+                margin-top: 30px;
+            }
+
+            .vendor-card {
+                border: 2px solid #222;
+                border-radius: 20px;
+                padding: 20px;
+                background-color: #fff;
+                cursor: pointer;
+                transition: 0.3s ease-in-out;
+                box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.05);
+            }
+
+            .vendor-card:hover {
+                transform: scale(1.02);
+                box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .product-item {
+                margin-top: 5px;
+                font-size: 15px;
+            }
+        </style>
+
+
+        <!-- 篩選器遮罩與彈窗 -->
+        <div id="filterOverlay" class="modal-overlay" onclick="closeFilter()"></div>
+
+    <form id="filterModal" th:action="@{/eView/market/{id}/map/filter(id=${marketId})}" method="post" class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-content">
+                <h4 class="text-center fw-bold">商品類型篩選（可複選）</h4>
+
+                <div class="filter-grid text-center mt-3">
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="小吃/熟食" hidden>
+                        小吃/熟食
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="甜點/烘焙" hidden>
+                        甜點/烘焙
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="飲品/咖啡" hidden>
+                        飲品／咖啡
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="農產加工品" hidden>
+                        農產加工品
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="香氛與清潔用品" hidden>
+                        香氛與清潔用品
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="手作飾品" hidden>
+                        手作飾品
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="布作與皮件" hidden>
+                        布作與皮件
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="插畫與文創商品" hidden>
+                        插畫與文創商品
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="文具與手帳用品" hidden>
+                        文具與手帳用品
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="植栽與花藝" hidden>
+                        植栽與花藝
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="居家擺飾與木工" hidden>
+                        居家擺飾與木工
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="衣物與配件" hidden>
+                        衣物與配件
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="寵物用品" hidden>
+                        寵物用品
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="書籍與出版品" hidden>
+                        書籍與出版品
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="藝文/體驗活動" hidden>
+                        藝文/體驗活動
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="原民/在地工藝" hidden>
+                        原民/在地工藝
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="二手選物/環保" hidden>
+                        二手選物/環保
+                    </label>
+                    <label class="filter-btn">
+                        <input type="checkbox" name="categories" value="其他" hidden>
+                        其他
+                    </label>
+                </div>
+                <div class="text-center mt-4 d-flex justify-content-around">
+                    <button type="button" class="btn btn-secondary px-4" onclick="closeFilter()">取消</button>
+                    <button type="submit" class="btn btn-danger px-4">進行篩選</button>
+                </div>
+            </div>
+        </form>
+        <script>
+            let selectedScore = 0;
+
+            function openVendorModal(vendorId) {
+                document.getElementById('vendorModal').style.display = 'block';
+                document.getElementById('modalOverlay').style.display = 'block';
+            }
+
+            function closeModals() {
+                document.getElementById('vendorModal').style.display = 'none';
+                document.getElementById('ratingModal').style.display = 'none';
+                document.getElementById('modalOverlay').style.display = 'none';
+            }
+
+
+            function closeFilter() {
+                document.getElementById('filterModal').style.display = 'none';
+                document.getElementById('filterOverlay').style.display = 'none';
+
+                // ✅ 如果你有用 checkbox 標記 active，也可以加這段重置樣式
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.querySelector('input[type=checkbox]').checked = false;
+                });
+            }
+
+
+            function showFilter() {
+                document.getElementById('filterModal').style.display = 'block';
+                document.getElementById('filterOverlay').style.display = 'block';
+            }
+
+            function toggleNotificationBox() {
+                const box = document.getElementById('notification-box');
+                box.style.display = (box.style.display === 'block') ? 'none' : 'block';
+            }
+            window.onclick = function (event) {
+                const box = document.getElementById('notification-box');
+                if (event.target.closest('#notification-icon') == null && event.target.closest('#notification-box') == null) {
+                    box.style.display = 'none';
+                }
+            }
+        </script>
+        <br>
+    </div>
+    <footer>
+        <p class="text-center">© 2025 eView. All Rights Reserved.</p>
+    </footer>
+</body>
+
+</html>

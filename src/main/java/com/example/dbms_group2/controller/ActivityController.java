@@ -73,7 +73,7 @@ public class ActivityController {
         System.out.println(total);
         System.out.println("out!");
         if(total >= 10){
-            redirectAttributes.addFlashAttribute("errorMsg", "您已經集滿全部點數！");
+            redirectAttributes.addFlashAttribute("errorMsg", "代碼錯誤或已達上限！");
             return "redirect:/eView/market/" + marketId + "/activity";
         }
 

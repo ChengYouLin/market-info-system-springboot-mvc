@@ -65,7 +65,7 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
     JOIN zone z ON appt.zone_id = z.zone_id
     LEFT JOIN prefer p ON p.apply_id = ap.apply_id 
                       AND p.user_id = (SELECT user_id FROM user WHERE gmail = :email LIMIT 1)
-    LEFT JOIN rank r ON r.apply_id = ap.apply_id
+    LEFT JOIN `rank` r ON r.apply_id = ap.apply_id
     WHERE ap.market_id = :marketId
       AND ap.status = '已通過'
     GROUP BY v.vendor_id, appt.num, ap.name, ap.description, ap.facebook, ap.instagram, ap.line, ap.website, m.imageUrl, p.user_id, z.code, z.name
@@ -75,13 +75,13 @@ public interface ApplyRepository extends JpaRepository<Apply, Long> {
 
 
     @Query(value = """
-    SELECT a.vendor_id, p.name, p.type, p.price
+    SELECT  p.name, p.type, p.price
     FROM product p
     LEFT JOIN vendor v ON v.vendor_id = p.vendor_id
     JOIN apply a ON a.vendor_id = v.vendor_id
     WHERE a.market_id = :marketId AND v.vendor_id = :vendorId
     """, nativeQuery = true)
-    List<ProductDTO> findVendorViewProduct(int marketId, int vendorId);
+    List<ProductDTO> findVendorViewProduct(int marketId, Long vendorId);
 
     @Modifying
     @Transactional
@@ -137,7 +137,7 @@ UPDATE apply SET status = '未通過' WHERE apply_id = :applyId"""
         LEFT JOIN assignment_point a ON a.apply_id = app.apply_id
         JOIN market m ON m.market_id = app.market_id
         JOIN organizer org ON org.organizer_id = m.organizer_id
-        WHERE org.gmail = :email
+        WHERE org.gmail = :organizerEmail
         """, nativeQuery = true)
     List<VendorApplicationInsideDTO> findAllMarketApplyStatusInside(String organizerEmail);
 

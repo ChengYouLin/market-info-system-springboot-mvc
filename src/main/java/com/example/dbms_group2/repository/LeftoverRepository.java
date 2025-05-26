@@ -63,16 +63,6 @@ public interface LeftoverRepository extends JpaRepository<Leftover, Long> {
     //List<LeftoverDTO> getLeftoversByVendor(String vendorEmail);
 
     @Query(value = """
-    SELECT r.reserve_id AS reserveId, u.name AS name, r.amount AS amount, r.last_time AS pickupTime
-    FROM reserve r
-    LEFT JOIN user u ON u.user_id = r.user_id
-    JOIN leftover l ON l.leftover_id = r.leftover_id
-    JOIN vendor v ON v.vendor_id = l.vendor_id
-    WHERE v.gmail = :vendorEmail AND l.leftover_id = :leftoverId
-    """, nativeQuery = true)
-    List<RecordDTO> getLeftoversByVendorReserve(String vendorEmail, int leftoverId);
-
-    @Query(value = """
     SELECT r.reserve_id AS Id, r.reserve_id AS pickupCode, u.name AS buyer, r.amount AS quantity, r.last_time AS pickupTime
     FROM reserve r
     LEFT JOIN user u ON u.user_id = r.user_id
@@ -80,6 +70,18 @@ public interface LeftoverRepository extends JpaRepository<Leftover, Long> {
     JOIN vendor v ON v.vendor_id = l.vendor_id
     WHERE v.gmail = :vendorEmail AND l.leftover_id = :leftoverId
     """, nativeQuery = true)
+    List<RecordDTO> getLeftoversByVendorReserve(String vendorEmail, Long leftoverId);
+
+    @Query(value = """
+            SELECT l.leftover_id AS leftoverId,
+                       l.name AS name,
+                       l.amount - COALESCE(SUM(r.amount), 0) AS leftcount
+                FROM leftover l
+                LEFT JOIN reserve r ON r.leftover_id = l.leftover_id
+                JOIN vendor v ON v.vendor_id = l.vendor_id
+                WHERE v.gmail = :vendorEmail
+                GROUP BY l.leftover_id, l.name
+        """, nativeQuery = true)
     List<LeftoverInsideDTO> getLeftoversByVendorInside(String vendorEmail);
 
 

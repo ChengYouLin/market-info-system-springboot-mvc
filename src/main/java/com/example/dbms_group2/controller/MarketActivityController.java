@@ -54,16 +54,13 @@ public class MarketActivityController {
     }
 
     @PostMapping("/activity/save")
-    public String saveLotterySetting(@RequestParam String title,
-                                     @RequestParam String rule,
-                                     @RequestParam List<String> rewardNames,
-                                     @RequestParam List<Integer> rewardCounts,
+    public String saveLotterySetting(
                                      Model model,
                                      HttpSession session) {
 
-        Object user = session.getAttribute("account");
-        marketService.getUpdateReward(rewardNames, rewardCounts,(String)user);
-        marketService.getUpdateActivityInfo(title,rule,(String)user);
+        //Object user = session.getAttribute("account");
+        //marketService.getUpdateReward(rewardNames, rewardCounts,(String)user);
+        //marketService.getUpdateActivityInfo(title,rule,(String)user);
 
         return "redirect:/eView/organizer/activity";
     }

@@ -1,25 +1,27 @@
 package com.example.dbms_group2.model.DTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class LeftoverDTO {
-    private int id;               // 剩食 ID（主鍵）
+    private Long id;               // 剩食 ID（主鍵）
     private String productName;    // 商品名稱
-    private int leftCount;     // 剩餘份數（顯示用）
+    private BigDecimal leftCount;     // 剩餘份數（顯示用）
     private List<RecordDTO> records; // 取餐紀錄清單
 
-    public LeftoverDTO(int id, String productName, int leftCount, List<RecordDTO> records) {
+
+    public LeftoverDTO(Long id, String productName, BigDecimal leftCount, List<RecordDTO> records) {
         this.id = id;
         this.productName = productName;
         this.leftCount = leftCount;
         this.records = records;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -31,11 +33,11 @@ public class LeftoverDTO {
         this.productName = productName;
     }
 
-    public int getLeftCount() {
+    public BigDecimal getLeftCount() {
         return leftCount;
     }
 
-    public void setLeftCount(int leftCount) {
+    public void setLeftCount(BigDecimal leftCount) {
         this.leftCount = leftCount;
     }
 

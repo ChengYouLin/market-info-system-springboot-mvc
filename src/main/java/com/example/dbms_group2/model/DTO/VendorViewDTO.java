@@ -1,11 +1,12 @@
 package com.example.dbms_group2.model.DTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public class VendorViewDTO {
     private int boothId;              // 攤位位置（1~20）（記得按照順序放！！！！！！！）
-    private String boothCode;            // 攤商位置（因為前端的關係有了兩個一樣的！！！）（如1~20）
-    private int id;                     // 攤商主鍵，供收藏與評分用
+    private int boothCode;            // 攤商位置（因為前端的關係有了兩個一樣的！！！）（如1~20）
+    private Long id;                     // 攤商主鍵，供收藏與評分用
     private String name;                 // 攤商名稱
     private String description;          // 簡介
     private String facebook;
@@ -13,14 +14,14 @@ public class VendorViewDTO {
     private String line;
     private String website;
     private String imageUrl;    //直接空白回傳！！！
-    private double rating;  //回傳該商家被評分的所有結果之平均！！
-    private boolean favorited;           // 該使用者是否已收藏
-    private int zoneIndex;           // 分區代號（0~4）
+    private BigDecimal rating;  //回傳該商家被評分的所有結果之平均！！
+    private Integer favorited;           // 該使用者是否已收藏
+    private String zoneIndex;           // 分區代號（0~4）
     private String zoneCode;             // 分區代號（一樣因為前端，所以跟前面的一樣！）（最多幾個是在後面就會被設定了，所以不用管數量，他就是數字）
     private String zoneName;             // 分區名稱
     private List<ProductDTO> productList;// 商品清單  如果為空就回傳為空！
 
-    public VendorViewDTO(int boothId, String boothCode, int id, String name, String description, String facebook, String instagram, String line, String website, String imageUrl, double rating, boolean favorited, int zoneIndex, String zoneCode, String zoneName, List<ProductDTO> productList) {
+    public VendorViewDTO(int boothId, int boothCode, Long id, String name, String description, String facebook, String instagram, String line, String website, String imageUrl, BigDecimal rating, Integer favorited, String zoneIndex, String zoneCode, String zoneName, List<ProductDTO> productList) {
         this.boothId = boothId;
         this.boothCode = boothCode;
         this.id = id;
@@ -47,19 +48,19 @@ public class VendorViewDTO {
         this.boothId = boothId;
     }
 
-    public String getBoothCode() {
+    public int getBoothCode() {
         return boothCode;
     }
 
-    public void setBoothCode(String boothCode) {
+    public void setBoothCode(int boothCode) {
         this.boothCode = boothCode;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -119,27 +120,27 @@ public class VendorViewDTO {
         this.imageUrl = imageUrl;
     }
 
-    public double getRating() {
+    public BigDecimal getRating() {
         return rating;
     }
 
-    public void setRating(double rating) {
+    public void setRating(BigDecimal rating) {
         this.rating = rating;
     }
 
-    public boolean isFavorited() {
+    public Integer getFavorited() {
         return favorited;
     }
 
-    public void setFavorited(boolean favorited) {
+    public void setFavorited(Integer favorited) {
         this.favorited = favorited;
     }
 
-    public int getZoneIndex() {
+    public String getZoneIndex() {
         return zoneIndex;
     }
 
-    public void setZoneIndex(int zoneIndex) {
+    public void setZoneIndex(String zoneIndex) {
         this.zoneIndex = zoneIndex;
     }
 

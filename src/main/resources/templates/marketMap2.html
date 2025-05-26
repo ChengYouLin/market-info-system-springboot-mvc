@@ -530,10 +530,14 @@
                 </div>
 
                 <!-- 攤商清單 -->
-                <div class="vendor-name" th:each="vendor : ${zone.vendors}" th:text="${vendor.displayName}"
-                    th:attr="onclick=|openVendorModal('${vendor.boothCode}')|">
-                    攤商名稱
+<div class="vendor-name" th:each="vendor : ${zone.vendors}" th:text="${vendor.boothCode}"
+     th:attr="onclick=|openVendorModal('${vendor.boothCode}')|">
+    攤商名稱
+</div>
+
+
                 </div>
+                
             </div>
         </div>
     </div>
@@ -547,7 +551,7 @@
             <div class="modal-header justify-content-center">
                 <!-- 💖 收藏按鈕 -->
                 <div style="position: absolute; left: 20px; top: 0px;">
-<form th:action="@{/eView/market/{id}/map/toggleFavorite(id=${marketId})}" method="post">
+<form th:action="@{/eView/market/{id}/map(id=${marketId})}">
                         <input type="hidden" name="vendorId" id="favoriteVendorId" />
                         <button type="submit" class="btn btn-link p-0" style="border: none; background: none;">
                             <i id="vendorFavoriteIcon" class="bi fs-1"></i>
@@ -558,7 +562,6 @@
                 <div style="width: 75%; display: flex; gap: 20px; position: relative; align-items: flex-start;">
                     <!-- 📷 攤商圖片 -->
 <img id="vendorModalImage" th:src="@{/images/vendor.png}" class="vendor-img" style="width: 80px; height: 80px;" />
-                        style="width: 80px; height: 80px;" />
 
                     <!-- 🧾 攤商資訊 -->
                     <div class="vendor-info" style="flex-grow: 1;">
@@ -603,7 +606,7 @@
     <div id="ratingModal" class="modal-box small" style="display: none;">
         <div class="modal-content" onclick="event.stopPropagation()">
             <p class="text-center">點選星星來評分</p>
-<form th:action="@{/eView/market/{id}/map/submitRating(id=${marketId})}" method="post" class="text-center">
+<form th:action="@{/eView/market/{id}/map(id=${marketId})}" class="text-center">
                 <input type="hidden" name="vendorId" id="ratingVendorId" />
                 <div class="star-rating">
                     <input type="radio" id="star5" name="score" value="5" /><label for="star5"><i

@@ -75,7 +75,7 @@ public class LeftfoodVendorController {
     @PostMapping("/leftfood/decrease")
     public String decreaseLeftover(@RequestParam int leftoverId,
                                    RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("message", "增加現場份數乙份！");
+        redirectAttributes.addFlashAttribute("message", "減少現場份數乙份！");
 
         vendorService.changeQuantity(leftoverId);
         return "redirect:/eView/vendor/leftfood";
