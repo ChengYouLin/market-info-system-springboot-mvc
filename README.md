@@ -30,8 +30,6 @@
   - [Tree](#tree)
 - [資料庫DB架構](#資料庫db架構)
   - [各個表格的MetaData](#各個表格的metadata)
-  - [各表格的舉例（暫放）](#各表格的舉例暫放)
-  - [預備SQL(暫放，可能會直接存成SQL檔案)](#預備sql暫放可能會直接存成sql檔案)
 - [Java Doc](#java-doc)
   - [Controller](#controller)
   - [Service](#service)
