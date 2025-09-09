@@ -1,6 +1,14 @@
 # 1132DBMS_Group2
 
-> Update : 0501 14:30
+---
+> 以下內容為專案討論與執行過程中的紀錄與教學
+> 記錄在Readme部分的作者：林承佑
+> 記錄在共用google sheet 部分的作者：尹沛綸、林承佑
+> 記錄在共用google doc 部分的作者：胡勛明、林承佑
+> 記錄在共用Canva 部分的作者：陳以薰、李昕怡
+---
+
+> Update : 0501 14:30 
 
 - 111304019 統計三 林承佑
 - 111304012 統計三 尹沛綸
@@ -388,229 +396,25 @@ git stash pop      ← 取回改動，繼續工作
 
 ## 各個表格的MetaData
 
-### User
-
-| 欄位名稱       | 說明       |
-| -------------- | ---------- |
-| `User_ID` (PK) | 使用者 ID  |
-| `Name`         | 使用者名稱 |
-| `Gender`       | 性別       |
-
-### Market
-
-| 欄位名稱         | 說明     |
-| ---------------- | -------- |
-| `Market_ID` (PK) | 市集 ID  |
-| `Market_Name`    | 市集名稱 |
-| `Map_Link`       | 地圖連結 |
-| `Location`       | 位置     |
-| `Start_Time`     | 開始時間 |
-| `End_Time`       | 結束時間 |
-
-### Vendor
-
-| 欄位名稱             | 說明     |
-| -------------------- | -------- |
-| `Vendor_ID` (PK)     | 攤商 ID  |
-| `Vendor_Name`        | 攤商名稱 |
-| `Vendor_Description` | 攤商描述 |
-| `Category`           | 類別     |
-| `Contact_Info`       | 聯絡方式 |
-| `Exhibition_Card`    | 出展卡   |
-
-### Product
-
-| 欄位名稱              | 說明     |
-| --------------------- | -------- |
-| `Product_ID` (PK)     | 商品 ID  |
-| `Vendor_ID` (FK)      | 攤商 ID  |
-| `Product_Name`        | 商品名稱 |
-| `Product_Description` | 商品描述 |
-| `Stock_Quantity`      | 庫存數量 |
-| `Price`               | 價格     |
-| `Preorder`            | 是否預購 |
-| `Picture_Link`        | 圖片連結 |
-
-### Reservation (Reserve)
-
-| 欄位名稱              | 說明      |
-| --------------------- | --------- |
-| `Reservation_ID` (PK) | 預約 ID   |
-| `Product_ID` (FK)     | 商品 ID   |
-| `Vendor_ID` (FK)      | 攤商 ID   |
-| `User_ID` (FK)        | 使用者 ID |
-| `Total_Price`         | 總價      |
-| `Pick_Up_Time`        | 取貨時間  |
-| `Status`              | 狀態      |
-
-### Review
-
-| 欄位名稱         | 說明         |
-| ---------------- | ------------ |
-| `Review_ID` (PK) | 評論 ID      |
-| `User_ID` (FK)   | 使用者 ID    |
-| `Vendor_ID` (FK) | 攤商 ID      |
-| `Purchased_Item` | 購買商品名稱 |
-| `Rating`         | 評分         |
-| `Comment`        | 留言         |
-
-### Have_Points
-
-| 欄位名稱             | 說明      |
-| -------------------- | --------- |
-| `User_ID` (PK, FK)   | 使用者 ID |
-| `Market_ID` (PK, FK) | 市集 ID   |
-| `Points`             | 累積點數  |
-
-### Prefer
-
-| 欄位名稱             | 說明        |
-| -------------------- | ----------- |
-| `User_ID` (PK, FK)   | 使用者 ID   |
-| `Vendor_ID` (PK, FK) | 攤商 ID     |
-| `Preference_ID`      | 偏好類型 ID |
-| `List_Type`          | 類別型態    |
-
-### Exhibit
-
-| 欄位名稱             | 說明     |
-| -------------------- | -------- |
-| `Vendor_ID` (PK, FK) | 攤商 ID  |
-| `Market_ID` (PK, FK) | 市集 ID  |
-| `Exhibit_ID`         | 出展 ID  |
-| `Preorder`           | 是否預購 |
-
-### Sell
-
-| 欄位名稱          | 說明    |
-| ----------------- | ------- |
-| `Vendor_ID` (FK)  | 攤商 ID |
-| `Product_ID` (FK) | 商品 ID |
-
-### 各表格的舉例（暫放）
-
-### User
-
-| User_ID (PK) | Name | Gender |
-| ------------ | ---- | ------ |
-|              |      |        |
-|              |      |        |
-
-### Market
-
-| Market_ID (PK) | Market_Name | Map_Link | Location | Start_Time | End_Time |
-| -------------- | ----------- | -------- | -------- | ---------- | -------- |
-|                |             |          |          |            |          |
-|                |             |          |          |            |          |
-
-### Vendor
-
-| Vendor_ID (PK) | Vendor_Name | Vendor_Description | Category | Contact_Info | Exhibition_Card |
-| -------------- | ----------- | ------------------ | -------- | ------------ | --------------- |
-|                |             |                    |          |              |                 |
-|                |             |                    |          |              |                 |
-
-### Product
-
-| Product_ID (PK) | Vendor_ID (FK) | Product_Name | Product_Description | Stock_Quantity | Price | Preorder | Picture_Link |
-| --------------- | -------------- | ------------ | ------------------- | -------------- | ----- | -------- | ------------ |
-|                 |                |              |                     |                |       |          |              |
-|                 |                |              |                     |                |       |          |              |
-
-### Reservation (Reserve)
-
-| Reservation_ID (PK) | Product_ID (FK) | Vendor_ID (FK) | User_ID (FK) | Total_Price | Pick_Up_Time | Status |
-| ------------------- | --------------- | -------------- | ------------ | ----------- | ------------ | ------ |
-|                     |                 |                |              |             |              |        |
-|                     |                 |                |              |             |              |        |
-
-### Review
-
-| Review_ID (PK) | User_ID (FK) | Vendor_ID (FK) | Purchased_Item | Rating | Comment |
-| -------------- | ------------ | -------------- | -------------- | ------ | ------- |
-|                |              |                |                |        |         |
-|                |              |                |                |        |         |
-
-### Have_Points
-
-| User_ID (PK, FK) | Market_ID (PK, FK) | Points |
-| ---------------- | ------------------ | ------ |
-|                  |                    |        |
-|                  |                    |        |
-
-### Prefer
-
-| User_ID (PK, FK) | Vendor_ID (PK, FK) | Preference_ID | List_Type |
-| ---------------- | ------------------ | ------------- | --------- |
-|                  |                    |               |           |
-|                  |                    |               |           |
-
-### Exhibit
-
-| Vendor_ID (PK, FK) | Market_ID (PK, FK) | Exhibit_ID | Preorder |
-| ------------------ | ------------------ | ---------- | -------- |
-|                    |                    |            |          |
-|                    |                    |            |          |
-
-### Sell
-
-| Vendor_ID (FK) | Product_ID (FK) |
-| -------------- | --------------- |
-|                |                 |
-|                |                 |
-
-## 預備SQL(暫放，可能會直接存成SQL檔案)
-
-> Create 的部分可能會直接寫好，不會在DAO層看到
+[所有DB架構、ERD (含MetaData) 共用google sheet](https://docs.google.com/spreadsheets/d/1phIkfpc6OFbX9dK1fPYsMMpk2FAIyuAvCVnnIQp8jYE/edit?usp=sharing)
 
 ---
 
 # Java Doc
 
-為了方便大家快速找到每個人命名的方式，或是每個function的功能，暫時先留著這個區塊，不知道後續會不會忙到懶得寫
-
-```
-### Class: `ClassName`
-
-| Return type | Method or Variable | Description                     |
-|-------------|---------------------|---------------------------------|
-| **Instance variable** |                     |                                 |
-|             |                     |                                 |
-|             |                     |                                 |
-|             |                     |                                 |
-| **Methods** |                     |                                 |
-|             |                     |                                 |
-|             |                     |                                 |
-|             |                     |                                 |
-
-```
-
-### Class: `ClassName`
-
-| Return type           | Method or Variable | Description |
-| --------------------- | ------------------ | ----------- |
-| **Instance variable** |                    |             |
-|                       |                    |             |
-|                       |                    |             |
-|                       |                    |             |
-| **Methods**           |                    |             |
-|                       |                    |             |
-|                       |                    |             |
-|                       |                    |             |
-
-## Controller
-
-## Service
+為了方便大家快速找到每個人命名的方式，或是每個function的功能，暫時先留著這個區塊
 
 ## DAO
 
-## Model
+[DAO溝通共用google sheet](https://docs.google.com/spreadsheets/d/1thxXWMQ5vv-lYBuv30t5yOwZhh9-d1zu3j6UR-d9zfM/edit?usp=sharing)
 
 ---
 
 # 各個畫面的簡介和URL
 
 > 請參考與助教討論的簡報裡面的框架，我們需要先有共識！（今日目標之一）
+
+[前端所有框架 共用canva](https://www.canva.com/design/DAGmemaO0aY/Mhf9xhmsTIiRgT9oZ1UPNQ/edit?utm_content=DAGmemaO0aY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
 
 ## 總表
 
