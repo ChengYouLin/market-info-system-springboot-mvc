@@ -2,10 +2,10 @@
 
 ---
 > 以下內容為專案討論與執行過程中的紀錄與教學
-> 記錄在Readme部分的作者：林承佑
-> 記錄在共用google sheet 部分的作者：尹沛綸、林承佑
-> 記錄在共用google doc 部分的作者：胡勛明、林承佑
-> 記錄在共用Canva 部分的作者：陳以薰、李昕怡
+> - 記錄在Readme部分的作者：林承佑
+> - 記錄在共用google sheet 部分的作者：尹沛綸、林承佑
+> - 記錄在共用google doc 部分的作者：胡勛明、林承佑
+> - 記錄在共用Canva 部分的作者：陳以薰、李昕怡
 ---
 
 > Update : 0501 14:30 
@@ -397,6 +397,10 @@ git stash pop      ← 取回改動，繼續工作
 ## 各個表格的MetaData
 
 [所有DB架構、ERD (含MetaData) 共用google sheet](https://docs.google.com/spreadsheets/d/1phIkfpc6OFbX9dK1fPYsMMpk2FAIyuAvCVnnIQp8jYE/edit?usp=sharing)
+
+## 測試資料
+
+[所以有假想情境的假資料與SQL 共用google doc](https://docs.google.com/document/d/1euSDbf8gJgutmHXizCnZfTrX7-t8kQo9eQeZQn6v4mo/edit?usp=sharing)
 
 ---
 
