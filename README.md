@@ -1,4 +1,4 @@
-# 1132 資料庫管理－期末系統實作專案－[DEMO說明影片](https://www.youtube.com/watch?app=desktop&v=L_9NWzkVoTA)
+# 1132 資料庫管理－系統實作專案－[DEMO說明影片](https://www.youtube.com/watch?app=desktop&v=L_9NWzkVoTA)
 
 這是一個以「藝文活動」與「展覽市集」為主軸的資訊整合平台，我們希望打造一個簡單、快速、全面的展演市集資訊整合平台，讓每一位使用者都能 easy view —— 輕鬆一覽，無遺精彩。
 - 即刻發現、立即出發、沉浸感受
@@ -55,17 +55,35 @@
 
 ![主畫面](pic_home.png)
 
----
+***
 
-> Update : 0501 14:30 
+## RUN
 
-- 111304019 統計三 林承佑
-- 111304012 統計三 尹沛綸
-- 113363014 企研碩一 李昕怡
-- 109303064 會計四 胡勛明
-- 111208023 經濟三 陳以薰
+1. 先切換資料夾位置
 
----
+```
+cd ./main/resources/
+```
+
+2. 修改這份檔案中的這兩列，為自己電腦端的資料庫帳號和密碼
+
+```
+vim application.properties
+```
+
+```
+spring.datasource.username=
+spring.datasource.password=
+```
+
+3. 回到原目錄，並執行
+
+```
+./mvnw spring-boot:run
+```
+
+***
+
 
 ## **目錄**
 
