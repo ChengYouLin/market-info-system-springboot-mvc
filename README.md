@@ -1,11 +1,61 @@
-# 1132DBMS_Group2
+# 1132 資料庫管理－期末系統實作專案－第二組
 
----
-> 以下內容為專案討論與執行過程中的紀錄與教學
-> - 記錄在Readme部分的作者：林承佑
-> - 記錄在共用google sheet 部分的作者：尹沛綸、林承佑
-> - 記錄在共用google doc 部分的作者：胡勛明、林承佑
-> - 記錄在共用Canva 部分的作者：陳以薰、李昕怡
+這是一個以「藝文活動」與「展覽市集」為主軸的資訊整合平台，我們希望打造一個簡單、快速、全面的展演市集資訊整合平台，讓每一位使用者都能 easy view —— 輕鬆一覽，無遺精彩。
+- 即刻發現、立即出發、沉浸感受
+- 藝文資訊，一覽無遺。
+
+[DEMO說明影片](https://www.youtube.com/watch?app=desktop&v=L_9NWzkVoTA)
+
+本專案練習製作一套系統，包含前後端串接與資料庫互動，並且可成功執行與操作；使用到以下的工具：
+
+[![My Skills](https://skillicons.dev/icons?i=js,html,css,vscode)](https://skillicons.dev)
+
+[![My Skills](https://skillicons.dev/icons?i=java,idea,maven,mysql,nodejs,spring,git)](https://skillicons.dev)
+
+
+
+***
+
+## 工具使用說明
+
+|主題|說明|
+|--|--|
+|前端語法|主要使用thymeleaf來接收後端傳入的資料，少部分互動或動態的內容會用javascript輔助|
+|後端結構|除了使用maven進行套件管理，以及spring boot外，主要採用MVC的結構來設計後端|
+|資料庫互動|除了會使用Mysql的方式在DAO層外，也會採用JPA的形式，簡化程式法與加速取得資料|
+
+***
+
+## 重要資料連結與作者
+
+|資料名稱|內容|作者|
+|--|--|--|
+|Readme|記錄所有討論時，關於專案執行過程中會使用到的重要事項與工具說明|林承佑|
+|[所有DB架構、ERD (含MetaData)](https://docs.google.com/spreadsheets/d/1phIkfpc6OFbX9dK1fPYsMMpk2FAIyuAvCVnnIQp8jYE/edit?usp=sharing)|整理資料庫中每個table的metadata與其結構|尹沛綸、林承佑|
+|[DAO溝通共用sheet](https://docs.google.com/spreadsheets/d/1thxXWMQ5vv-lYBuv30t5yOwZhh9-d1zu3j6UR-d9zfM/edit?usp=sharing)|所有前端欲呈現的資料內容說明，撰寫相關的mysql或合併相似內容，來完成DAO層|尹沛綸、林承佑|
+|[假想情境與假資料SQL](https://docs.google.com/document/d/1euSDbf8gJgutmHXizCnZfTrX7-t8kQo9eQeZQn6v4mo/edit?usp=sharing)|每種功能的假資料情境設立與使用的mysql|胡勛明、林承佑|
+|[前端所有框架](https://www.canva.com/design/DAGmemaO0aY/Mhf9xhmsTIiRgT9oZ1UPNQ/edit?utm_content=DAGmemaO0aY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)|各個畫面的前端框架與各項功能說明|陳以薰、李昕怡、林承佑|
+
+> 部分內容使用共用文件或試算表來做溝通與紀錄。
+
+
+***
+
+## 分工結構
+
+|姓名|工作|
+|--|--|
+|林承佑|後端程式碼、前端程式碼（包含實現框架、插入thymeleaf等語法）、串接資料庫與處理阻抗不匹配問題（實現系統成功運作）|
+|尹沛綸|處理DAO層資料庫內容與架構|
+|李昕怡|前端程式碼（建立框架）、簡報與說明文件|
+|胡勛明|處理DAO層資料庫內容與架構|
+|陳以薰|前端程式碼（建立框架）、DEMO影片|
+
+
+***
+
+![主畫面](pic_home.png)
+
 ---
 
 > Update : 0501 14:30 
