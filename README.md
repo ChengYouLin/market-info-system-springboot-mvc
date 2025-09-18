@@ -1,4 +1,4 @@
-# 1132 資料庫管理－系統實作專案－[DEMO說明影片](https://www.youtube.com/watch?app=desktop&v=L_9NWzkVoTA)
+# 1132 資料庫管理－系統實作專案－[DEMO說明影片](https://www.youtube.com/watch?v=0zldWAcKacg)
 
 這是一個以「藝文活動」與「展覽市集」為主軸的資訊整合平台，我們希望打造一個簡單、快速、全面的展演市集資訊整合平台，讓每一位使用者都能 easy view —— 輕鬆一覽，無遺精彩。
 - 即刻發現、立即出發、沉浸感受
